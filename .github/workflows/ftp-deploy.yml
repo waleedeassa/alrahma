@@ -1,0 +1,31 @@
+name: FTP Deploy Resources Only
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy-resources:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: FTP Deploy (resources only)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps   # ftp أو ftps حسب استضافتك
+          local-dir: ./resources/   # رفع فقط مجلد resources
+          server-dir: /public_html/alrahma/resources/   # مسار resources على السيرفر
+          exclude: |
+            **/.git/**
+            **/.github/**
+            node_modules/**
+            tests/**
+            storage/logs/**
+          log-level: verbose
