@@ -22,6 +22,7 @@ jobs:
           protocol: ftps   # ftp أو ftps حسب استضافتك
           local-dir: ./resources/   # رفع فقط مجلد resources
           server-dir: /public_html/alrahma/resources/   # مسار resources على السيرفر
+          dangerous-clean-slate: false
           exclude: |
             **/.git/**
             **/.github/**

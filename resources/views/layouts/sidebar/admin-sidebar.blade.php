@@ -7,7 +7,7 @@
       {{-- users --}}
       {{-- @can('ادارة المستخدمين') --}}
       <li class="{{ Route::is('admin.users.index') ? 'active' : '' }}">
-        <a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i><span class="right-nav-text">المستخدمين2</span></a>
+        <a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i><span class="right-nav-text">المستخدمين</span></a>
       </li>
       {{-- @endcan --}}
 
