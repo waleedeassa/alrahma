@@ -45,11 +45,11 @@
           },
           messages :{
               email: {
-                  required : "{{ __('factories.Email is required') }}",
-                  email : "{{ __('factories.Invalid email') }}",
+                  required : "البريد الالكترونى مطلوب",
+                  email : "البريد الالكترونى غير صحيح",
               },
               password: {
-                  required : "{{ __('factories.Password required') }}",
+                  required : "كلمة المرور مطلوبة",
               },
           },
           errorElement : 'span', 
