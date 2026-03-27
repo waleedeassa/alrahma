@@ -15,6 +15,7 @@
       <th>عدد أفراد الأسرة</th>
       <th>الاقليم</th>
       <th>المدينة / الجماعة</th>
+      <th>صفة حيازة المسكن</th>
       <th>الحساب البنكي</th>
     </tr>
   </thead>
@@ -34,6 +35,7 @@
       <td>{{ $family->family_members_for_display }}</td>
       <td>{{ $family->governorate->name }}</td>
       <td>{{ $family->city->name }}</td>
+      <td>{{ $family->housing_ownership_label }}</td>
       <td>{{ $family->bank_account_number }}</td>
     </tr>
     @endforeach

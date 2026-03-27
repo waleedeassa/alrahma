@@ -93,6 +93,15 @@
                 @endforeach
               </select>
             </div>
+            <div class="form-group mb-3 col-md-3">
+              <label class="form-label" for="exampleFormControlSelect1"> صفة حيازة المسكن </label>
+              <select name="housing_ownership" id="housing_ownership">
+                <option selected disabled>{{ 'اختر من القائمة' }}...</option>
+                @foreach(config('options.housing_ownership') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
           </div>
           <div class="col-lg-3" style="margin-top: 10px">
             <div>
@@ -107,7 +116,7 @@
         </div>
         <br>
         <div id="results">
-          
+
         </div>
       </div>
     </div>

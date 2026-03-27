@@ -223,6 +223,9 @@ class Family extends Model
       })
       ->when(isset($filters['number_of_family_members']), function ($query) use ($filters) {
         return $query->where('number_of_family_members', $filters['number_of_family_members']);
+      })
+      ->when(isset($filters['housing_ownership']), function ($query) use ($filters) {
+        return $query->where('housing_ownership', $filters['housing_ownership']);
       });
     return $query;
   }
