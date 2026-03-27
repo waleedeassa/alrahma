@@ -76,7 +76,7 @@
               <x-inputs.text name="city_in_french" label="{{'اسم المدينة بالفرنسية'}}" :value="$orphan->city_in_french" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="address" label="{{'العنوان بالعربيه'}}" :value="$orphan->address" />
+              <x-inputs.text name="address" label="{{'العنوان بالعربية'}}" :value="$orphan->address" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="address_in_french" label="{{'العنوان بالفرنسية'}}" :value="$orphan->address_in_french" />
@@ -314,7 +314,7 @@
                   required : ' اسم المدينة بالفرنسية مطلوب',
               },
               address: {
-                  required : '   حقل العنوان بالعربيه مطلوب',
+                  required : '   حقل العنوان بالعربية مطلوب',
               },
               address_in_french: {
                 required : ' حقل العنوان بالفرنسية مطلوب',

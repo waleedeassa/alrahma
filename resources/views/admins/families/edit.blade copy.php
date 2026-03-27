@@ -52,7 +52,7 @@
               <x-inputs.text name="number_of_family_members" label="{{' عدد أفراد الاسرة' }}" :value="$family->number_of_family_members" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1"> التغطيه الصحيه</label>
+              <label class="form-label" for="exampleFormControlSelect1"> التغطيه الصحية</label>
               <select name="medical_insurance">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
                 @foreach(config('options.medical_insurance') as $key => $label)
@@ -121,7 +121,7 @@
               <x-inputs.text name="father_name" label="{{'اسم الأب بالعربية' }}" :value="$family->father_name" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="father_family_name" label="{{'نسب الأب بالعربيه' }}" :value="$family->father_family_name" />
+              <x-inputs.text name="father_family_name" label="{{'نسب الأب بالعربية' }}" :value="$family->father_family_name" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="father_name_in_french" label="{{'اسم الأب بالفرنسية' }}" :value="$family->father_name_in_french" />
@@ -133,13 +133,13 @@
               <x-inputs.text name="father_job" label="{{'مهنة الأب' }}" :value="$family->father_job" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="father_id_no" label="{{'رقم البطاقة الوطنيه للأب' }}" :value="$family->father_id_no" />
+              <x-inputs.text name="father_id_no" label="{{'رقم البطاقة الوطنية للأب' }}" :value="$family->father_id_no" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text type="date" name="father_birthdate" label="{{'تاريخ ازدياد الأب' }}" :value="$family->father_birthdate" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="father_address" label="{{'عنوان الأب بالعربيه' }}" :value="$family->father_address" />
+              <x-inputs.text name="father_address" label="{{'عنوان الأب بالعربية' }}" :value="$family->father_address" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="father_address_in_french" label="{{'عنوان الأب بالفرنسية' }}" :value="$family->father_address_in_french" />
@@ -160,7 +160,7 @@
               <x-inputs.text name="mother_name" label="{{'اسم الأم بالعربية' }}" :value="$family->mother_name" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="mother_family_name" label="{{'نسب الأم بالعربيه' }}" :value="$family->mother_family_name" />
+              <x-inputs.text name="mother_family_name" label="{{'نسب الأم بالعربية' }}" :value="$family->mother_family_name" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="mother_name_in_french" label="{{'اسم الأم بالفرنسية' }}" :value="$family->mother_name_in_french" />
@@ -169,7 +169,7 @@
               <x-inputs.text name="mother_family_name_in_french" label="{{'نسب الأم بالفرنسية' }}" :value="$family->mother_family_name_in_french" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="mother_id_no" label="{{'رقم البطاقة الوطنيه للأم' }}" :value="$family->mother_id_no" />
+              <x-inputs.text name="mother_id_no" label="{{'رقم البطاقة الوطنية للأم' }}" :value="$family->mother_id_no" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text type="date" name="mother_id_expire_date" label="{{'تاريخ انتهاء صلاحية البطاقة الوطنية' }}" :value="$family->mother_id_expire_date" />
@@ -178,7 +178,7 @@
               <x-inputs.text type="date" name="mother_birth_date" label="{{'تاريخ ازدياد الأم' }}" :value="$family->mother_birth_date" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="mother_address" label="{{'عنوان الأم بالعربيه' }}" :value="$family->mother_address" />
+              <x-inputs.text name="mother_address" label="{{'عنوان الأم بالعربية' }}" :value="$family->mother_address" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="mother_address_in_french" label="{{'عنوان الأم بالفرنسية' }}" :value="$family->mother_address_in_french" />
@@ -256,7 +256,7 @@
               @enderror
             </div>
             <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1">هل الأم متوفيه</label>
+              <label class="form-label" for="exampleFormControlSelect1">هل الأم متوفية</label>
               <select name="mother_alive" id="aliveSelect">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
                 @foreach(config('options.boolean') as $key => $label)
@@ -295,7 +295,7 @@
               <x-inputs.text name="breadwinner_french_name" label="{{' اسم المعيل بالفرنسية' }}" :value="$family->breadwinner_french_name" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner {{ $family->breadwinner_family_name ? '' : 'hidden' }} ">
-              <x-inputs.text name="breadwinner_family_name" label="{{'نسب المعيل بالعربيه' }}" :value="$family->breadwinner_family_name" />
+              <x-inputs.text name="breadwinner_family_name" label="{{'نسب المعيل بالعربية' }}" :value="$family->breadwinner_family_name" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner {{ $family->breadwinner_family_in_french ? '' : 'hidden' }} ">
               <x-inputs.text name="breadwinner_family_in_french" label="{{'نسب المعيل بالفرنسية' }}" :value="$family->breadwinner_family_in_french" />
@@ -584,7 +584,7 @@ theSelect.addEventListener("change",function (event){
                   max : 'عدد الافراد يجب ان يكون اقل من 20',
               },
               medical_insurance: {
-                  required : '   حقل التغطيه الصحيه مطلوب',
+                  required : '   حقل التغطيه الصحية مطلوب',
               },
               governorate_id: {
                 required : ' حقل الإقليم مطلوب',
@@ -605,7 +605,7 @@ theSelect.addEventListener("change",function (event){
                   required : ' اسم الأب بالعربية مطلوب',
               },
               father_family_name: {
-                  required : 'نسب الأب بالعربيه مطلوب',
+                  required : 'نسب الأب بالعربية مطلوب',
               },
               father_name_in_french: {
                 required : ' اسم الأب بالفرنسية مطلوب',
@@ -617,15 +617,15 @@ theSelect.addEventListener("change",function (event){
                   required : 'مهنة الأب مطلوبة',
               },
               father_id_no: {
-                  required : 'رقم البطاقة الوطنيه للأب مطلوب',
-                  number : 'رقم البطاقة الوطنيه للأب يجب أن يكون رقما',
+                  required : 'رقم البطاقة الوطنية للأب مطلوب',
+                  number : 'رقم البطاقة الوطنية للأب يجب أن يكون رقما',
               },
               father_birthdate: {
                   required : 'تاريخ ازدياد الأب مطلوب',
                   date : ' تاريخ ازدياد الأب غير صحيح',
               },
               father_address: {
-                required : 'عنوان الأب بالعربيه مطلوب',
+                required : 'عنوان الأب بالعربية مطلوب',
               },
               father_address_in_french: {
                 required : 'عنوان الأب بالفرنسية مطلوب',
@@ -638,7 +638,7 @@ theSelect.addEventListener("change",function (event){
                 required : ' اسم الأم بالعربية مطلوب',
               },
               mother_family_name: {
-                  required :  'نسب الأم بالعربيه مطلوب',
+                  required :  'نسب الأم بالعربية مطلوب',
               },
               mother_name_in_french: {
                   required : ' اسم الأم بالفرنسية مطلوب',
@@ -647,7 +647,7 @@ theSelect.addEventListener("change",function (event){
                   required : 'نسب الأم بالفرنسية مطلوب',
               },
               mother_id_no: {
-                  required : 'رقم البطاقة الوطنيه للأم مطلوب',
+                  required : 'رقم البطاقة الوطنية للأم مطلوب',
               },
               mother_id_expire_date: {
                   required : 'تاريخ انتهاء صلاحية البطاقة الوطنية مطلوب',
@@ -658,7 +658,7 @@ theSelect.addEventListener("change",function (event){
                   date : ' تاريخ ازدياد الأم غير صحيح',
               },
               mother_address: {
-                required : 'عنوان الأم بالعربيه مطلوب',
+                required : 'عنوان الأم بالعربية مطلوب',
               },
               mother_address_in_french: {
                 required : 'عنوان الأم بالفرنسية مطلوب',

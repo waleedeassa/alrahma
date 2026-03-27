@@ -51,7 +51,7 @@
       {data: 'action', name: 'action', orderable: false, searchable: false},
       {data: 'id', name: 'id', visible: false},
     ],
-    order: [[5, 'DESC']],
+    order: [[5, 'ASC']],
   });
 
   // Create Governorate Modal

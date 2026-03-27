@@ -110,7 +110,7 @@ class StoreFamilyRequest extends FormRequest
       'father_job'                   => 'مهنة الأب المتوفى',
       'father_death_reason'          => 'سبب وفاة الأب',
       'father_death_date'            => 'تاريخ وفاة الأب',
-      'mother_alive'                 => 'هل الأم متوفيه',
+      'mother_alive'                 => 'هل الأم متوفية',
       'mother_death_date'            => 'تاريخ وفاة الأم',
       'mother_death_reason'          => 'سبب وفاة الأم',
       'mother_name'                  => 'اسم الأم',

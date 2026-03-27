@@ -143,7 +143,7 @@
                       <br>
                       <h5> معلومات الأم : Renseignements de la mère </h5>
                       <div class="line">
-                        <label> هل الأم متوفيه</label>
+                        <label> هل الأم متوفية</label>
                         <input type="text" value="{{ $family->mother_alive_label}}" readonly>
                         <label> هل العائلة تتوفر على معيل؟</label>
                         <input type="text" value="{{ $family->has_breadwinner_label}}" readonly>
@@ -161,7 +161,7 @@
                         <input type="text" value="{{ $family->mother_family_name_in_french}}" readonly>
                       </div>
                       <div class="line">
-                        <label> رقم البطاقة الوطنيه للأم</label>
+                        <label> رقم البطاقة الوطنية للأم</label>
                         <input type="text" value="{{ $family->mother_id_no}}" readonly>
                         <label> المستوى الدراسي</label>
                         <input type="text" value="{{ $family->mother_education_level_label}}" readonly>
@@ -226,7 +226,7 @@
                       <div class="line">
                         <label>اسم المعيل بالعربي </label>
                         <input type="text" value="{{ $family->breadwinner_name}}" readonly>
-                        <label>نسب المعيل بالعربيه </label>
+                        <label>نسب المعيل بالعربية </label>
                         <input type="text" value="{{ $family->breadwinner_family_name}}" readonly>
                       </div>
                       <div class="line">

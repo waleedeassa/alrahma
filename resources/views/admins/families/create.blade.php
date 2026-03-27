@@ -95,7 +95,7 @@
           <h6 style="color: #84BA3F">معلومات الأم - ولي أمر اليتيم</h6><br>
           <div class="row">
             <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1">هل الأم متوفيه</label>
+              <label class="form-label" for="exampleFormControlSelect1">هل الأم متوفية</label>
               <select name="mother_alive" id="is_mother_deceased" class="form-control">
                 <option value="" selected disabled>اختر من القائمة...</option>
                 @foreach(config('options.boolean') as $key => $label)
@@ -125,7 +125,7 @@
               <x-inputs.text name="mother_name" label="{{'اسم الأم بالعربية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="mother_family_name" label="{{'نسب الأم بالعربيه' }}" />
+              <x-inputs.text name="mother_family_name" label="{{'نسب الأم بالعربية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="mother_name_in_french" label="{{'اسم الأم بالفرنسية' }}" />
@@ -134,7 +134,7 @@
               <x-inputs.text name="mother_family_name_in_french" label="{{'نسب الأم بالفرنسية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="mother_id_no" label="{{'رقم البطاقة الوطنيه للأم' }}" />
+              <x-inputs.text name="mother_id_no" label="{{'رقم البطاقة الوطنية للأم' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text type="date" name="mother_id_expire_date" label="{{'تاريخ انتهاء صلاحية البطاقة الوطنية' }}" />
@@ -146,7 +146,7 @@
               <x-inputs.text name="bank_account_number" label="{{'الحساب البنكى' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1"> التغطيه الصحيه</label>
+              <label class="form-label" for="exampleFormControlSelect1"> التغطيه الصحية</label>
               <select name="medical_insurance">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
                 @foreach(config('options.medical_insurance') as $key => $label)
@@ -377,7 +377,7 @@
               <x-inputs.text name="breadwinner_french_name" label="{{' اسم المعيل بالفرنسية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner hidden">
-              <x-inputs.text name="breadwinner_family_name" label="{{'نسب المعيل بالعربيه' }}" />
+              <x-inputs.text name="breadwinner_family_name" label="{{'نسب المعيل بالعربية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner hidden">
               <x-inputs.text name="breadwinner_family_in_french" label="{{'نسب المعيل بالفرنسية' }}" />

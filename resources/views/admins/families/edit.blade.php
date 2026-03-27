@@ -95,7 +95,7 @@
           <h6 style="color: #84BA3F">معلومات الأم - ولي أمر اليتيم</h6><br>
           <div class="row">
             <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="is_mother_deceased">هل الأم متوفيه</label>
+              <label class="form-label" for="is_mother_deceased">هل الأم متوفية</label>
               <select name="mother_alive" id="is_mother_deceased" class="form-control">
                 <option disabled>اختر من القائمة...</option>
                 @foreach(config('options.boolean') as $key => $label)

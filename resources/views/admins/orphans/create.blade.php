@@ -78,7 +78,7 @@
               <x-inputs.text name="city_in_french" label="{{'اسم المدينة بالفرنسية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="address" label="{{'العنوان  بالعربيه' }}" />
+              <x-inputs.text name="address" label="{{'العنوان  بالعربية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="address_in_french" label="{{'العنوان  بالفرنسية' }}" />
@@ -343,7 +343,7 @@ theSelect.addEventListener("change",function (event){
                   required : ' اسم المدينة بالفرنسية مطلوب',
               },
               address: {
-                  required : '   حقل العنوان بالعربيه مطلوب',
+                  required : '   حقل العنوان بالعربية مطلوب',
               },
               address_in_french: {
                 required : ' حقل العنوان بالفرنسية مطلوب',
