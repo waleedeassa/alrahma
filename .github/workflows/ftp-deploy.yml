@@ -19,14 +19,20 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps   # ftp أو ftps حسب استضافتك
-          local-dir: ./resources/   # رفع فقط مجلد resources
-          server-dir: /public_html/alrahma/resources/   # مسار resources على السيرفر
+          protocol: ftps # ftp أو ftps حسب استضافتك
+          local-dir: ./ # رفع فقط مجلد resources
+          server-dir: /public_html/alrahma/resources/ # مسار resources على السيرفر
           dangerous-clean-slate: false
           exclude: |
-            **/.git/**
+            **/.git*
+            **/.git*/**
             **/.github/**
-            node_modules/**
-            tests/**
-            storage/logs/**
+            **/vendor/**
+            **/public/**
+            **/storage/**
+            **/tests/**
+            **/node_modules/**
+            .env
+            .env.*
+            **/*.log
           log-level: verbose
