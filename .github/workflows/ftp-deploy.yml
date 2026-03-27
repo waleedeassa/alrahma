@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps # ftp أو ftps حسب استضافتك
           local-dir: ./ # رفع فقط مجلد resources
-          server-dir: /public_html/alrahma # مسار resources على السيرفر
+          server-dir: /public_html/alrahma/ # مسار resources على السيرفر
           dangerous-clean-slate: false
           exclude: |
             **/.git*
