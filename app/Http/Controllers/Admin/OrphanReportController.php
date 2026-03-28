@@ -19,7 +19,7 @@ class OrphanReportController extends Controller
   public function store(OrphanReportRequest $request)
   {
     $data = $request->validated();
-   $data['added_by'] = auth()->id();
+    $data['added_by'] = auth()->id();
     OrphanReport::create($data);
     return redirect()->back()->with(['message' => 'تم اضافة تقرير اليتيم بنجاح', 'type' => 'success']);
   }

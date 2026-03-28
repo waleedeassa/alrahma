@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
@@ -33,7 +32,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
         'sponsor:id,name',
         'supervisor:id,name',
       ])
-      // فلتر حالة الكفالة
+      // sponsorship status filter
       ->when(isset($this->filters['sponsorship_status']) && $this->filters['sponsorship_status'] !== '', function ($q) {
         if ($this->filters['sponsorship_status'] == '1') {
           $q->whereNotNull('sponsor_id');
@@ -41,17 +40,29 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
           $q->whereNull('sponsor_id');
         }
       })
-      // فلتر المستوى الدراسي
+      // academic level filter
       ->when(!empty($this->filters['academic_level']), function ($q) {
         $q->where('academic_level', $this->filters['academic_level']);
       })
-      // فلتر الكفيل
+      // sponsor filter
       ->when(!empty($this->filters['sponsor_id']), function ($q) {
         $q->where('sponsor_id', $this->filters['sponsor_id']);
       })
-      // فلتر الإقليم
+      // governorate filter
       ->when(!empty($this->filters['governorate_id']), function ($q) {
         $q->where('governorate_id', $this->filters['governorate_id']);
+      })
+      // gender filter
+      ->when(!empty($this->filters['gender']), function ($q) {
+        $q->where('gender', $this->filters['gender']);
+      })
+      // specialization filter
+      ->when(!empty($this->filters['specialization']), function ($q) {
+        $q->where('specialization', $this->filters['specialization']);
+      })
+      // has land filter
+      ->when(isset($this->filters['has_land']) && $this->filters['has_land'] !== '', function ($q) {
+        $q->where('does_family_own_a_plot_of_land', $this->filters['has_land']);
       })
       ->latest('id');
   }
@@ -111,8 +122,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       $orphan->address,
       $orphan->address_in_french,
       $orphan->specialization_label,
-      $orphan->income_status_label,
-      $orphan->other_income,
+      $orphan->does_family_own_a_plot_of_land_label,
       $orphan->phone,
       $orphan->blood_type_label,
       $orphan->health_status_label,
@@ -129,8 +139,8 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:AA1');
-    $sheet->getStyle('A1:AA1')->applyFromArray([
+    $sheet->setAutoFilter('A1:Z1');
+    $sheet->getStyle('A1:Z1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],
