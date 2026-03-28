@@ -84,22 +84,28 @@
               <x-inputs.text name="address_in_french" label="{{'العنوان  بالفرنسية' }}" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="arrangement_between_brothers" label="{{'الترتيب' }}" />
-            </div>
-            <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1">حالة الدخل</label>
-              <select name="income_status">
+              <label class="form-label" for="exampleFormControlSelect1">التخصص</label>
+              <select name="specialization">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
-                @foreach(config('options.income_status') as $key => $label)
-                <option value="{{ $key }}" @if (old('income_status')==$key) selected @endif>{{ $label }}</option>
+                @foreach(config('options.specialization') as $key => $label)
+                <option value="{{ $key }}" @if (old('specialization')==$key) selected @endif>{{ $label }}</option>
                 @endforeach
               </select>
-              @error('income_status')
+              @error('specialization')
               <span class="text-danger">{{ $message }}</span>
               @enderror
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="other_income" label="{{'دخل أخر' }}" />
+              <label class="form-label" for="exampleFormControlSelect1">هل لدى الأسرة قطعة أرضية </label>
+              <select name="does_family_own_a_plot_of_land" id="does_family_own_a_plot_of_land" class="form-control">
+                <option value="" selected disabled>اختر من القائمة...</option>
+                @foreach(config('options.boolean') as $key => $label)
+                <option value="{{ $key }}" @if (old('does_family_own_a_plot_of_land') !==null && old('does_family_own_a_plot_of_land')==$key) selected @endif>{{ $label }}</option>
+                @endforeach
+              </select>
+              @error('mother_alive')
+              <span class="text-danger">{{ $message }}</span>
+              @enderror
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="phone" label="{{'رقم الهاتف' }}" />
@@ -143,18 +149,16 @@
               <span class="text-danger">{{ $message }}</span>
               @enderror
             </div>
-
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="shoe_size" label="{{'قياس الحذاء' }}" />
             </div>
-
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="clothes_size" label="{{'قياس الملابس' }}" />
             </div>
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
-              <x-inputs.file name="image" id="image" label="{{'الصورة الشخصية' }}" available_formats="jpg, jpeg, png"  accept=".jpg,.jpeg,.png" />
+              <x-inputs.file name="image" id="image" label="{{'الصورة الشخصية' }}" available_formats="jpg, jpeg, png" accept=".jpg,.jpeg,.png" />
             </div>
             <div class="form-group mb-3 col-md-md-6">
               <label for="example-fileinput" class="form-label"> </label>
@@ -163,7 +167,7 @@
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
-              <x-inputs.file accept=".jpg, .jpeg, .png, .pdf" name="attachments[]" multiple label="{{' المرفقات' }}" available_formats="jpg, jpeg, png, pdf"  accept=".jpg,.jpeg,.png,.pdf" />
+              <x-inputs.file accept=".jpg, .jpeg, .png, .pdf" name="attachments[]" multiple label="{{' المرفقات' }}" available_formats="jpg, jpeg, png, pdf" accept=".jpg,.jpeg,.png,.pdf" />
             </div>
             @error('attachments')
             <span class="text-danger invalid-feedback d-block">
@@ -277,13 +281,10 @@ theSelect.addEventListener("change",function (event){
             address_in_french: {
                 required : true,
             }, 
-            arrangement_between_brothers: {
+            specialization: {
                 required : true,
             }, 
-            income_status: {
-                required : true,
-            }, 
-            other_income: {
+            does_family_own_a_plot_of_land: {
                 required : true,
             }, 
             phone: {
@@ -343,16 +344,16 @@ theSelect.addEventListener("change",function (event){
                   required : ' اسم المدينة بالفرنسية مطلوب',
               },
               address: {
-                  required : '   حقل العنوان بالعربية مطلوب',
+                  required : 'حقل العنوان بالعربية مطلوب',
               },
               address_in_french: {
                 required : ' حقل العنوان بالفرنسية مطلوب',
               },
-              arrangement_between_brothers: {
-                  required : ' حقل الترتيب مطلوب',
+              specialization: {
+                  required : 'حقل التخصص مطلوب',
               },
-              income_status: {
-                  required : '   حقل  حالة الدخل مطلوب',
+              does_family_own_a_plot_of_land: {
+                  required : 'الحقل مطلوب',
               },
               other_income: {
                   required : 'حقل دخل أخر مطلوب',

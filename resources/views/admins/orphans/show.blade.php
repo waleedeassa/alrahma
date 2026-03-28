@@ -172,12 +172,10 @@
                       <input type="text" value="{{ $orphan->supervisor->name ?? '-' }}" readonly>
                     </div>
                     <div class="line">
-                      <label>الترتيب بين الإخوة</label>
-                      <input type="text" value="{{ $orphan->arrangement_between_brothers }}" readonly>
-                      <label>حالة الدخل</label>
-                      <input type="text" value="{{ config('options.income_status.'.$orphan->income_status) ?? $orphan->income_status }}" readonly>
-                      <label>دخل آخر</label>
-                      <input type="text" value="{{ $orphan->other_income }}" readonly>
+                      <label> التخصص </label>
+                      <input type="text" value="{{ $orphan->specialization_label }}" readonly>
+                      <label>هل لدى الأسرة قطعة أرضية  </label>
+                      <input type="text" value="{{ $orphan->does_family_own_a_plot_of_land_label }}" readonly>
                     </div>
                     <br>
                     <h5> الصحة والقياسات : Santé et Mesures</h5>

@@ -30,10 +30,9 @@ class StoreOrphanRequest extends FormRequest
       'city_in_french'    => ['required', 'string', 'max:255'],
       'address'           => ['required', 'string', 'max:500'],
       'address_in_french' => ['required', 'string', 'max:500'],
-      'arrangement_between_brothers' => ['required', 'string', 'max:255'],
+      'specialization' =>    ['required', Rule::in(array_keys(config('options.specialization')))],
+      'does_family_own_a_plot_of_land'        => ['required', 'boolean'],
       'phone'             => ['required', 'string', 'max:20'],
-      'income_status'     => ['required', Rule::in(array_keys(config('options.income_status')))],
-      'other_income'      => ['required', 'string', 'max:255'],
       'blood_type'        => ['required', Rule::in(array_keys(config('options.blood_type')))],
       'health_status'     => ['required', Rule::in(array_keys(config('options.health_status')))],
       'supervisor_id'     => ['required', 'integer', 'exists:users,id'],
@@ -45,7 +44,9 @@ class StoreOrphanRequest extends FormRequest
       'attachments.*'     => ['file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
       'sponsor_id'       => ['nullable', 'integer', 'exists:sponsors,id'],
       'orphan_sponsorship_code' => ['nullable', 'string', 'max:50', Rule::unique('orphans', 'orphan_sponsorship_code')->ignore($orphanId)],
-      'cancellation_reason' => ['nullable',Rule::in(array_keys(config('options.sponsorship_cancellation_reason')))
+      'cancellation_reason' => [
+        'nullable',
+        Rule::in(array_keys(config('options.sponsorship_cancellation_reason')))
       ],
     ];
   }
@@ -66,10 +67,11 @@ class StoreOrphanRequest extends FormRequest
       'city_in_french.required' => 'اسم المدينة بالفرنسية مطلوب.',
       'address.required'        => 'العنوان بالعربية مطلوب.',
       'address_in_french.required' => 'العنوان بالفرنسية مطلوب.',
-      'arrangement_between_brothers.required' => 'حقل الترتيب مطلوب.',
+      'specialization.required' => 'حقل التخصص مطلوب.',
+      'specialization.in'       => 'القيمة المختارة للتخصص غير صحيحة.',
+      'does_family_own_a_plot_of_land.required' => 'يرجى تحديد ما إذا كانت الأسرة تمتلك قطعة أرض أم لا.',
+      'does_family_own_a_plot_of_land.boolean' => 'القيمة المختارة لملكية الأسرة لقطعة الأرض غير صحيحة.',
       'phone.required'          => 'رقم الهاتف مطلوب.',
-      'income_status.required'  => 'يرجى تحديد حالة الدخل.',
-      'other_income.required'   => 'حقل دخل آخر مطلوب.',
       'blood_type.required'     => 'يرجى تحديد الفصيلة الدموية.',
       'health_status.required'  => 'يرجى تحديد الحالة الصحية.',
       'supervisor_id.required'  => 'يرجى اختيار المشرف.',

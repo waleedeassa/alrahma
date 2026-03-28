@@ -36,9 +36,8 @@ class Orphan extends Model
     'city_in_french',
     'address',
     'address_in_french',
-    'arrangement_between_brothers',
-    'income_status',
-    'other_income',
+    'specialization',
+    'does_family_own_a_plot_of_land',
     'academic_level',
     'shoe_size',
     'clothes_size',
@@ -53,7 +52,7 @@ class Orphan extends Model
     'health_status'   => 'integer',
     'academic_level'  => 'integer',
     'blood_type'      => 'integer',
-    'income_status'   => 'integer',
+    'specialization'   => 'integer',
     'cancellation_reason' => 'integer',
   ];
   protected $appends = ['age'];
@@ -161,10 +160,16 @@ class Orphan extends Model
   {
     return $this->getOptionLabel('gender', 'gender');
   }
-  public function getIncomeStatusLabelAttribute(): string
+  public function getSpecializationLabelAttribute(): string
   {
-    return $this->getOptionLabel('income_status', 'income_status');
+    return $this->getOptionLabel('specialization', 'specialization');
   }
+
+   public function getDoesFamilyOwnAPlotOfLandLabelAttribute(): string
+  {
+    return $this->does_family_own_a_plot_of_land ? 'نعم' : 'لا';
+  }
+
   public function getBloodTypeLabelAttribute(): string
   {
     return $this->getOptionLabel('blood_type', 'blood_type');

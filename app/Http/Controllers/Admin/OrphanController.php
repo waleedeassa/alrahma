@@ -61,6 +61,15 @@ class OrphanController extends Controller
     if ($request->filled('governorate_id')) {
       $orphansQuery->where('governorate_id', $request->governorate_id);
     }
+    if ($request->filled('gender')) {
+      $orphansQuery->where('gender', $request->gender);
+    }
+    if($request->filled('specialization')) {
+      $orphansQuery->where('specialization', $request->specialization);
+    }
+    if($request->filled('has_land')) {
+      $orphansQuery->where('does_family_own_a_plot_of_land', $request->has_land);
+    }
     // 3.return datatable response
     return DataTables::eloquent($orphansQuery)
       ->addIndexColumn()

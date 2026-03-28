@@ -11,10 +11,6 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
-        {{-- <a href="{{ route('admin.orphans.export') }}" class="button black x-small">
-          <i class="fa fa-file-excel-o"></i>&nbsp; تصدير إلى اكسيل
-        </a> --}}
-        {{-- <br><br> --}}
         <br>
         <form class="modal_style mb-3" id="filters-form">
           <div class="row">
@@ -50,6 +46,33 @@
                 <option value="">الكل</option>
                 @foreach($governorates as $gov)
                 <option value="{{ $gov->id }}">{{ $gov->name }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="mt-2 mb-2">الجنس</label>
+              <select id="filter_gender" class="form-control">
+                <option value="">الكل</option>
+                @foreach(config('options.gender') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="mt-2 mb-2"> التخصص</label>
+              <select id="filter_specialization" class="form-control">
+                <option value="">الكل</option>
+                @foreach(config('options.specialization') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="mt-2 mb-2">امتلاك قطعة ارضية</label>
+              <select id="filter_has_land" class="form-control">
+                <option value="">الكل</option>
+                @foreach(config('options.boolean') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
                 @endforeach
               </select>
             </div>
@@ -105,6 +128,9 @@
       d.academic_level     = $('#filter_academic_level').val();
       d.sponsor_id         = $('#filter_sponsor').val();
       d.governorate_id     = $('#filter_governorate').val();
+      d.gender             = $('#filter_gender').val();
+      d.specialization     = $('#filter_specialization').val();
+      d.has_land           = $('#filter_has_land').val();
     }
   },
     columns: [
@@ -131,6 +157,9 @@ $('#filter_sponsorship').on('change', () => table.draw());
 $('#filter_academic_level').on('change', () => table.draw());
 $('#filter_governorate').on('change', () => table.draw());
 $('#filter_sponsor').on('change', () => table.draw());
+$('#filter_gender').on('change', () => table.draw());
+$('#filter_specialization').on('change', () => table.draw());
+$('#filter_has_land').on('change', () => table.draw());
 
 $('#reset-filters').on('click', function () {
   $('#filters-form')[0].reset();
@@ -145,6 +174,9 @@ $('#btn-export-excel').on('click', function(e) {
         academic_level:     $('#filter_academic_level').val(),
         sponsor_id:         $('#filter_sponsor').val(),
         governorate_id:     $('#filter_governorate').val(),
+        gender:             $('#filter_gender').val(),
+        specialization:     $('#filter_specialization').val(),
+        has_land:           $('#filter_has_land').val(),
     };
 
     // 2. تحويلها إلى Query String

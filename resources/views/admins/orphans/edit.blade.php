@@ -82,19 +82,28 @@
               <x-inputs.text name="address_in_french" label="{{'العنوان بالفرنسية'}}" :value="$orphan->address_in_french" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="arrangement_between_brothers" label="{{'الترتيب'}}" :value="$orphan->arrangement_between_brothers" />
-            </div>
-            <div class="form-group mb-3 col-md-3">
-              <label class="form-label">حالة الدخل</label>
-              <select name="income_status" class="form-control">
-                <option disabled>اختر من القائمة...</option>
-                @foreach(config('options.income_status') as $key => $label)
-                <option value="{{ $key }}" {{ old('income_status', $orphan->income_status) == $key ? 'selected' : '' }}>{{ $label }}</option>
+              <label class="form-label" for="exampleFormControlSelect1">التخصص</label>
+              <select name="specialization">
+                <option selected disabled>{{ 'اختر من القائمة' }}...</option>
+                @foreach(config('options.specialization') as $key => $label)
+                <option value="{{ $key }}" @if (old('specialization', $orphan->specialization) == $key ? 'selected' : '' ) selected @endif>{{ $label }}</option>
                 @endforeach
               </select>
+              @error('specialization')
+              <span class="text-danger">{{ $message }}</span>
+              @enderror
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="other_income" label="{{'دخل أخر'}}" :value="$orphan->other_income" />
+              <label class="form-label" for="exampleFormControlSelect1">هل لدى الأسرة قطعة أرضية </label>
+              <select name="does_family_own_a_plot_of_land" id="does_family_own_a_plot_of_land" class="form-control">
+                <option value="" selected disabled>اختر من القائمة...</option>
+                @foreach(config('options.boolean') as $key => $label)
+                <option value="{{ $key }}" @if (old('does_family_own_a_plot_of_land', $orphan->does_family_own_a_plot_of_land) == $key ? 'selected' : '' ) selected @endif>{{ $label }}</option>
+                @endforeach
+              </select>
+              @error('mother_alive')
+              <span class="text-danger">{{ $message }}</span>
+              @enderror
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="phone" label="{{'رقم الهاتف'}}" :value="$orphan->phone" />
@@ -152,7 +161,7 @@
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
-              <x-inputs.file name="image" id="image" label="{{'تحديث الصورة الشخصية (اختياري)'}}" available_formats="jpg, jpeg, png"  accept=".jpg,.jpeg,.png" />
+              <x-inputs.file name="image" id="image" label="{{'تحديث الصورة الشخصية (اختياري)'}}" available_formats="jpg, jpeg, png" accept=".jpg,.jpeg,.png" />
             </div>
             <div class="form-group mb-3 col-md-md-6">
               <label class="form-label"> </label>
@@ -162,7 +171,7 @@
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
-              <x-inputs.file accept=".jpg, .jpeg, .png, .pdf" name="attachments[]" multiple label="{{'إضافة مرفقات جديدة (اختياري)'}}"  available_formats="jpg, jpeg, png, pdf"  accept=".jpg,.jpeg,.png,.pdf" />
+              <x-inputs.file accept=".jpg, .jpeg, .png, .pdf" name="attachments[]" multiple label="{{'إضافة مرفقات جديدة (اختياري)'}}" available_formats="jpg, jpeg, png, pdf" accept=".jpg,.jpeg,.png,.pdf" />
             </div>
           </div>
           <button type="submit" class="button black x-small">حفظ التعديلات</button>
@@ -274,9 +283,8 @@
             city_in_french: { required : true }, 
             address: { required : true }, 
             address_in_french: { required : true }, 
-            arrangement_between_brothers: { required : true }, 
-            income_status: { required : true }, 
-            other_income: { required : true }, 
+            specialization: { required : true }, 
+            does_family_own_a_plot_of_land: { required : true }, 
             phone: { required : true }, 
             blood_type: { required : true }, 
             supervisor_id: { required : true }, 
@@ -319,14 +327,11 @@
               address_in_french: {
                 required : ' حقل العنوان بالفرنسية مطلوب',
               },
-              arrangement_between_brothers: {
-                  required : ' حقل الترتيب مطلوب',
+              specialization: {
+                  required : ' حقل التخصص مطلوب',
               },
-              income_status: {
-                  required : '   حقل  حالة الدخل مطلوب',
-              },
-              other_income: {
-                  required : 'حقل دخل أخر مطلوب',
+              does_family_own_a_plot_of_land: {
+                  required :'الحقل مطلوب',
               },
               phone: {
                 required : 'حقل الهاتف مطلوب',

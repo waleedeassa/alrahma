@@ -88,7 +88,7 @@
               <label class="form-label" for="exampleFormControlSelect1"> المستوى الدراسي </label>
               <select name="education_level" id="education_level">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
-                @foreach(config('options.mother_education_level') as $key => $label)
+                @foreach(config('options.education_level') as $key => $label)
                 <option value="{{ $key }}">{{ $label }}</option>
                 @endforeach
               </select>
