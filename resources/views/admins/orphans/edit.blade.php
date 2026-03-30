@@ -144,6 +144,16 @@
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="clothes_size" label="{{'قياس الملابس'}}" :value="$orphan->clothes_size" />
             </div>
+            <div class="form-group mb-3 col-md-3">
+              <label class="form-label" for="social_status">الوضعية الاجتماعية</label>
+              <select name="social_status" id="social_status" class="form-control">
+                <option disabled>اختر من القائمة...</option>
+                @foreach(config('options.social_status') as $key => $label)
+                <option value="{{ $key }}" @if(old('social_status', $orphan->social_status) == $key) selected @endif>{{ $label }}</option>
+                @endforeach
+              </select>
+              @error('social_status')<span class="text-danger">{{ $message }}</span>@enderror
+            </div>
             @if($orphan->sponsor_id)
             <div class="form-group mb-3 col-md-3">
               <label class="form-label">الكفيل</label>

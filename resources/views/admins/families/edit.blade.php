@@ -4,7 +4,7 @@
 
 @section("breadcrump")
 @parent
-<li class="breadcrumb-item "><a href="{{ route("admin.families.index") }}" class="default-color">الأسر</a></li>
+<li class="breadcrumb-item "><a href="{{ route('admin.families.index') }}" class="default-color">الأسر</a></li>
 <li class="breadcrumb-item active">تعديل بيانات أسرة</li>
 @endsection
 
@@ -130,7 +130,7 @@
             <x-inputs.text name="mother_family_name_in_french" label="نسب الأم بالفرنسية" :value="old('mother_family_name_in_french', $family->mother_family_name_in_french)" />
           </div>
           <div class="form-group mb-3 col-md-3">
-            <x-inputs.text name="mother_id_no" label="رقم البطاقة الوطنية للأم" :value="old('mother_id_no', $family->mother_id_no)"  />
+            <x-inputs.text name="mother_id_no" label="رقم البطاقة الوطنية للأم" :value="old('mother_id_no', $family->mother_id_no)" />
           </div>
           <div class="form-group mb-3 col-md-3">
             <x-inputs.text type="date" name="mother_id_expire_date" label="تاريخ انتهاء صلاحية البطاقة" :value="old('mother_id_expire_date', $family->mother_id_expire_date)" />
@@ -162,16 +162,16 @@
             @error('mother_health_status')<span class="text-danger">{{ $message }}</span>@enderror
           </div>
           <div class="form-group mb-3 col-md-3">
-              <label class="form-label" for="exampleFormControlSelect1">عدد افراد الاسرة</label>
-              <select name="number_of_family_members">
-                <option selected disabled>{{ 'اختر من القائمة' }}...</option>
-                @foreach(config('options.number_of_family_members') as $key => $label)
-                <option value="{{ $key }}" @if (old('number_of_family_members', $family->number_of_family_members)==$key) selected @endif>{{ $label }}</option>
-                @endforeach
-              </select>
-              @error('number_of_family_members')
-              <span class="text-danger">{{ $message }}</span>
-              @enderror
+            <label class="form-label" for="exampleFormControlSelect1">عدد افراد الاسرة</label>
+            <select name="number_of_family_members">
+              <option selected disabled>{{ 'اختر من القائمة' }}...</option>
+              @foreach(config('options.number_of_family_members') as $key => $label)
+              <option value="{{ $key }}" @if (old('number_of_family_members', $family->number_of_family_members)==$key) selected @endif>{{ $label }}</option>
+              @endforeach
+            </select>
+            @error('number_of_family_members')
+            <span class="text-danger">{{ $message }}</span>
+            @enderror
           </div>
       </div>
 
@@ -283,6 +283,16 @@
           </select>
           @error('is_mother_other_income_fixed')<span class="text-danger">{{ $message }}</span>@enderror
         </div>
+        <div class="form-group mb-3 col-md-3">
+          <label class="form-label" for="social_status">الوضعية الاجتماعية</label>
+          <select name="social_status" id="social_status" class="form-control">
+            <option disabled>اختر من القائمة...</option>
+            @foreach(config('options.social_status') as $key => $label)
+            <option value="{{ $key }}" @if(old('social_status', $family->social_status) == $key) selected @endif>{{ $label }}</option>
+            @endforeach
+          </select>
+          @error('social_status')<span class="text-danger">{{ $message }}</span>@enderror
+        </div>
       </div>
 
       <h6 style="color: #84BA3F">معلومات السكن</h6><br>
@@ -366,7 +376,7 @@
       <h6 style="color: #84BA3F">المرفقات</h6><br>
       <div class="row">
         <div class="form-group mb-3 col-md-6">
-          <label class="form-label" for="attachments">إضافة مرفقات جديدة (اختياري)    <span style="color: red"> [ الصيغ المقبولة : jpg, jpeg, png , pdf ] </span></label></label>
+          <label class="form-label" for="attachments">إضافة مرفقات جديدة (اختياري) <span style="color: red"> [ الصيغ المقبولة : jpg, jpeg, png , pdf ] </span></label></label>
           <input class="form-control" type="file" name="attachments[]" id="attachments" multiple accept=".jpg, .jpeg, .png, .pdf">
           @error('attachments.*')
           <span class="text-danger">{{ $message }}</span>
@@ -416,7 +426,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form  action="{{ route('admin.delete_family_attachment', $attachment ) }}" method="post">
+                      <form action="{{ route('admin.delete_family_attachment', $attachment ) }}" method="post">
                         @csrf
                         {{'هل أنت متأكد من حذف المرفق ؟' }}
                         <input type="hidden" name="id" value="{{ $attachment->id  }}">

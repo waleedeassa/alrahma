@@ -53,6 +53,7 @@ class Family extends Model
     'mother_other_income_type',
     'mother_other_income_amount',
     'is_mother_other_income_fixed',
+    'social_status',
     'housing_ownership',
     'housing_type',
     'housing_status',
@@ -73,6 +74,7 @@ class Family extends Model
     'mother_id_no'        => 'encrypted',
     'bank_account_number' => 'encrypted',
     'breadwinner_id_no'   => 'encrypted',
+    'social_status' => 'integer',
   ];
 
   // --------------------------------------------------------------------
@@ -193,6 +195,10 @@ class Family extends Model
   {
     return $this->getOptionLabel('boolean', 'has_breadwinner');
   }
+  public function getSocialStatusLabelAttribute(): string
+  {
+    return $this->getOptionLabel('social_status', 'social_status');
+  }
   public function getFamilyMembersForDisplayAttribute()
   {
     return $this->number_of_family_members > 10
@@ -226,10 +232,13 @@ class Family extends Model
       })
       ->when(isset($filters['housing_ownership']), function ($query) use ($filters) {
         return $query->where('housing_ownership', $filters['housing_ownership']);
+      })
+      ->when(isset($filters['social_status']), function ($query) use ($filters) {
+        return $query->where('social_status', $filters['social_status']);
       });
     return $query;
   }
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Checks
     |--------------------------------------------------------------------------

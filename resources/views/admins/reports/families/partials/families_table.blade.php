@@ -16,6 +16,7 @@
       <th>الاقليم</th>
       <th>المدينة / الجماعة</th>
       <th>صفة حيازة المسكن</th>
+      <th>الوضعية الاجتماعية</th>
       <th>الحساب البنكي</th>
     </tr>
   </thead>
@@ -36,6 +37,7 @@
       <td>{{ $family->governorate->name }}</td>
       <td>{{ $family->city->name }}</td>
       <td>{{ $family->housing_ownership_label }}</td>
+      <td>{{ $family->social_status_label }}</td>
       <td>{{ $family->bank_account_number }}</td>
     </tr>
     @endforeach

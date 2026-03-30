@@ -76,6 +76,15 @@
                 @endforeach
               </select>
             </div>
+            <div class="col-md-3">
+              <label class="mt-2 mb-2"> الوضعية الاجتماعية </label>
+              <select id="filter_social_status" class="form-control">
+                <option value="">الكل</option>
+                @foreach(config('options.social_status') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
             {{--reset filters--}}
             <div class="col-md-12 mt-4 ">
               <button type="button" id="reset-filters" class="button black x-small"><i class="fa fa-undo"></i>&nbsp;
@@ -131,6 +140,7 @@
       d.gender             = $('#filter_gender').val();
       d.specialization     = $('#filter_specialization').val();
       d.has_land           = $('#filter_has_land').val();
+      d.social_status      = $('#filter_social_status').val();
     }
   },
     columns: [
@@ -160,6 +170,7 @@ $('#filter_sponsor').on('change', () => table.draw());
 $('#filter_gender').on('change', () => table.draw());
 $('#filter_specialization').on('change', () => table.draw());
 $('#filter_has_land').on('change', () => table.draw());
+$('#filter_social_status').on('change', () => table.draw());
 
 $('#reset-filters').on('click', function () {
   $('#filters-form')[0].reset();
@@ -168,7 +179,7 @@ $('#reset-filters').on('click', function () {
 
 $('#btn-export-excel').on('click', function(e) {
     e.preventDefault();
-    // 1. جلب القيم الحالية من الفلاتر
+    // 1. get all filter values
     let params = {
         sponsorship_status: $('#filter_sponsorship').val(),
         academic_level:     $('#filter_academic_level').val(),
@@ -177,13 +188,13 @@ $('#btn-export-excel').on('click', function(e) {
         gender:             $('#filter_gender').val(),
         specialization:     $('#filter_specialization').val(),
         has_land:           $('#filter_has_land').val(),
+        social_status:      $('#filter_social_status').val(),
     };
 
-    // 2. تحويلها إلى Query String
+    // 2. convert to query string
     let queryString = $.param(params);
 
-    // 3. التوجيه للرابط مع البيانات
-    // سيصبح الرابط مثلاً: /orphans-export?sponsorship_status=1&governorate_id=5
+    // 3. append query string to url link (e.g. /orphans-export?sponsorship_status=1&governorate_id=5)
     window.location.href = "{{ route('admin.orphans.export') }}?" + queryString;
 });
 
@@ -206,19 +217,13 @@ $('#btn-export-excel').on('click', function(e) {
         type: "POST",
         data: form.serialize(),
         success: function(response) {
-
             modal.modal('hide');
-
             $('#yajra_table').DataTable().ajax.reload(null, false);
-
             toastr.success(response.message);
-
         },
         error: function(xhr) {
-
             if (xhr.status === 422) {
-                 let errors = xhr.responseJSON.errors;
-
+                let errors = xhr.responseJSON.errors;
                 if (errors.cancellation_reason) {
                     errorElement
                         .text(errors.cancellation_reason[0])
@@ -229,7 +234,6 @@ $('#btn-export-excel').on('click', function(e) {
             }
         }
     });
-
 });
 </script>
 @endpush

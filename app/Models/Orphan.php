@@ -41,6 +41,7 @@ class Orphan extends Model
     'academic_level',
     'shoe_size',
     'clothes_size',
+    'social_status',
     'phone',
     'blood_type',
     'health_status',
@@ -54,6 +55,8 @@ class Orphan extends Model
     'blood_type'      => 'integer',
     'specialization'   => 'integer',
     'cancellation_reason' => 'integer',
+    'does_family_own_a_plot_of_land' => 'boolean',
+    'social_status' => 'integer',
   ];
   protected $appends = ['age'];
 
@@ -165,7 +168,7 @@ class Orphan extends Model
     return $this->getOptionLabel('specialization', 'specialization');
   }
 
-   public function getDoesFamilyOwnAPlotOfLandLabelAttribute(): string
+  public function getDoesFamilyOwnAPlotOfLandLabelAttribute(): string
   {
     return $this->does_family_own_a_plot_of_land ? 'نعم' : 'لا';
   }
@@ -178,13 +181,17 @@ class Orphan extends Model
   {
     return $this->getOptionLabel('health_status', 'health_status');
   }
+  public function getSocialStatusLabelAttribute(): string
+  {
+    return $this->getOptionLabel('social_status', 'social_status');
+  }
   // --------------------------------------------------------------------
   //  SCOPES
   // --------------------------------------------------------------------
   public function scopeWhereAgeBetween($query, $minAge, $maxAge)
   {
-    $startDate = Carbon::now()->subYears($maxAge)->startOfDay(); 
-    $endDate   = Carbon::now()->subYears($minAge)->endOfDay();   
+    $startDate = Carbon::now()->subYears($maxAge)->startOfDay();
+    $endDate   = Carbon::now()->subYears($minAge)->endOfDay();
     return $query->whereBetween('birth_date', [$startDate, $endDate]);
   }
   public function scopeSponsored($query)

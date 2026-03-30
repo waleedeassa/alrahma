@@ -31,9 +31,7 @@ return new class extends Migration
       $table->string('address_in_french');
       $table->unsignedTinyInteger('specialization');
       $table->boolean("does_family_own_a_plot_of_land");
-      // $table->string('arrangement_between_brothers');
-      // $table->unsignedTinyInteger('income_status');
-      // $table->string('other_income');
+      $table->unsignedTinyInteger('social_status');
       $table->unsignedTinyInteger('academic_level');
       $table->string('shoe_size');
       $table->string('clothes_size');

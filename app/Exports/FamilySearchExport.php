@@ -69,6 +69,7 @@ class FamilySearchExport implements FromCollection, WithHeadings, WithMapping, W
       'مصدر الدخل الاخر',
       'المبلغ الشهري للدخل الأخر',
       'هل الدخل قار ؟',
+      'الوضعية الاجتماعية',
       'صفة حيازة المسكن',
       'نوع المسكن',
       'حالة المسكن',
@@ -124,6 +125,7 @@ class FamilySearchExport implements FromCollection, WithHeadings, WithMapping, W
       $family->mother_other_income_type_label ?? '',
       $family->mother_other_income_amount,
       $family->is_mother_other_income_fixed_label ?? '',
+      $family->social_status_label ?? '',
       $family->housing_ownership_label ?? '',
       $family->housing_type_label ?? '',
       $family->housing_status_label ?? '',
@@ -142,7 +144,7 @@ class FamilySearchExport implements FromCollection, WithHeadings, WithMapping, W
   public function styles(Worksheet $sheet)
   {
     $sheet->setRightToLeft(true);
-    $sheet->getStyle('A1:AX1')->applyFromArray([
+    $sheet->getStyle('A1:AY1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

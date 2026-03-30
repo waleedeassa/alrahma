@@ -177,6 +177,10 @@
                       <label>هل لدى الأسرة قطعة أرضية  </label>
                       <input type="text" value="{{ $orphan->does_family_own_a_plot_of_land_label }}" readonly>
                     </div>
+                      <div class="line">
+                      <label> الوضعية الاجتماعية</label>
+                        <input type="text" value="{{ $orphan->social_status_label}}" readonly>
+                      </div>
                     <br>
                     <h5> الصحة والقياسات : Santé et Mesures</h5>
                     <div class="line">

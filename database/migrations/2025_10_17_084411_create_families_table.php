@@ -52,6 +52,7 @@ return new class extends Migration
       $table->unsignedTinyInteger("mother_other_income_type")->nullable();
       $table->decimal("mother_other_income_amount", 10, 2)->nullable();
       $table->boolean("is_mother_other_income_fixed")->nullable();
+      $table->unsignedTinyInteger("social_status");
       // housing information
       $table->unsignedTinyInteger("housing_ownership");
       $table->unsignedTinyInteger("housing_type");

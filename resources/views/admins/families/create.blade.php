@@ -3,7 +3,7 @@
 @section('breadcrumpTitle','اضافة أسرة ')
 @section("breadcrump")
 @parent
-<li class="breadcrumb-item "><a href="{{ route("admin.families.index") }}" class="default-color">
+<li class="breadcrumb-item "><a href="{{ route('admin.families.index') }}" class="default-color">
     الأسر</a></li>
 <li class="breadcrumb-item active">اضافة أسرة</li>
 @endsection
@@ -56,7 +56,7 @@
               <x-inputs.text name="phone2" label="رقم الهاتف 2" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
             </div>
             <div class="form-group mb-3 col-md-3">
-              <x-inputs.text name="address" label="العنوان الكامل"  />
+              <x-inputs.text name="address" label="العنوان الكامل" />
             </div>
             <div class="form-group mb-3 col-md-3">
               <x-inputs.select name="governorate_id" label="الإقليم" :options="$governorates" />
@@ -304,6 +304,16 @@
               <span class="text-danger">{{ $message }}</span>
               @enderror
             </div>
+            <div class="form-group mb-3 col-md-3">
+              <label class="form-label" for="social_status">الوضعية الاجتماعية</label>
+              <select name="social_status" id="social_status" class="form-control">
+                <option selected disabled>اختر من القائمة...</option>
+                @foreach(config('options.social_status') as $key => $label)
+                <option value="{{ $key }}" @if (old('social_status')==$key) selected @endif>{{ $label }}</option>
+                @endforeach
+              </select>
+              @error('social_status')<span class="text-danger">{{ $message }}</span>@enderror
+            </div>
           </div>
           <h6 style="color: #84BA3F">معلومات السكن</h6><br>
           <div class="row">
@@ -386,15 +396,15 @@
               <x-inputs.text name="breadwinner_job" label="{{'مهنة المعيل' }}" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner hidden">
-              <x-inputs.text name="breadwinner_id_no" label="{{' رقم البطاقة الوطنية للمعيل' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');"/>
+              <x-inputs.text name="breadwinner_id_no" label="{{' رقم البطاقة الوطنية للمعيل' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
             </div>
             <div class="form-group mb-3 col-md-3  breadwinner hidden">
-              <x-inputs.text name="breadwinner_phone" label="{{' رقم هاتف المعيل' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');"/>
+              <x-inputs.text name="breadwinner_phone" label="{{' رقم هاتف المعيل' }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
             </div>
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
-              <label class="form-label" for="exampleFormControlSelect1"> المرفقات  <span style="color: red"> [ الصيغ المقبولة : jpg, jpeg, png , pdf ] </span></label>
+              <label class="form-label" for="exampleFormControlSelect1"> المرفقات <span style="color: red"> [ الصيغ المقبولة : jpg, jpeg, png , pdf ] </span></label>
               <input class="form-control" type="file" name="attachments[]" id="attachments" multiple accept=".jpg, .jpeg, .png, .pdf">
               @error('attachments.*')
               <span class="text-danger">{{ $message }}</span>
@@ -483,6 +493,7 @@
             "mother_other_income_type": { requiredIf: { field: "#is_there_another_source_of_income", value: "1" } },
             "mother_other_income_amount": { requiredIf: { field: "#is_there_another_source_of_income", value: "1" } },
             "is_mother_other_income_fixed": { required: true },
+            "social_status": { required: true },
             "housing_ownership": { required: true },
             "housing_type": { required: true },
             "housing_status": { required: true },
@@ -528,6 +539,7 @@
             "has_retirement_compensation": { required: 'الحقل مطلوب' },
             "is_there_another_source_of_income": { required: 'الحقل مطلوب' },
             "is_mother_other_income_fixed": { required: 'الحقل مطلوب' },
+            "social_status": { required: 'الحقل مطلوب' },
             "housing_ownership": { required: 'الحقل مطلوب' },
             "housing_type": { required: 'الحقل مطلوب' },
             "housing_status": { required: 'الحقل مطلوب' },

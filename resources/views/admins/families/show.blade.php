@@ -189,8 +189,6 @@
                       <div class="line">
                         <label> هل تستفيد الأسرة من تعويض تقاعد الزوج؟</label>
                         <input type="text" value="{{ $family->has_retirement_compensation_label }}" readonly>
-                      </div>
-                      <div class="line">
                         <label>المبلغ الشهري من تعويض تقاعد الزوج</label>
                         <input type="text" value="{{ $family->mother_widows_support_amount}}" readonly>
                       </div>
@@ -205,6 +203,10 @@
                         <input type="text" value="{{ $family->mother_other_income_amount}}" readonly>
                         <label> هل الدخل قار ؟</label>
                         <input type="text" value="{{ $family->is_mother_other_income_fixed_label}}" readonly>
+                      </div>
+                      <div class="line">
+                      <label> الوضعية الاجتماعية</label>
+                        <input type="text" value="{{ $family->social_status_label}}" readonly>
                       </div>
                       <br>
                       <h5> بيانات السكن : Renseignements de logement</h5>
@@ -341,7 +343,7 @@
                       @foreach ($family->orphans as $orphan)
                       <tr style='text-align:center;vertical-align:middle'>
                         <td>{{ $loop->iteration }}</td>
-                        <td>  <img src="{{ $orphan->image_url }}" width="50" height="50" class="rounded-circle avatar-lg" style="object-fit: cover;" alt="orphan-image"></td>
+                        <td> <img src="{{ $orphan->image_url }}" width="50" height="50" class="rounded-circle avatar-lg" style="object-fit: cover;" alt="orphan-image"></td>
                         <td>{{ $orphan->id }}</td>
                         <td>{{ $orphan->name_ar }}</td>
                         <td>{{ $orphan->family_name_ar }}</td>
@@ -357,7 +359,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="report-tab">
             {{-- @can('إضافة تقرير أسرة') --}}
             <a class="button black x-small" href="{{ route('admin.family-report.create',$family) }}" target="_blank"> <i class="fa fa-plus"></i>{{' اضافة تقرير دورى' }}</a>
@@ -375,7 +377,7 @@
                         {{-- <th>التعديل بواسطة</th> --}}
                         <th class="element-to-hide">العمليات</th>
                       </tr>
-                    </thead>  
+                    </thead>
                     <tbody>
                       @foreach ($family->reports as $row)
                       <tr style='text-align:center;vertical-align:middle'>

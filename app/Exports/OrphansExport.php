@@ -64,6 +64,10 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       ->when(isset($this->filters['has_land']) && $this->filters['has_land'] !== '', function ($q) {
         $q->where('does_family_own_a_plot_of_land', $this->filters['has_land']);
       })
+      // social status filter
+      ->when(!empty($this->filters['social_status']), function ($q) {
+        $q->where('social_status', $this->filters['social_status']);
+      })
       ->latest('id');
   }
   public function chunkSize(): int
@@ -90,6 +94,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       'العنوان بالفرنسية',
       'التخصص',
       'هل تمتلك الأسرة قطعة أرض',
+      'الوضعية الاجتماعية',
       'رقم الهاتف',
       'الفصيلة الدموية',
       'الحالة الصحية',
@@ -123,6 +128,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       $orphan->address_in_french,
       $orphan->specialization_label,
       $orphan->does_family_own_a_plot_of_land_label,
+      $orphan->social_status_label ?? '',
       $orphan->phone,
       $orphan->blood_type_label,
       $orphan->health_status_label,

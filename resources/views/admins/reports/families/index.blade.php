@@ -102,6 +102,15 @@
                 @endforeach
               </select>
             </div>
+            <div class="form-group mb-3 col-md-3">
+              <label class="form-label" for="exampleFormControlSelect1"> الوضعية الاجتماعية </label>
+              <select name="social_status" id="social_status">
+                <option selected disabled>{{ 'اختر من القائمة' }}...</option>
+                @foreach(config('options.social_status') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
           </div>
           <div class="col-lg-3" style="margin-top: 10px">
             <div>

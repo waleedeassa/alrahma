@@ -71,6 +71,7 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
       'مصدر الدخل الاخر',
       'المبلغ الشهري للدخل الأخر',
       'هل الدخل قار ؟',
+      'الوضعية الاجتماعية',
       'صفة حيازة المسكن',
       'نوع المسكن',
       'حالة المسكن',
@@ -128,6 +129,7 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
       $family->mother_other_income_type_label ?? '',
       $family->mother_other_income_amount,
       $family->is_mother_other_income_fixed_label ?? '',
+      $family->social_status_label ?? '',
       $family->housing_ownership_label ?? '',
       $family->housing_type_label ?? '',
       $family->housing_status_label ?? '',
@@ -146,8 +148,8 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:AX1');
-    $sheet->getStyle('A1:AX1')->applyFromArray([
+    $sheet->setAutoFilter('A1:AY1');
+    $sheet->getStyle('A1:AY1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

@@ -36,6 +36,10 @@ class FamilySearchRequest extends FormRequest
         'nullable',
         Rule::in(array_keys(config('options.housing_ownership')))
       ],
+      'social_status' => [
+        'nullable',
+        Rule::in(array_keys(config('options.social_status')))
+      ],
     ];
   }
   public function messages(): array
@@ -49,6 +53,7 @@ class FamilySearchRequest extends FormRequest
       'mother_education_level.in' => 'المستوى الدراسي المختار غير صحيح.',
       'number_of_family_members.in' => 'عدد أفراد الأسرة المختار غير صحيح.',
       'housing_ownership.in' => 'ملكية السكن المختارة غير صحيحة.',
+      'social_status.in' => 'الوضعية الاجتماعية المختارة غير صحيحة.',
     ];
   }
 }

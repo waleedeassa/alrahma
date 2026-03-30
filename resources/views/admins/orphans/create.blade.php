@@ -155,6 +155,16 @@
             <div class="form-group mb-3 col-md-3">
               <x-inputs.text name="clothes_size" label="{{'قياس الملابس' }}" />
             </div>
+            <div class="form-group mb-3 col-md-3">
+              <label class="form-label" for="social_status">الوضعية الاجتماعية</label>
+              <select name="social_status" id="social_status" class="form-control">
+                <option selected disabled>اختر من القائمة...</option>
+                @foreach(config('options.social_status') as $key => $label)
+                <option value="{{ $key }}" @if (old('social_status')==$key) selected @endif>{{ $label }}</option>
+                @endforeach
+              </select>
+              @error('social_status')<span class="text-danger">{{ $message }}</span>@enderror
+            </div>
           </div>
           <div class="row">
             <div class="form-group mb-3 col-md-6">
@@ -308,6 +318,9 @@ theSelect.addEventListener("change",function (event){
               clothes_size: {
                   required : true,
               },
+              social_status: {
+                  required : true,
+              },
               image: {
                   required : true,
               }, 
@@ -378,6 +391,9 @@ theSelect.addEventListener("change",function (event){
               },
               clothes_size: {
                   required : 'حقل قياس الملابس مطلوب',
+              },
+              social_status: {
+                  required : 'حقل الحالة الاجتماعية مطلوب',
               },
               image: {
                 required : '  الصورة الشخصية لليتيم مطلوبة',

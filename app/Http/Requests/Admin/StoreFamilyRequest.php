@@ -55,6 +55,7 @@ class StoreFamilyRequest extends FormRequest
       'mother_other_income_type'     => ['nullable', 'required_if:is_there_another_source_of_income,1', Rule::in(array_keys(config('options.mother_other_income_type')))],
       'mother_other_income_amount'   => ['nullable', 'required_if:is_there_another_source_of_income,1', 'numeric', 'min:0'],
       'is_mother_other_income_fixed' => ['nullable', 'required_if:is_there_another_source_of_income,1', 'boolean'],
+      'social_status' => ['required', Rule::in(array_keys(config('options.social_status')))],
       // Housing Information
       'housing_ownership'            => ['required', Rule::in(array_keys(config('options.housing_ownership')))],
       'housing_type'                 => ['required', Rule::in(array_keys(config('options.housing_type')))],
@@ -136,6 +137,7 @@ class StoreFamilyRequest extends FormRequest
       'mother_other_income_type'     => 'نوع الدخل الآخر',
       'mother_other_income_amount'   => 'مبلغ الدخل الآخر',
       'is_mother_other_income_fixed' => 'هل الدخل الآخر قار',
+      'social_status' => 'الوضعية الاجتماعية',
       'housing_ownership'            => 'صفة حيازة المسكن',
       'housing_type'                 => 'نوع المسكن',
       'housing_status'               => 'حالة المسكن',
