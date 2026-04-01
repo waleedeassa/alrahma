@@ -34,11 +34,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       ])
       // sponsorship status filter
       ->when(isset($this->filters['sponsorship_status']) && $this->filters['sponsorship_status'] !== '', function ($q) {
-        if ($this->filters['sponsorship_status'] == '1') {
-          $q->whereNotNull('sponsor_id');
-        } elseif ($this->filters['sponsorship_status'] == '0') {
-          $q->whereNull('sponsor_id');
-        }
+        $q->where('sponsorship_status', $this->filters['sponsorship_status']);
       })
       // academic level filter
       ->when(!empty($this->filters['academic_level']), function ($q) {
@@ -80,6 +76,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       '#',
       'رقم اليتيم',
       'كود الكفالة',
+      'حالة الكفالة',
       'الاسم الشخصي (عربي)',
       'الاسم الشخصي (فرنسي)',
       'اسم العائلة (عربي)',
@@ -114,6 +111,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       $this->rowNumber,
       $orphan->id,
       $orphan->orphan_sponsorship_code ?? 'لا يوجد',
+      $orphan->sponsorship_status_label,
       $orphan->name_ar,
       $orphan->name_fr,
       $orphan->family_name_ar,
@@ -145,8 +143,8 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:Z1');
-    $sheet->getStyle('A1:Z1')->applyFromArray([
+    $sheet->setAutoFilter('A1:AB1');
+    $sheet->getStyle('A1:AB1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

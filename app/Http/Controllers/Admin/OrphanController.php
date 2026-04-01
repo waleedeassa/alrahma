@@ -43,14 +43,25 @@ class OrphanController extends Controller
         'image',
         'orphan_sponsorship_code',
         'birth_date',
+        'sponsorship_status',
       ]);
 
     // 2.apply filters
-    if ($request->sponsorship_status === '1') {
-      $orphansQuery->sponsored();
-    }
-    if ($request->sponsorship_status === '0') {
-      $orphansQuery->unsponsored();
+    if ($request->filled('sponsorship_status')) {
+      switch ($request->sponsorship_status) {
+        case 0: // في لائحة الانتظار
+          $orphansQuery->waitingList();
+          break;
+        case 1: // مكفول
+          $orphansQuery->sponsored();
+          break;
+        case 2: // موقوف
+          $orphansQuery->suspended();
+          break;
+        case 3: // كفالة منتهية
+          $orphansQuery->sponsorshipEnded();
+          break;
+      }
     }
     if ($request->filled('academic_level')) {
       $orphansQuery->academicLevel($request->academic_level);
@@ -64,13 +75,13 @@ class OrphanController extends Controller
     if ($request->filled('gender')) {
       $orphansQuery->where('gender', $request->gender);
     }
-    if($request->filled('specialization')) {
+    if ($request->filled('specialization')) {
       $orphansQuery->where('specialization', $request->specialization);
     }
-    if($request->filled('has_land')) {
+    if ($request->filled('has_land')) {
       $orphansQuery->where('does_family_own_a_plot_of_land', $request->has_land);
     }
-    if($request->filled('social_status')) {
+    if ($request->filled('social_status')) {
       $orphansQuery->where('social_status', $request->social_status);
     }
     // 3.return datatable response
@@ -97,13 +108,26 @@ class OrphanController extends Controller
       ->editColumn('academic_level', function ($orphan) {
         return $orphan->academic_level_label ?? '-';
       })
-      ->addColumn('sponsorship_status', function ($orphan) {
-        $style = 'color: #fff; padding: 3px 8px; border-radius: 4px; display: inline-block; font-size: 11px; font-weight: bold; line-height: 1.2;';
+      ->editColumn('sponsorship_status', function ($orphan) {
+        $statusLabel = $orphan->sponsorship_status_label; // Use the new accessor
+        $badgeClass = 'bg-secondary'; // Default
 
-        if ($orphan->sponsor_id) {
-          return '<span style="background-color: #28a745; ' . $style . '">مكفول</span>';
+        switch ($orphan->sponsorship_status) {
+          case 1: // مكفول
+            $badgeClass = 'bg-success';
+            break;
+          case 2: // موقوف
+            $badgeClass = 'bg-warning text-dark';
+            break;
+          case 3: // كفالة منتهية
+            $badgeClass = 'bg-danger';
+            break;
+          case 0: // في لائحة الانتظار
+          default:
+            $badgeClass = 'bg-info';
+            break;
         }
-        return '<span style="background-color: #dc3545; ' . $style . '">غير مكفول</span>';
+        return '<span class="badge ' . $badgeClass . '">' . $statusLabel . '</span>';
       })
       ->addColumn('sponsor_name', function ($orphan) {
         return $orphan->sponsor_badge;
@@ -240,10 +264,24 @@ class OrphanController extends Controller
       'sponsor_id' => null,
       'orphan_sponsorship_code' => null,
       'cancellation_reason' => $request->cancellation_reason,
+      'sponsorship_status' => 2, // Update sponsorship status to "موقوف"
     ]);
     return response()->json([
       'status' => true,
       'message' => 'تم تحديث حالة اليتيم إلى غير مكفول بنجاح'
+    ]);
+  }
+  public function changeOrphanStatusToEnded(Request $request, Orphan $orphan)
+  {
+
+    $orphan->update([
+      'sponsor_id' => null,
+      'orphan_sponsorship_code' => null,
+      'sponsorship_status' => 3, // Update sponsorship status to "كفالة منتهية"
+    ]);
+    return response()->json([
+      'status' => true,
+      'message' => 'تم إنهاء كفالة اليتيم بنجاح'
     ]);
   }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
       $table->foreignId('family_id')->nullable()->constrained('families')->cascadeOnUpdate()->restrictOnDelete();
       $table->foreignId('supervisor_id')->nullable()->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
       $table->string('orphan_sponsorship_code')->nullable();
+      $table->unsignedTinyInteger('sponsorship_status')->default(0);
       $table->unsignedTinyInteger('cancellation_reason')->nullable();
       $table->string('name_ar');
       $table->string('name_fr');

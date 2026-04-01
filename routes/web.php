@@ -108,7 +108,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('download-orphan-attachment/{attachment}', [OrphanController::class, 'downloadOrphanAttachment'])->name('download_orphan_attachment');
     Route::post('delete-orphan-attachment/{attachment}', [OrphanController::class, 'deleteOrphanAttachment'])->name('delete_orphan_attachment');
     // change orphan sponsored status
-    Route::patch('/change-sponsored-orphan-to-unsponsored/{orphan}', [OrphanController::class, 'changeSponsoredOrphanToUnsponsored'])->name('change.orphan-status');
+    Route::patch('/change-sponsored-orphan-to-unsponsored/{orphan}', [OrphanController::class, 'changeSponsoredOrphanToUnsponsored'])->name('change.orphan-status-to-unsponsored');
+    Route::patch('/change-orphan-status-to-ended/{orphan}',[OrphanController::class, 'changeOrphanStatusToEnded'])->name('change.orphan-status-to-ended');
     Route::get('orphans-export', [OrphanExcelExportController::class, 'exportOrphans'])->name('orphans.export');
     // Assign Orphans to Sponsors
     Route::get('assign-orphans-to-sponsor', [AssignOrphansToSponsorController::class, 'index'])->name('assign-orphans-to-sponsor.index');

@@ -1,4 +1,4 @@
-name: FTP Deploy Resources Only
+name: FTP Deploy project files
 
 on:
   push:
@@ -13,15 +13,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: FTP Deploy (resources only)
+      - name: FTP Deploy (FTP-Deploy-Action)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps # ftp أو ftps حسب استضافتك
-          local-dir: ./ # رفع فقط مجلد resources
-          server-dir: /public_html/alrahma/ # مسار resources على السيرفر
+          protocol: ftps
+          local-dir: ./
+          server-dir: /public_html/alrahma/ 
           dangerous-clean-slate: false
           exclude: |
             **/.git*
@@ -36,3 +36,7 @@ jobs:
             .env.*
             **/*.log
           log-level: verbose
+
+      - name: Deployment success check
+        if: success()
+        run: echo "✅ Deployment completed successfully!"      

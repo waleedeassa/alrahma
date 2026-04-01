@@ -14,7 +14,7 @@ class AssignOrphansToSponsorController extends Controller
   public function index()
   {
     $sponsors = Sponsor::latest()->get();
-    $unsponsoredOrphans = Orphan::where('sponsor_id', null)->get();
+    $unsponsoredOrphans =  Orphan::availableForSponsorship()->get();
     return view('admins.assign_orphans_to_sponsor.index', compact('sponsors', 'unsponsoredOrphans'));
   }
   public function store(AssignSponsorshipsRequest $request)
@@ -36,6 +36,7 @@ class AssignOrphansToSponsorController extends Controller
         Orphan::where('id', $orphanId)->update([
           'sponsor_id' => $sponsorId,
           'orphan_sponsorship_code' => $sponsorshipCode,
+          'sponsorship_status' => 1, // Mark as sponsored
         ]);
       }
       DB::commit();

@@ -24,6 +24,7 @@ class Orphan extends Model
     'family_id',
     'supervisor_id',
     'orphan_sponsorship_code',
+    'sponsorship_status',
     'cancellation_reason',
     'name_ar',
     'name_fr',
@@ -57,6 +58,7 @@ class Orphan extends Model
     'cancellation_reason' => 'integer',
     'does_family_own_a_plot_of_land' => 'boolean',
     'social_status' => 'integer',
+    'sponsorship_status' => 'integer'
   ];
   protected $appends = ['age'];
 
@@ -142,7 +144,6 @@ class Orphan extends Model
     }
     return '<span class="badge ' . $badgeClass . '">' . $nameOriginal . '</span>';
   }
-
   private function getOptionLabel(string $optionType, string $attributeName): string
   {
     $key = $this->attributes[$attributeName] ?? null;
@@ -154,6 +155,10 @@ class Orphan extends Model
   public function getAcademicLevelLabelAttribute(): string
   {
     return $this->getOptionLabel('academic_level', 'academic_level');
+  }
+  public function getSponsorshipStatusLabelAttribute(): string
+  {
+    return $this->getOptionLabel('sponsorship_statuses', 'sponsorship_status');
   }
   public function getCancellationReasonLabelAttribute(): string
   {
@@ -167,12 +172,10 @@ class Orphan extends Model
   {
     return $this->getOptionLabel('specialization', 'specialization');
   }
-
   public function getDoesFamilyOwnAPlotOfLandLabelAttribute(): string
   {
     return $this->does_family_own_a_plot_of_land ? 'نعم' : 'لا';
   }
-
   public function getBloodTypeLabelAttribute(): string
   {
     return $this->getOptionLabel('blood_type', 'blood_type');
@@ -194,14 +197,36 @@ class Orphan extends Model
     $endDate   = Carbon::now()->subYears($minAge)->endOfDay();
     return $query->whereBetween('birth_date', [$startDate, $endDate]);
   }
+  public function scopeWaitingList($query)
+  {
+    return $query->where('sponsorship_status', 0);
+  }
   public function scopeSponsored($query)
   {
-    return $query->whereNotNull('sponsor_id');
+    return $query->where('sponsorship_status', 1);
   }
-  public function scopeUnsponsored($query)
+  public function scopeSuspended($query)
   {
-    return $query->whereNull('sponsor_id');
+    return $query->where('sponsorship_status', 2);
   }
+  public function scopeSponsorshipEnded($query)
+  {
+    return $query->where('sponsorship_status', 3);
+  }
+
+  public function scopeAvailableForSponsorship($query)
+  {
+    return $query->whereNull('sponsor_id')
+      ->whereIn('sponsorship_status', [0, 2]);
+  }
+  // public function scopeSponsored($query)
+  // {
+  //   return $query->whereNotNull('sponsor_id');
+  // }
+  // public function scopeUnsponsored($query)
+  // {
+  //   return $query->whereNull('sponsor_id');
+  // }
   public function scopeAcademicLevel($query, $level)
   {
     return $query->where('academic_level', $level);

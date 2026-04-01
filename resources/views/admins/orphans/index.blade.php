@@ -14,12 +14,21 @@
         <br>
         <form class="modal_style mb-3" id="filters-form">
           <div class="row">
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
               <label class="mb-2">حالة الكفالة</label>
               <select id="filter_sponsorship" class="form-control">
                 <option value="">الكل</option>
                 <option value="1">مكفول</option>
                 <option value="0">غير مكفول</option>
+              </select>
+            </div> --}}
+            <div class="col-md-3">
+              <label class="mt-2 mb-2">حالة الكفالة</label>
+              <select id="filter_sponsorship" class="form-control">
+                <option value="">الكل</option>
+                @foreach(config('options.sponsorship_statuses') as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
               </select>
             </div>
             <div class="col-md-3">
@@ -199,6 +208,7 @@ $('#btn-export-excel').on('click', function(e) {
 });
 
 </script>
+{{-- Change Orphan Status to stopped --}}
 <script>
   $(document).on('submit', '.change-status-form', function(e) {
 
@@ -235,5 +245,35 @@ $('#btn-export-excel').on('click', function(e) {
         }
     });
 });
+</script>
+
+<script>
+  $(document).on('submit', '.change-ended-status-form', function(e) {
+
+    e.preventDefault(); 
+
+    let form = $(this);
+    let url = form.data('url');
+    let orphanId = form.data('id');
+    let modal = $('#endStatus_orphan' + orphanId);
+
+    $.ajax({
+        url: url,
+        type: "POST", 
+        data: form.serialize(),
+        success: function(response) {
+            modal.modal('hide');
+            $('#yajra_table').DataTable().ajax.reload(null, false);
+            toastr.success(response.message);
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+            } else {
+                toastr.error('حدث خطأ غير متوقع');
+            }
+        }
+    });
+  });
 </script>
 @endpush
