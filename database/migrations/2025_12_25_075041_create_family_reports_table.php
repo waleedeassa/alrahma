@@ -48,7 +48,7 @@ return new class extends Migration
       $table->unsignedTinyInteger('family_changes_after_sponsored');
       $table->unsignedTinyInteger('family_changes_after_sponsored_2')->nullable();
       $table->unsignedTinyInteger('family_changes_after_sponsored_3')->nullable();
-      $table->foreignId('added_by')->constrained('users')->nullOnDelete();
+      $table->foreignId('added_by')->nullable()->constrained('users')->nullOnDelete();
       $table->timestamps();
     });
   }
