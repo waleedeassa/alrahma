@@ -1,15 +1,19 @@
 <td>
+  @can('تعديل مدينة')
   <button data-id="{{ $city->id }}"
           data-name="{{ $city->name }}"
           data-governorate-id="{{ $city->governorate_id }}"
           class="btn btn-lg rounded-pill waves-effect waves-light edit_city">
       <i class="fa fa-pencil-square-o"></i>
   </button>
+  @endcan
+  @can('حذف مدينة')
   <button type="button" class="btn btn-lg rounded-pill waves-effect waves-light"
           data-bs-toggle="modal"
           data-bs-target="#delete_city_{{ $city->id }}">
       <i class="fa fa-trash"></i>
   </button>
+  @endcan
 </td>
 
 <!-- Delete Modal -->

@@ -18,12 +18,10 @@ class SponsorController extends Controller implements HasMiddleware
   public static function middleware()
   {
     return [
-      // new Middleware('can:ادارة الكفلاء', only: ['index']),
-      // new Middleware('can:add_user', only: ['create', 'store']),
-      // new Middleware('can:edit_user', only: ['edit', 'update']),
-      // new Middleware('can:delete_user', only: ['destroy']),
-      // new Middleware('can:change_user_status', only: ['changeUserStatus']),
-      // new Middleware('can:show_user', only: ['show']),
+      new Middleware('can:إدارة الكفلاء', only: ['index']),
+      new Middleware('can:إضافة كفيل', only: [ 'store']),
+      new Middleware('can:تعديل كفيل', only: [ 'update']),
+      new Middleware('can:حذف كفيل', only: ['destroy']),
     ];
   }
   public function index()

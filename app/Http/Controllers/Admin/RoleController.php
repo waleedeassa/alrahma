@@ -8,17 +8,21 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoleRequest;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
-  // public function __construct()
-  // {
-  //   $this->middleware('permission:استعراض المسؤولين', ['only' => ['index']]);
-  //   $this->middleware('permission:اضافة مسؤول', ['only' => ['create', 'store']]);
-  //   $this->middleware('permission:تعديل مسؤول', ['only' => ['edit', 'update']]);
-  //   $this->middleware('permission:حذف مسؤول', ['only' => ['destroy']]);
-  // }
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض المسؤولين', only: ['index', 'getRoles']),
+      new Middleware('can:اضافة مسؤول', only: ['store']),
+      new Middleware('can:تعديل مسؤول', only: ['update']),
+      new Middleware('can:حذف مسؤول', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     return view('admins.roles.index');
@@ -37,10 +41,6 @@ class RoleController extends Controller
       ->rawColumns(['action'])
       ->make(true);
   }
-  public function create()
-  {
-    return view('admins.roles.create');
-  }
   public function store(RoleRequest $request)
   {
     Role::create(['name' => $request->name]);
@@ -48,11 +48,17 @@ class RoleController extends Controller
   }
   public function update(RoleRequest $request, Role $role)
   {
+    if ($role->id === 1) {
+      return $this->errorResponse('لا يمكن تعديل الدور الأساسي', 403);
+    }
     $role->update(['name' =>  $request->name]);
     return $this->successResponse(__('تم تعديل المسؤول بنجاح'), 200);
   }
   public function destroy(Role $role)
   {
+    if ($role->id === 1) {
+      return $this->errorResponse('لا يمكن حذف الدور الأساسي', 403);
+    }
     if ($role->users()->exists()) {
       return $this->errorResponse(__('لا يمكن حذف المسؤول لانه يحتوي على مستخدمين'), 403);
     }

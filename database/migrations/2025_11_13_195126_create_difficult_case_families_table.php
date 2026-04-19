@@ -29,8 +29,8 @@ return new class extends Migration
       $table->foreignId('city_id')->constrained('cities')->cascadeOnUpdate()->restrictOnDelete();
       $table->text('address');
       $table->string('phone');
-      $table->foreignId('added_by')->constrained('users');
-      $table->foreignId('updated_by')->nullable()->constrained('users');
+      $table->foreignId('added_by')->constrained('users')->restrictOnDelete();
+      $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
       $table->timestamps();
       $table->softDeletes();
     });

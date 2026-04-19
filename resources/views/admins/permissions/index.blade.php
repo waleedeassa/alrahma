@@ -12,11 +12,11 @@
     <div class="col-xl-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-                {{-- @can('اضافة صلاحية') --}}
+                @can('اضافة صلاحية')
                 <button type="button" class="button black" data-bs-toggle="modal" data-bs-target="#createPermissionModal">
                     <i class="fa fa-plus"></i>&nbsp; اضافة صلاحية
                 </button>
-                {{-- @endcan --}}
+                @endcan
                 <br><br>
                 <div class="table-responsive">
                     <table id="permissions_datatable" class="table table-striped table-bordered p-0" data-page-length="10" style="text-align: center">

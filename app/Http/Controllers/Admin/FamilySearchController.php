@@ -10,9 +10,11 @@ use App\Http\Controllers\Controller;
 use App\Services\FamiliesSearchService;
 use App\Http\Requests\Admin\FamilySearchRequest;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 // class FamilySearchController extends Controller implements HasMiddleware
-class FamilySearchController extends Controller
+class FamilySearchController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
 
@@ -21,12 +23,12 @@ class FamilySearchController extends Controller
   {
     $this->searchService = $searchService;
   }
-  // public static function middleware()
-  // {
-  //   return [
-  //     new Middleware('can:manage_orders_report', only: ['index', 'search']),
-  //   ];
-  // }
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:تقرير أسر الأيتام', only: ['index', 'search']),
+    ];
+  }
   public function index()
   {
     $governorates = Governorate::select('id', 'name')->pluck('name', 'id')->toArray();

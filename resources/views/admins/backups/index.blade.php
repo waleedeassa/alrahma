@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'النسخ الاحتياطية')
-@section('breadcrumpTitle', 'النسخ الاحتياطية')
+@section('title', 'النسخ الإحتياطية')
+@section('breadcrumpTitle', 'النسخ الإحتياطية')
 
 @section('breadcrump')
 @parent
-<li class="breadcrumb-item active">النسخ الاحتياطية</li>
+<li class="breadcrumb-item active">النسخ الإحتياطية</li>
 @endsection
 
 @section('content')
@@ -13,14 +13,18 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
+        @can('إضافة نسخة إحتياطية')
         <a href="{{ route('admin.backups.create') }}" class="button black x-small" style="margin-left: 10px;">
           <i class="fa fa-cloud-upload"></i>
-          إضافة نسخة احتياطية
+          إضافة نسخة إحتياطية
         </a>
+        @endcan
+        @can('حذف نسخة إحتياطية')
         <button type="button" class="button black x-small" data-bs-toggle="modal" data-bs-target="#bulkDeleteModal" style="margin-left: 10px;">
           <i class="fa fa-trash-o"></i>
           حذف النسخ المحددة
         </button>
+        @endcan
         <br><br>
         <div class="table-responsive">
           <table id="datatable" class="table table-striped table-bordered p-0" data-page-length="10" style="text-align: center">
@@ -47,14 +51,18 @@
                 <td>{{ date('H:i:s', $backup->getCTime()) }}</td>
                 <td>{{ round($backup->getSize() / 1024, 2) }} KB</td>
                 <td>
+                  @can('تحميل نسخة إحتياطية')
                   <a class="btn btn-success btn-sm" href="{{ route('admin.backups.download', $backup->getFilename()) }}">
                     <i class="fa fa-cloud-download"></i>
                     تحميل
                   </a>
+                  @endcan
+                  @can('حذف نسخة إحتياطية')
                   <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_backup{{ $backup->getCTime() }}" title="حذف">
                     <i class="fa fa-trash"></i>
                     حذف
                   </button>
+                  @endcan
                 </td>
               </tr>
               {{-- delete modal --}}
@@ -64,11 +72,11 @@
                     @csrf
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">حذف النسخة الاحتياطية</h5>
+                        <h5 class="modal-title">حذف النسخة الإحتياطية</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
                       <div class="modal-body">
-                        <p>هل أنت متأكد من حذف هذه النسخة الاحتياطية؟</p>
+                        <p>هل أنت متأكد من حذف هذه النسخة الإحتياطية؟</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
@@ -100,11 +108,11 @@
 
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">حذف النسخ الاحتياطية المحددة</h5>
+          <h5 class="modal-title">حذف النسخ الإحتياطية المحددة</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p>هل أنت متأكد من حذف النسخ الاحتياطية المحددة؟</p>
+          <p>هل أنت متأكد من حذف النسخ الإحتياطية المحددة؟</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
@@ -154,7 +162,7 @@
                 });
                 form.submit();
             } else {
-                toastr.error('الرجاء تحديد نسخة احتياطية واحدة على الأقل للحذف');
+                toastr.error('الرجاء تحديد نسخة إحتياطية واحدة على الأقل للحذف');
             }
         });
     }

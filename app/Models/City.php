@@ -49,9 +49,9 @@ class City extends Model
   }
   public function canBeDeleted()
   {
-    if ($this->families()->exists()) return 'لايمكن حذف المدينة لوجود عائلات تابع لها';
+    if ($this->families()->exists()) return 'لايمكن حذف المدينة لوجود أسر تابع لها';
     if ($this->orphans()->exists()) return 'لايمكن حذف المدينة لوجود ايتام تابع لها';
-    if ($this->difficultCaseFamilies()->exists()) return 'لايمكن حذف المدينة لوجود عائلات حالات صعبة تابع لها';
+    if ($this->difficultCaseFamilies()->exists()) return 'لايمكن حذف المدينة لوجود أسر حالات صعبة تابع لها';
     if ($this->specialNeedsPeople()->exists()) return 'لايمكن حذف المدينة لوجود اشخاص ذوي احتياجات خاصة تابع لها';
     return true;
   }

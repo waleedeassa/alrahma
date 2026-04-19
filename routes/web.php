@@ -54,6 +54,10 @@ use Illuminate\Support\Facades\Storage;
 //   return view('home');
 // })->name('home');
 
+// routes/web.php
+// Route::get('/test-404', function () {
+//     abort(404);
+// })->middleware('auth');
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -70,9 +74,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
   // Route::middleware(['auth:web', 'XssSanitizer'])->group(function () {
   Route::middleware(['auth:web', 'checkStatus:web'])->group(function () {
 
-    Route::get('test', function () {
-      Storage::disk('google')->put('hello.txt', "hello world");
-    });
+    // Route::get('test', function () {
+    //   Storage::disk('google')->put('hello.txt', "hello world");
+    // });
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     // governorates & cities
     Route::resource('governorates', GovernorateController::class)->except('show');
@@ -192,6 +196,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminLogoutController::class, 'logout'])->name('logout');
   });
 });
-
 
 require __DIR__ . '/sponsor.php';

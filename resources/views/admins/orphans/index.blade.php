@@ -14,14 +14,6 @@
         <br>
         <form class="modal_style mb-3" id="filters-form">
           <div class="row">
-            {{-- <div class="col-md-3">
-              <label class="mb-2">حالة الكفالة</label>
-              <select id="filter_sponsorship" class="form-control">
-                <option value="">الكل</option>
-                <option value="1">مكفول</option>
-                <option value="0">غير مكفول</option>
-              </select>
-            </div> --}}
             <div class="col-md-3">
               <label class="mt-2 mb-2">حالة الكفالة</label>
               <select id="filter_sponsorship" class="form-control">
@@ -275,5 +267,30 @@ $('#btn-export-excel').on('click', function(e) {
         }
     });
   });
+  // delete orphan
+    $(document).on('submit', 'form[id^="deleteOrphanForm_"]', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var modal = form.closest('.modal');
+        var currentPage = $('#yajra_table').DataTable().page();
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'DELETE',
+            data: form.serialize(),
+            success: function(data) {
+                if (data.status === 'success') {
+                    $('#yajra_table').DataTable().page(currentPage).draw(false);
+                    modal.modal('hide');
+                    toastr.success(data.message);
+                }
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON?.message || 'حدث خطأ ما');
+            }
+        });
+    });
+
+
 </script>
 @endpush

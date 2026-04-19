@@ -1,4 +1,4 @@
-{{-- ملف: admins/support_programs/datatables/actions.blade.php --}}
+@can('تعديل برنامج دعم')
 <button 
     data-id="{{ $program->id }}" 
     data-name="{{ $program->name }}" 
@@ -6,7 +6,8 @@
     title="تعديل">
     <i class="fa fa-pencil-square-o"></i>
 </button>
-
+@endcan
+@can('حذف برنامج دعم')
 <button 
     type="button" 
     class="btn btn-lg rounded-pill waves-effect waves-light" 
@@ -15,8 +16,7 @@
     title="حذف">
     <i class="fa fa-trash"></i>
 </button>
-
-<!-- مودل الحذف -->
+@endcan
 <div class="modal fade" id="delete_program{{$program->id}}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <form id="deleteSupportProgramForm" method="post">

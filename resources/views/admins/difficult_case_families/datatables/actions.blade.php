@@ -5,15 +5,13 @@
         title="سجل المساعدات">
     <i class="fa fa-shopping-cart"></i>
 </button>
-{{-- @can('معاينة تفاصيل الأسرة') --}}
 <a href="{{route('admin.difficult-case-families.show',$difficultCaseFamily)}}" class="btn btn-lg  rounded-pill waves-effect waves-light " title=" معاينة "><i class="fa fa-eye"></i> </a>
-{{-- @endcan --}}
-{{-- @can('تعديل أسرة') --}}
+@can('تعديل أسرة فى وضعية صعبة')
 <a href="{{route('admin.difficult-case-families.edit',$difficultCaseFamily)}}" class="btn btn-lg rounded-pill waves-effect waves-light" title=" تعديل "><i class="fa fa-pencil-square-o"></i> </a>
-{{-- @endcan --}}
-{{-- @can('حذف أسرة') --}}
+@endcan
+@can('حذف أسرة فى وضعية صعبة')
 <a data-bs-toggle="modal" data-bs-target="#delete_family{{$difficultCaseFamily->id}}" class="btn btn-lg rounded-pill waves-effect waves-light" title=" حذف "><i class="fa fa-trash"></i> </a>
-{{-- @endcan --}}
+@endcan
 
 </td>
 </tr>

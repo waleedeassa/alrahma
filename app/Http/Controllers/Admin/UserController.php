@@ -14,29 +14,26 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
-class UserController extends Controller implements HasMiddleware
+class UserController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
   public static function middleware()
   {
     return [
-      // new Middleware('can:ادارة المستخدمين', only: ['index']),
-      // new Middleware('can:add_user', only: ['create', 'store']),
-      // new Middleware('can:edit_user', only: ['edit', 'update']),
-      // new Middleware('can:delete_user', only: ['destroy']),
-      // new Middleware('can:change_user_status', only: ['changeUserStatus']),
-      // new Middleware('can:show_user', only: ['show']),
+      new Middleware('can:إدارة المستخدمين', only: ['index', 'usersDataTable']),
+      new Middleware('can:إضافة مستخدم', only: ['store']),
+      new Middleware('can:تعديل مستخدم', only: ['update']),
+      new Middleware('can:حذف مستخدم', only: ['destroy']),
     ];
   }
   public function index()
   {
-    // $roles = Role::pluck('name', 'id')->toArray();
     $roles = Role::all();
     return view('admins.users.index', compact('roles'));
   }
   public function usersDataTable()
   {
-    $users = User::with('roles')->select('id', 'name', 'family_name', 'email', 'status', 'phone');
+    $users = User::oldest()->with('roles')->select('id', 'name', 'family_name', 'email', 'status', 'phone');
     return DataTables::of($users)
       ->addIndexColumn()
       ->editColumn('status', function ($user) {
@@ -64,6 +61,9 @@ class UserController extends Controller implements HasMiddleware
   }
   public function update(UserRequest $request, User $user)
   {
+    if ($user->isSuperAdmin()) {
+      return $this->errorResponse('لا يمكن تعديل مدير النظام', 403);
+    }
     $data = $request->except('_token', '_method', 'id');
     $user->update($data);
     if ($request->role_id) {
@@ -79,9 +79,14 @@ class UserController extends Controller implements HasMiddleware
   public function destroy(User $user)
   {
     // check if user is used in other tables
-    // if ($user->isUsedWithOrders()) {
-    //   return $this->errorResponse(__('dashboard.Cannot delete user because it is used with orders'), 403);
-    // }
+    $check = $user->canBeDeleted();
+    if ($check !== true) {
+      return $this->errorResponse($check, 403);
+    }
+    if ($user->isSuperAdmin()) {
+      return $this->errorResponse('لا يمكن حذف مدير النظام', 403);
+    }
+
     if (!$user->delete()) {
       return $this->errorResponse('حدث خطأ ما', 500);
     }
@@ -89,10 +94,14 @@ class UserController extends Controller implements HasMiddleware
   }
   public function changeUserStatus(Request $request, string $id)
   {
-    $user =  User::find($id)->update(['status' => $request->status]);;
+    $user = User::find($id);
     if (!$user) {
       return $this->errorResponse('حدث خطأ ما', 500);
     }
+    if ($user->isSuperAdmin()) {
+      return $this->errorResponse('لا يمكن تعديل مدير النظام', 403);
+    }
+    $user->update(['status' => $request->status]);;
     return $this->successResponse('تم تغيير حالة المستخدم بنجاح', 200);
   }
 }

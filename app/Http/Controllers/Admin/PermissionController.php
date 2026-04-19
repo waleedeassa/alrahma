@@ -9,18 +9,21 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\PermissionRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class PermissionController extends Controller
+class PermissionController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
-  // public function __construct()
-  // {
-  //   $this->middleware('permission:استعراض الصلاحيات', ['only' => ['index']]);
-  //   $this->middleware('permission:اضافة صلاحية', ['only' => ['create', 'store']]);
-  //   $this->middleware('permission:تعديل صلاحية', ['only' => ['edit', 'update']]);
-  //   $this->middleware('permission:حذف صلاحية', ['only' => ['destroy']]);
-  // }
-
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض الصلاحيات', only: ['index', 'getPermissions']),
+      new Middleware('can:اضافة صلاحية', only: ['store']),
+      new Middleware('can:تعديل صلاحية', only: ['update']),
+      new Middleware('can:حذف صلاحية', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     $groups = config('options.PERMISSION_GROUP');
@@ -29,7 +32,7 @@ class PermissionController extends Controller
 
   public function getPermissions()
   {
-    $permissions = Permission::get();
+    $permissions = Permission::oldest('id');
     return DataTables::of($permissions)
       ->addIndexColumn()
       ->addColumn('created_at', function ($permission) {

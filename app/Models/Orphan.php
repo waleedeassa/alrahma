@@ -233,7 +233,7 @@ class Orphan extends Model
   }
   // $orphans = Orphan::whereAgeBetween(5, 10)->get();
   // --------------------------------------------------------------------
-  //  HELPERS
+  //  HELPERS && CHECKS
   // --------------------------------------------------------------------
   private function normalizeArabic($text)
   {
@@ -241,5 +241,13 @@ class Orphan extends Model
     $search  = ['أ', 'إ', 'آ', 'ة', 'ى', 'ؤ', 'ئ'];
     $replace = ['ا', 'ا', 'ا', 'ه', 'ي', 'و', 'ي'];
     return mb_strtolower(str_replace($search, $replace, $text));
+  }
+
+  public function canBeDeleted(): true|string
+  {
+    if ($this->sponsorship_status === 1) 
+      return 'لا يمكن حذف يتيم مكفول، يجب إيقاف الكفالة أولاً';
+
+    return true;
   }
 }

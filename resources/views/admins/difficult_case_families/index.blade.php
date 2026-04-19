@@ -11,8 +11,10 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
+        @can('اضافة أسرة فى وضعية صعبة')
         <a href="{{ route('admin.difficult-case-families.create') }}" type="button" class="button black"><i class="fa fa-plus"></i>&nbsp; اضافة حالة صعبة</a>
         <a href="{{ route('admin.difficult-case-families.export') }}" class="button black x-small"><i class="fa fa-file-excel-o"></i>&nbsp; تصدير إلى اكسيل </a>
+        @endcan
         <br>
         <br>
         <div class="table-responsive">
@@ -202,34 +204,34 @@
             $('#confirmDeleteModal').modal('show');
         });
         // 4. when click on confirm delete button
-        // $('#confirm_delete_btn').click(function() {
-        //     var btn = $(this);
-        //     var url = $('#delete_target_url').val();
-        //     var id = $('#delete_target_id').val();
-        //     //print id
-        //     // disable button to prevent multiple clicks
-        //     btn.prop('disabled', true).text('جاري الحذف...');
-        //             $.ajax({
-        //                 url: url,
-        //                 type: "POST", 
-        //                 data: {
-        //                     _method: 'DELETE',
-        //                     _token: "{{ csrf_token() }}"
-        //                 },
-        //                 success: function(response) {
-        //                     $('#confirmDeleteModal').modal('hide');
-        //                     btn.prop('disabled', false).text('موافق');
-        //                     toastr.success(response.message || 'تم الحذف بنجاح');
-        //                     // remove deleted row from table with reload page
-        //                     $('#row_' + id).fadeOut(300, function() { $(this).remove(); });
-        //                 },
-        //                 error: function(xhr) {
-        //                     $('#confirmDeleteModal').modal('hide');
-        //                     btn.prop('disabled', false).text('موافق');
-        //                     toastr.error('حدث خطأ أثناء الحذف');
-        //                 }
-        //             });
-        //         });
+        $('#confirm_delete_btn').click(function() {
+            var btn = $(this);
+            var url = $('#delete_target_url').val();
+            var id = $('#delete_target_id').val();
+            //print id
+            // disable button to prevent multiple clicks
+            btn.prop('disabled', true).text('جاري الحذف...');
+                    $.ajax({
+                        url: url,
+                        type: "POST", 
+                        data: {
+                            _method: 'DELETE',
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            $('#confirmDeleteModal').modal('hide');
+                            btn.prop('disabled', false).text('موافق');
+                            toastr.success(response.message || 'تم الحذف بنجاح');
+                            // remove deleted row from table with reload page
+                            $('#row_' + id).fadeOut(300, function() { $(this).remove(); });
+                        },
+                        error: function(xhr) {
+                            $('#confirmDeleteModal').modal('hide');
+                            btn.prop('disabled', false).text('موافق');
+                            toastr.error('حدث خطأ أثناء الحذف');
+                        }
+                    });
+                });
     });
 </script>
 @endpush

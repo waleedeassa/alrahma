@@ -7,8 +7,10 @@ use App\Models\SupportProgram;
 use App\Http\Controllers\Controller;
 use App\Services\SpecialNeedsPersonSupportProgramSearchService;
 use App\Http\Requests\Admin\SearchSpecialNeedsPersonSupportProgramRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class SpecialNeedsPersonSupportProgramSearchController extends Controller
+class SpecialNeedsPersonSupportProgramSearchController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
 
@@ -17,6 +19,13 @@ class SpecialNeedsPersonSupportProgramSearchController extends Controller
   public function __construct(SpecialNeedsPersonSupportProgramSearchService $searchService)
   {
     $this->searchService = $searchService;
+  }
+
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:تقرير دعم المرضى وذوي الاحتياجات', only: ['index', 'search']),
+    ];
   }
 
   public function index()

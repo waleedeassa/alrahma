@@ -1,4 +1,5 @@
 <td>
+  @can('تعديل كفيل')
   <button data-id="{{ $sponsor->id }}" 
           data-name="{{ $sponsor->name }}" 
           data-type="{{ $sponsor->type }}" 
@@ -8,7 +9,10 @@
           data-address="{{ $sponsor->address }}"
           class="btn btn-lg rounded-pill waves-effect waves-light edit_sponsor"><i class="fa fa-pencil-square-o"></i>
   </button>
+  @endcan
+  @can('حذف كفيل')
   <button type="button" class="btn btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_sponsor_{{ $sponsor->id }}"><i class="fa fa-trash"></i></button>
+  @endcan
 </td>
 
 <div class="modal fade" id="delete_sponsor_{{ $sponsor->id }}" tabindex="-1" role="dialog" aria-hidden="true">

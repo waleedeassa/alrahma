@@ -7,17 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class RolePermissionsController extends Controller
+class RolePermissionsController extends Controller implements HasMiddleware
 {
-  // public function __construct()
-  // {
-  //   $this->middleware('permission:استعراض صلاحيات المسؤولين', ['only' => ['index']]);
-  //   $this->middleware('permission:اضافة صلاحيات مسؤول', ['only' => ['create', 'store']]);
-  //   $this->middleware('permission:تعديل صلاحيات مسؤول', ['only' => ['edit', 'update']]);
-  //   $this->middleware('permission:حذف مسؤول مع صلاحياته', ['only' => ['destroy']]);
-  // }
-
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض صلاحيات المسؤولين', only: ['index', 'getPermissions']),
+      new Middleware('can:اضافة صلاحيات مسؤول', only: ['create', 'store']),
+      new Middleware('can:تعديل صلاحيات مسؤول', only: ['edit', 'update']),
+      new Middleware('can:حذف مسؤول مع صلاحياته', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     $data['roles'] = Role::all();
@@ -64,20 +67,27 @@ class RolePermissionsController extends Controller
   public function update(Request $request, $id)
   {
     $role = Role::findOrFail($id);
+    if ($role->id === 1) {
+      return redirect()->route('admin.role-permissions.index')
+        ->with(['message' => 'لا يمكن تعديل الدور الأساسي', 'type' => 'error']);
+    }
     $permissions = $request->permission;
 
     if (!empty($permissions)) {
-      $permissionNames = Permission::whereIn('id',$permissions)->pluck('name')->toArray();
+      $permissionNames = Permission::whereIn('id', $permissions)->pluck('name')->toArray();
       $role->syncPermissions($permissionNames);
       // $role->permissions()->sync($request->input('permission'));
     }
     return redirect()->route('admin.role-permissions.index')
       ->with(['message' => 'تم تعديل صلاحيات المسؤول بنجاح', 'type' => 'success']);
   }
-
   public function destroy($id)
   {
     $role = Role::findOrFail($id);
+    if ($role->id === 1) {
+      return redirect()->route('admin.role-permissions.index')
+        ->with(['message' => 'لا يمكن حذف الدور الأساسي', 'type' => 'error']);
+    }
     if (!is_null($role)) {
       $role->delete();
     }

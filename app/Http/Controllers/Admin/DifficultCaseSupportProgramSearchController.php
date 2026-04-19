@@ -8,8 +8,10 @@ use App\Models\SupportProgram;
 use App\Http\Controllers\Controller;
 use App\Services\DifficultCasesSupportProgramSearchService;
 use App\Http\Requests\Admin\SearchDifficultCaseSupportProgramRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class DifficultCaseSupportProgramSearchController extends Controller
+class DifficultCaseSupportProgramSearchController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
 
@@ -18,12 +20,12 @@ class DifficultCaseSupportProgramSearchController extends Controller
   {
     $this->searchService = $searchService;
   }
-  // public static function middleware()
-  // {
-  //   return [
-  //     new Middleware('can:manage_orders_report', only: ['index', 'search']),
-  //   ];
-  // }
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:تقرير دعم الأسر في وضعية صعبة', only: ['index', 'search']),
+    ];
+  }
   public function index()
   {
     $supportPrograms = SupportProgram::select('id', 'name')->get();

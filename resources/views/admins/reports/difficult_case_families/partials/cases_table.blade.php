@@ -1,6 +1,5 @@
 @if(isset($cases) && $cases->count() > 0)
 <div>
-  {{-- <button class="button black x-small" id="print_Button" onclick="printDiv2()"> <i class="fa fa-print"></i> {{ __('dashboard.Print') }}</button> --}}
   <a href="{{ route('admin.difficult-case-families.search.export', $filters) }}" class="button black x-small"><i class="fa fa-file-excel-o"></i>&nbsp; {{" تصدير إلى اكسيل" }} </a>
 </div>
 <br>

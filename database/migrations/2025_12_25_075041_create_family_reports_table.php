@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('family_reports', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('family_id')->constrained('families')->cascadeOnDelete();
+      $table->foreignId('family_id')->constrained('families')->cascadeOnUpdate()->restrictOnDelete();
       $table->unsignedTinyInteger('sufficiency');
       $table->string('basic_food');
       $table->unsignedTinyInteger('time_to_doctor');
@@ -48,7 +48,7 @@ return new class extends Migration
       $table->unsignedTinyInteger('family_changes_after_sponsored');
       $table->unsignedTinyInteger('family_changes_after_sponsored_2')->nullable();
       $table->unsignedTinyInteger('family_changes_after_sponsored_3')->nullable();
-      $table->foreignId('added_by')->constrained('users')->restrictOnDelete();
+      $table->foreignId('added_by')->constrained('users')->nullOnDelete();
       $table->timestamps();
     });
   }

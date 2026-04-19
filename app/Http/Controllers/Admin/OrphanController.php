@@ -2,24 +2,39 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreOrphanRequest;
+use App\Models\Attachment;
 use App\Models\City;
-use App\Models\User;
 use App\Models\Family;
+use App\Models\Governorate;
 use App\Models\Orphan;
 use App\Models\Sponsor;
-use App\Models\Attachment;
-use App\Models\Governorate;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Traits\ResponseTrait;
 use App\Traits\UploadManagerTrait;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
-use App\Http\Requests\Admin\StoreOrphanRequest;
 
-class OrphanController extends Controller
+class OrphanController extends Controller implements HasMiddleware
 {
-  use UploadManagerTrait;
+  use UploadManagerTrait, ResponseTrait;
+
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:إدارة الأيتام', only: ['index', 'getOrphans', 'show', 'viewOrphanAttachment', 'downloadOrphanAttachment', 'deleteOrphanAttachment']),
+      new Middleware('can:اضافة يتيم', only: ['create', 'store']),
+      new Middleware('can:تعديل يتيم', only: ['edit', 'update']),
+      new Middleware('can:حذف يتيم', only: ['destroy']),
+      new Middleware('can:إيقاف يتيم', only: ['changeSponsoredOrphanToUnsponsored']),
+      new Middleware('can:إنهاء كفالة يتيم', only: ['changeOrphanStatusToEnded']),
+    ];
+  }
 
   public function index()
   {
@@ -190,7 +205,6 @@ class OrphanController extends Controller
     }
     return view('admins.orphans.edit', compact('orphan', 'governorates', 'users', 'cities', 'sponsors'));
   }
-
   public function update(StoreOrphanRequest $request, Orphan $orphan)
   {
     DB::beginTransaction();
@@ -217,15 +231,28 @@ class OrphanController extends Controller
     }
   }
 
-  function normalizeArabic($text)
+  public function destroy(Orphan $orphan)
   {
-    $text = trim($text);
-
-    $search  = ['أ', 'إ', 'آ', 'ة', 'ى', 'ؤ', 'ئ'];
-    $replace = ['ا', 'ا', 'ا', 'ه', 'ي', 'و', 'ي'];
-
-    return mb_strtolower(str_replace($search, $replace, $text));
+    $check = $orphan->canBeDeleted();
+    if ($check !== true) {
+      return $this->errorResponse($check, 422);
+    }
+    try {
+      if ($orphan->image) {
+        $this->deleteSimpleImage($orphan->image);
+      }
+      if ($orphan->attachments && $orphan->attachments->count() > 0) {
+        foreach ($orphan->attachments as $attachment) {
+          $this->deleteAttachment($attachment);
+        }
+      }
+      $orphan->delete();
+      return $this->successResponse('تم حذف اليتيم بنجاح');
+    } catch (\Exception $e) {
+      return $this->errorResponse('حدث خطأ ما', 500);
+    }
   }
+
   // --- attachments ---
   public function viewOrphanAttachment(Attachment $attachment)
   {
@@ -252,12 +279,18 @@ class OrphanController extends Controller
   }
   public function changeSponsoredOrphanToUnsponsored(Request $request, Orphan $orphan)
   {
+    if ($orphan->sponsorship_status !== 1) {
+      return response()->json([
+        'status' => false,
+        'message' => 'اليتيم غير مكفول حالياً'
+      ], 422);
+    }
     $request->validate(
       [
         'cancellation_reason' => 'required'
       ],
       [
-        'cancellation_reason.required' => 'يرجى إدخال سبب إلغاء الكفالة'
+        'cancellation_reason.required' => 'يرجى إدخال سبب ايقاف الكفالة'
       ]
     );
     $orphan->update([
@@ -273,7 +306,12 @@ class OrphanController extends Controller
   }
   public function changeOrphanStatusToEnded(Request $request, Orphan $orphan)
   {
-
+    if ($orphan->sponsorship_status !== 1) {
+      return response()->json([
+        'status' => false,
+        'message' => 'اليتيم غير مكفول حالياً'
+      ], 422);
+    }
     $orphan->update([
       'sponsor_id' => null,
       'orphan_sponsorship_code' => null,

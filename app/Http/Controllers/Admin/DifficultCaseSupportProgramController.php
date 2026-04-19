@@ -10,10 +10,19 @@ use App\Http\Controllers\Controller;
 use App\Models\DifficultCasesSubProgram;
 use App\Services\DifficultCaseSupportProgramService;
 use App\Http\Requests\Admin\DifficultCaseSupportProgramRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class DifficultCaseSupportProgramController extends Controller
+class DifficultCaseSupportProgramController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
+
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:إضافة دعم الأسر فى وضعية صعبة', only: ['create', 'getEligibleFamilies', 'store', 'getFamilyHistory', 'destroy']),
+    ];
+  }
 
   protected $service;
   public function __construct(DifficultCaseSupportProgramService $service)
@@ -44,7 +53,7 @@ class DifficultCaseSupportProgramController extends Controller
     $family = DifficultCaseFamily::with('supportPrograms')->findOrFail($family_id);
     $history = $family->supportPrograms->map(function ($program) {
       return [
-        'pivot_id' => $program->pivot->id, 
+        'pivot_id' => $program->pivot->id,
         'program_name' => $program->name,
         'date' => $program->pivot->date,
       ];

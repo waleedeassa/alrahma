@@ -12,11 +12,11 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
-        {{-- @can('اضافة مسؤول') --}}
+        @can('اضافة مسؤول')
         <button type="button" class="button black" data-bs-toggle="modal" data-bs-target="#createRoleModal">
           <i class="fa fa-plus"></i>&nbsp; اضافة مسؤول
         </button>
-        {{-- @endcan --}}
+        @endcan
         <br><br>
         <div class="table-responsive">
           <table id="roles_datatable" class="table table-striped table-bordered p-0" data-page-length="10" style="text-align: center">

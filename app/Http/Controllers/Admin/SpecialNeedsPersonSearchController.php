@@ -8,8 +8,10 @@ use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Services\SpecialNeedsPeopleSearchService;
 use App\Http\Requests\Admin\SpecialNeedsPeopleSearchRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class SpecialNeedsPersonSearchController extends Controller
+class SpecialNeedsPersonSearchController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
 
@@ -19,14 +21,12 @@ class SpecialNeedsPersonSearchController extends Controller
   {
     $this->searchService = $searchService;
   }
-
-  // public static function middleware()
-  // {
-  //     return [
-  //         new Middleware('can:manage_special_needs_report', only: ['index', 'search']),
-  //     ];
-  // }
-
+  public static function middleware()
+  {
+      return [
+          new Middleware('can:تقرير المرضى وذوي الاحتياجات', only: ['index', 'search']),
+      ];
+  }
   public function index()
   {
     $governorates = Governorate::select('id', 'name')->pluck('name', 'id')->toArray();

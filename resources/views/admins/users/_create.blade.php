@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-          اضافة مستخدم
+          إضافة مستخدم
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"></span>

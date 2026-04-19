@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
   ->withMiddleware(function (Middleware $middleware) {
 
     $middleware->prepend(SecurityHeaders::class);
-    
+
     $middleware->redirectGuestsTo(function () {
       if (request()->is('admin/*')) {
         return route('admin.login');
@@ -26,7 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
     $middleware->redirectUsersTo(function () {
       if (Auth::guard("web")->check()) {
-        return route('admin.dashboard');
+        // return route('admin.dashboard');
+        return Auth::user()->homeRoute();
       } elseif (Auth::guard("sponsor")->check()) {
         return route('sponsor.dashboard');
       }
@@ -40,5 +41,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ]);
   })
   ->withExceptions(function (Exceptions $exceptions) {
-    //
+    // $exceptions->respond(function ($response, $e, $request) {
+    //     $status = $response->getStatusCode();
+
+    //     if (in_array($status, [403, 404])) {
+    //         return response()->view("errors.{$status}", [], $status);
+    //     }
+
+    //     return $response;
+    // });
   })->create();

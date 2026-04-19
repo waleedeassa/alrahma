@@ -8,15 +8,21 @@ use App\Models\SupportProgram;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\SupportProgramRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class SupportProgramController extends Controller
+class SupportProgramController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
 
-  public function middleware()
+  public static function middleware()
   {
-    // يمكنك تفعيل الصلاحيات لاحقاً كما في الكود السابق
-    return [];
+    return [
+      new Middleware('can:استعراض برامج الدعم', only: ['index', 'data']),
+      new Middleware('can:اضافة برنامج دعم', only: ['store']),
+      new Middleware('can:تعديل برنامج دعم', only: ['update']),
+      new Middleware('can:حذف برنامج دعم', only: ['destroy']),
+    ];
   }
   public function index()
   {
@@ -46,7 +52,6 @@ class SupportProgramController extends Controller
     }
     return $this->errorResponse('حدث خطأ ما أثناء الإضافة', 500);
   }
-
   public function update(SupportProgramRequest $request, SupportProgram $support_program)
   {
     $support_program->update($request->validated());
@@ -59,10 +64,8 @@ class SupportProgramController extends Controller
   public function destroy(SupportProgram $support_program)
   {
     // check if support program is used in other tables
-    $hasDifficultCaseFamilies = $support_program->difficultCaseFamilies()->exists();
-    $hasSpecialNeedsPeople = $support_program->specialNeedsPeople()->exists();
-    if ($hasDifficultCaseFamilies || $hasSpecialNeedsPeople) {
-      return $this->errorResponse('لا يمكن حذف برنامج الدعم لانه مستخدم فى النظام', 500);
+    if ($support_program->difficultCaseFamilies()->exists() || $support_program->specialNeedsPeople()->exists()) {
+      return $this->errorResponse('لا يمكن حذف برنامج الدعم لانه مستخدم فى النظام', 422);
     }
     if (!$support_program->delete()) {
       return $this->errorResponse('حدث خطأ ما', 500);

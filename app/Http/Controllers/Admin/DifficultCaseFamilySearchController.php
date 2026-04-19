@@ -9,8 +9,10 @@ use App\Models\DifficultCaseFamily;
 use App\Http\Controllers\Controller;
 use App\Services\DifficultCaseFamiliesSearchService;
 use App\Http\Requests\Admin\DifficultCaseFamilySearchRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class DifficultCaseFamilySearchController extends Controller
+class DifficultCaseFamilySearchController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
 
@@ -19,12 +21,12 @@ class DifficultCaseFamilySearchController extends Controller
   {
     $this->searchService = $searchService;
   }
-  // public static function middleware()
-  // {
-  //   return [
-  //     new Middleware('can:manage_orders_report', only: ['index', 'search']),
-  //   ];
-  // }
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:تقرير الأسر في وضعية صعبة', only: ['index', 'search']),
+    ];
+  }
   public function index()
   {
     $governorates = Governorate::select('id', 'name')->pluck('name', 'id')->toArray();
@@ -33,7 +35,6 @@ class DifficultCaseFamilySearchController extends Controller
 
   public function search(DifficultCaseFamilySearchRequest $request)
   {
-    // dd($request->all());
     $filters = array_filter($request->validated());
     if (empty($filters)) {
       return $this->errorResponse("الرجاء إدخال معيار بحث واحد على الأقل.", 422);

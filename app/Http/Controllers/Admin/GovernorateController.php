@@ -9,19 +9,19 @@ use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\GovernorateRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class GovernorateController extends Controller
+class GovernorateController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
   public static function middleware()
   {
     return [
-      // new Middleware('can:ادارة المستخدمين', only: ['index']),
-      // new Middleware('can:add_user', only: ['create', 'store']),
-      // new Middleware('can:edit_user', only: ['edit', 'update']),
-      // new Middleware('can:delete_user', only: ['destroy']),
-      // new Middleware('can:change_user_status', only: ['changeUserStatus']),
-      // new Middleware('can:show_user', only: ['show']),
+      new Middleware('can:استعراض الأقاليم', only: ['index', 'governoratesDataTable']),
+      new Middleware('can:إضافة إقليم', only: ['create', 'store']),
+      new Middleware('can:تعديل إقليم', only: ['edit', 'update']),
+      new Middleware('can:حذف إقليم', only: ['destroy']),
     ];
   }
   public function index()
@@ -73,7 +73,6 @@ class GovernorateController extends Controller
       return $this->errorResponse('حدث خطأ ما', 500);
     }
   }
-
   public function getCities($id)
   {
     $cities = City::where('governorate_id', $id)->pluck('name', 'id');

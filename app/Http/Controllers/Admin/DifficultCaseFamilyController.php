@@ -10,9 +10,20 @@ use App\Models\DifficultCaseFamily;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\StoreDifficultCaseFamilyRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class DifficultCaseFamilyController extends Controller
+class DifficultCaseFamilyController extends Controller  implements HasMiddleware
 {
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض الأسر فى وضعية صعبة', only: ['index', 'getDifficultCaseFamilies', 'show']),
+      new Middleware('can:اضافة أسرة فى وضعية صعبة', only: ['create', 'store']),
+      new Middleware('can:تعديل أسرة فى وضعية صعبة', only: ['edit', 'update']),
+      new Middleware('can:حذف أسرة فى وضعية صعبة', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     return view('admins.difficult_case_families.index');

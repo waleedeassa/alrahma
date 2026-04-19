@@ -1,7 +1,12 @@
 <td>
-  <button data-id="{{ $role->id }}" data-name="{{ $role->name }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_role "><i class="fa fa-pencil-square-o"></i>
+  @php $isSystemRole = $role->id === 1; @endphp
+  @can('تعديل مسؤول')
+  <button data-id="{{ $role->id }}" data-name="{{ $role->name }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_role " {{ $isSystemRole ? 'disabled' : '' }}><i class="fa fa-pencil-square-o"></i>
   </button>
-  <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_role{{ $role->id }}"><i class="fa fa-trash"></i></button>
+  @endcan
+  @can('حذف مسؤول')
+  <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" {{ $isSystemRole ? 'disabled' : '' }} data-bs-toggle="modal" data-bs-target="#delete_role{{ $role->id }}"><i class="fa fa-trash"></i></button>
+  @endcan
 
 </td>
 </tr>
@@ -13,13 +18,13 @@
       <input type="hidden" name="id" value="{{ $role->id }}">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">{{ __('dashboard.Delete role') }}</h5>
+          <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel"> حذف المسؤول</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true"></span>
           </button>
         </div>
         <div class="modal-body">
-          <p>{{ __('dashboard.Are you sure you want to delete this role ?') }}</p>
+          <p> هل أنت متأكد من حذف المسؤول ؟</p>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i>&nbsp; موافق</button>

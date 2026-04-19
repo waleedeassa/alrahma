@@ -5,15 +5,13 @@
         title="سجل المساعدات">
     <i class="fa fa-shopping-cart"></i>
 </button>
-{{-- @can('معاينة تفاصيل الحالة') --}}
 <a href="{{route('admin.special-needs-people.show',$specialNeedsPerson)}}" class="btn btn-lg  rounded-pill waves-effect waves-light " title=" معاينة "><i class="fa fa-eye"></i> </a>
-{{-- @endcan --}}
-{{-- @can('تعديل حالة') --}}
+@can('تعديل حالة مرضى وذوي الإحتياجات الخاصة')
 <a href="{{route('admin.special-needs-people.edit',$specialNeedsPerson)}}" class="btn btn-lg rounded-pill waves-effect waves-light" title=" تعديل "><i class="fa fa-pencil-square-o"></i> </a>
-{{-- @endcan --}}
-{{-- @can('حذف حالة') --}}
+@endcan
+@can('حذف حالة مرضى وذوي الإحتياجات الخاصة')
 <a data-bs-toggle="modal" data-bs-target="#delete_special_needs{{$specialNeedsPerson->id}}" class="btn btn-lg rounded-pill waves-effect waves-light" title=" حذف "><i class="fa fa-trash"></i> </a>
-{{-- @endcan --}}
+@endcan
 
 </td>
 </tr>

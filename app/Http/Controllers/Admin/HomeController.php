@@ -13,9 +13,17 @@ use App\Models\Sponsor;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class HomeController extends Controller
+class HomeController extends Controller implements HasMiddleware
 {
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:لوحة التحكم', only: ['index']),
+    ];
+  }
   public function index()
   {
     $orphansTotal = Orphan::count();

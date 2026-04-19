@@ -14,11 +14,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class FamilyController extends Controller
+class FamilyController extends Controller  implements HasMiddleware
 {
+
   use ResponseTrait;
   use UploadManagerTrait;
+
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض أسر الأيتام', only: ['index', 'getFamilies', 'show', 'viewFamilyAttachment', 'downloadFamilyAttachment', 'deleteFamilyAttachment']),
+      new Middleware('can:اضافة أسرة', only: ['create', 'store']),
+      new Middleware('can:تعديل أسرة', only: ['edit', 'update']),
+      new Middleware('can:حذف أسرة', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     return view('admins.families.index');
@@ -27,8 +40,9 @@ class FamilyController extends Controller
   public function getFamilies()
   {
     $families = Family::with('governorate', 'city')
-      ->select(['id', 'governorate_id', 'city_id', 'number_of_family_members', 'mother_name', 'mother_family_name', 'mother_id_no', 'mother_birth_date', 'bank_account_number'])
-      ->latest('id');
+    ->select(['id', 'governorate_id', 'city_id', 'number_of_family_members', 'mother_name', 'mother_family_name', 'mother_id_no', 'mother_birth_date', 'bank_account_number'])
+    ->withCount('orphans')
+    ->latest('id');
 
     return DataTables::eloquent($families)
       ->addIndexColumn()
@@ -44,7 +58,8 @@ class FamilyController extends Controller
           :  $family->family_members_for_display;
       })
       ->addColumn('action', function ($family) {
-        return view('admins.families.datatables.actions', compact('family'))->render();
+        $orphansCount = $family->orphans_count;
+        return view('admins.families.datatables.actions', compact('family', 'orphansCount'))->render();
       })
       ->rawColumns(['action', 'governorate_name', 'city_name', 'number_of_family_members'])
       ->make(true);
@@ -110,10 +125,14 @@ class FamilyController extends Controller
   }
   public function destroy(Family $family)
   {
-   
     $check = $family->canBeDeleted();
     if ($check !== true) {
       return redirect()->back()->with(['message' => __($check), 'type' => 'error']);
+    }
+    if($family->attachments && $family->attachments->count() > 0) {
+      foreach ($family->attachments as $attachment) {
+        $this->deleteAttachment($attachment);
+      }
     }
     $family->delete();
     return redirect()->route('admin.families.index')

@@ -9,9 +9,20 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Admin\StoreSpecialNeedsPersonRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class SpecialNeedsPersonController extends Controller
+class SpecialNeedsPersonController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض المرضى وذوي الإحتياجات الخاصة', only: ['index', 'getSpecialNeedsPeople', 'show']),
+      new Middleware('can:اضافة حالة مرضى وذوي الإحتياجات الخاصة', only: ['create', 'store']),
+      new Middleware('can:تعديل حالة مرضى وذوي الإحتياجات الخاصة', only: ['edit', 'update']),
+      new Middleware('can:حذف حالة مرضى وذوي الإحتياجات الخاصة', only: ['destroy']),
+    ];
+  }
   public function index()
   {
     return view('admins.special_needs_people.index');

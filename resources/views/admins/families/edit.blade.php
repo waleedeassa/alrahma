@@ -104,10 +104,10 @@
               </select>
               @error('mother_alive')<span class="text-danger">{{ $message }}</span>@enderror
             </div>
-            <div class="form-group mb-3 col-md-3 mother_death_details @if((old('mother_alive', $family->mother_alive) != '0')) hidden @endif"">
+            <div class="form-group mb-3 col-md-3 mother_death_details @if((old('mother_alive', $family->mother_alive) != '1')) hidden @endif"">
               <x-inputs.text type=" date" name="mother_death_date" label="تاريخ وفاة الأم" :value="old('mother_death_date', $family->mother_death_date)" />
           </div>
-          <div class="form-group mb-3 col-md-3 mother_death_details @if((old('mother_alive', $family->mother_alive) != '0')) hidden @endif"">
+          <div class="form-group mb-3 col-md-3 mother_death_details @if((old('mother_alive', $family->mother_alive) != '1')) hidden @endif"">
               <label class=" form-label" for="mother_death_reason">سبب وفاة الأم</label>
             <select name="mother_death_reason" class="form-control">
               <option selected disabled>اختر من القائمة...</option>
@@ -457,12 +457,12 @@
 
 {{-- show or hide fields --}}
 <script>
-  // does_mother_work
-  $(document).on('change','#does_mother_work',function(e){
+  // is_mother_deceased
+  $(document).on('change','#is_mother_deceased',function(e){
  if($(this).val()=='1'  ){
-$(".mother_working_type").show();
+$(".mother_death_details").show();
  }else{
-   $(".mother_working_type").hide();
+   $(".mother_death_details").hide();
  }
    });
   // does_mother_work
@@ -563,8 +563,8 @@ $(document).on('change','#has_breadwinner',function(e){
             "father_death_reason": { required: true },
             "father_death_date": { required: true },
             "mother_alive": { required: true },
-            "mother_death_date" : { requiredIf: { field: "#is_mother_deceased", value: "0" } },
-            "mother_death_reason" : { requiredIf: { field: "#is_mother_deceased", value: "0" } },
+            "mother_death_date" : { requiredIf: { field: "#is_mother_deceased", value: "1" } },
+            "mother_death_reason" : { requiredIf: { field: "#is_mother_deceased", value: "1" } },
             "mother_name": { required: true },
             "mother_family_name": { required: true },
             "mother_name_in_french": { required: true },

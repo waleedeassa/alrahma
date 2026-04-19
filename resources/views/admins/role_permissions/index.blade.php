@@ -12,9 +12,9 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
-        {{-- @can('اضافة صلاحيات مسؤول') --}}
+        @can('اضافة صلاحيات مسؤول')
         <a href="{{ route('admin.role-permissions.create') }}" class="button black x-small">اضافة صلاحيات مسؤول </a>
-        {{-- @endcan --}}
+        @endcan
         <br><br>
         <div class="table-responsive">
           <table id="datatable" class="table table-striped table-bordered p-0" data-page-length="10" style="text-align: center">
@@ -37,12 +37,17 @@
                   @endforeach
                 </td>
                 <td>
-                  {{-- @can('تعديل صلاحيات مسؤول') --}}
-                  <a href="{{ route('admin.role-permissions.edit',$role->id) }}" class="btn btn-dark btn-sm rounded-pill waves-effect waves-light"><i class="fa fa-edit"></i></a>
-                  {{-- @endcan
-                  @can('حذف مسؤول مع صلاحياته') --}}
-                  <button type="button" class="btn btn-danger btn-sm rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_category{{ $role->id }}"><i class="fa fa-trash"></i></button>
-                  {{-- @endcan --}}
+                  @php $isSystemRole = $role->id === 1; @endphp
+                  @can('تعديل صلاحيات مسؤول')
+                  @if(!$isSystemRole)
+                  <a href="{{ route('admin.role-permissions.edit',$role->id) }}" class="btn  btn-lg rounded-pill waves-effect waves-light"  title=" تعديل "><i class="fa fa-edit"></i></a>
+                  @else
+                  <button disabled class="btn  btn-lg rounded-pill waves-effect waves-light"  title=" تعديل "><i class="fa fa-edit"></i></button>
+                  @endif
+                  @endcan
+                  @can('حذف مسؤول مع صلاحياته')
+                  <button type="button" class="btn btn-lg rounded-pill waves-effect waves-light" {{ $isSystemRole ? 'disabled' : '' }} data-bs-toggle="modal" data-bs-target="#delete_category{{ $role->id }}"><i class="fa fa-trash"></i></button>
+                  @endcan
                 </td>
               </tr>
               <div class="modal fade" id="delete_category{{$role->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -52,17 +57,17 @@
                     @method('DELETE')
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel"> حذف المستخدم مع الصلاحيات</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                          <i class="fa fa-times text-white" aria-hidden="true"></i>
-                        </button>
+                        <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel"> حذف المسؤول مع الصلاحيات</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true"></span>
+                      </button>
                       </div>
                       <div class="modal-body">
-                        <p> هل أنت متأكد من حذف المستخدم مع الصلاحيات ؟</p>
+                        <p> هل أنت متأكد من حذف المسؤول مع الصلاحيات ؟</p>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">اغلاق</button>
-                        <button type="submit" class="btn btn-success">موافق</button>
+                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i>&nbsp; موافق</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> <i class="fa fa-times"></i>&nbsp; اغلاق</button>
                       </div>
                     </div>
                   </form>

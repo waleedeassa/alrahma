@@ -10,7 +10,9 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
+        @can('إضافة إقليم')
         <button type="button" class="button black" data-bs-target="#createNewGovernorate" data-bs-toggle="modal"><i class="fa fa-plus"></i>&nbsp; اضافة اقليم</button>
+        @endcan
         <br>
         <br>
         <div class="table-responsive" id="print2">

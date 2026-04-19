@@ -1,7 +1,12 @@
 <td>
-  <button data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-family_name="{{ $user->family_name }}"  data-email="{{ $user->email }}" data-phone="{{ $user->phone }}" data-status="{{ $user->status }}" data-role_id="{{  $user->roles->first() ? $user->roles->first()->id : '' }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_user "><i class="fa fa-pencil-square-o"></i>
+  @php $isSuperAdmin = $user->isSuperAdmin(); @endphp
+  @can('تعديل مستخدم')
+  <button data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-family_name="{{ $user->family_name }}"  data-email="{{ $user->email }}" data-phone="{{ $user->phone }}" data-status="{{ $user->status }}" data-role_id="{{  optional($user->roles->first())->id  }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_user " {{ $isSuperAdmin ? 'disabled' : '' }}><i class="fa fa-pencil-square-o"></i>
   </button>
-  <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_user{{ $user->id }}"><i class="fa fa-trash"></i></button>
+  @endcan
+  @can('حذف مستخدم')
+  <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" {{ $isSuperAdmin ? 'disabled' : '' }} data-bs-toggle="modal" data-bs-target="#delete_user{{ $user->id }}"><i class="fa fa-trash" ></i></button>
+  @endcan
 
 </td>
 </tr>

@@ -8,9 +8,18 @@ use App\Models\Sponsor;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AssignSponsorshipsRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class AssignOrphansToSponsorController extends Controller
+class AssignOrphansToSponsorController extends Controller  implements HasMiddleware
 {
+
+  public static function middleware()
+  {
+    return [
+      new Middleware('can:إدارة كفالة الأيتام', only: ['index', 'store']),
+    ];
+  }
   public function index()
   {
     $sponsors = Sponsor::latest()->get();

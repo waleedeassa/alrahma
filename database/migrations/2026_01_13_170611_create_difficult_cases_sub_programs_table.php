@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('difficult_cases_sub_programs', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('support_program_id')->constrained('support_programs')->onDelete('cascade');
+      $table->foreignId('support_program_id')->constrained('support_programs')->restrictOnDelete();
       $table->foreignId('difficult_case_family_id')->constrained('difficult_case_families')->onDelete('cascade');
       $table->date('date');
       $table->timestamps();

@@ -12,13 +12,14 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
-
+        @can('اضافة حالة مرضى وذوي الإحتياجات الخاصة')
         <a href="{{ route('admin.special-needs-people.create') }}" type="button" class="button black">
           <i class="fa fa-plus"></i>&nbsp; إضافة حالة
         </a>
         <a href="{{ route('admin.special-needs-people.export') }}" class="button black x-small">
           <i class="fa fa-file-excel-o"></i>&nbsp; تصدير إلى إكسيل
         </a>
+        @endcan
         <br><br>
         <div class="table-responsive">
           <table id="yajra_table" class="table table-striped table-bordered p-0" data-page-length="10" style="text-align: center">

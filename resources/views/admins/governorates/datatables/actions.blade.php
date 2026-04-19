@@ -1,7 +1,11 @@
 <td>
+  @can('تعديل إقليم')
   <button data-id="{{ $governorate->id }}" data-name="{{ $governorate->name }}"   class="btn btn-lg rounded-pill waves-effect waves-light edit_governorate "><i class="fa fa-pencil-square-o"></i>
   </button>
+  @endcan
+  @can('حذف إقليم')
   <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_governorate{{ $governorate->id }}"><i class="fa fa-trash"></i></button>
+  @endcan
 
 </td>
 </tr>

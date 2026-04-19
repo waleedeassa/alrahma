@@ -9,10 +9,21 @@ use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CityRequest;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class CityController extends Controller
+class CityController extends Controller  implements HasMiddleware
 {
   use ResponseTrait;
+    public static function middleware()
+  {
+    return [
+      new Middleware('can:استعراض المدن', only: ['index', 'citiesDataTable']),
+      new Middleware('can:إضافة مدينة', only: ['create', 'store']),
+      new Middleware('can:تعديل مدينة', only: ['edit', 'update']),
+      new Middleware('can:حذف مدينة', only: ['destroy']),
+    ];
+  }
 
   public function index()
   {

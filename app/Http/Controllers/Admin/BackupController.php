@@ -14,9 +14,12 @@ class BackupController extends Controller implements HasMiddleware
 {
   public static function middleware()
   {
-    // return [
-    //   new Middleware('can:manage_backups', only: ['index']),
-    // ];
+    return [
+      new Middleware('can:إدارة النسخ الإحتياطية', only: ['index']),
+      new Middleware('can:تحميل نسخة إحتياطية', only: ['downloadBackup']),
+      new Middleware('can:إضافة نسخة إحتياطية', only: ['createBackup']),
+      new Middleware('can:حذف نسخة إحتياطية', only: ['destroy', 'bulkDestroy']),
+    ];
   }
   public function index()
   {
@@ -35,13 +38,13 @@ class BackupController extends Controller implements HasMiddleware
   {
     Artisan::call('backup:run --only-db --disable-notifications');
     return redirect()->route('admin.backups.index')
-      ->with(['message' => 'تم انشاء نسخة احتياطية جديدة بنجاح', 'type' => 'success']);
+      ->with(['message' => 'تم انشاء نسخة إحتياطية جديدة بنجاح', 'type' => 'success']);
   }
   public function destroy($backupName)
   {
     Storage::delete('backups/' . $backupName);
     return redirect()->route('admin.backups.index')
-      ->with(['message' => 'تم حذف النسخة الاحتياطية بنجاح', 'type' => 'success']);
+      ->with(['message' => 'تم حذف النسخة الإحتياطية بنجاح', 'type' => 'success']);
   }
   public function bulkDestroy(Request $request)
   {
@@ -50,6 +53,6 @@ class BackupController extends Controller implements HasMiddleware
       Storage::delete('backups/' . $backupName);
     }
     return redirect()->route('admin.backups.index')
-      ->with(['message' => 'تم حذف النسخ الاحتياطية المحددة بنجاح', 'type' => 'success']);
+      ->with(['message' => 'تم حذف النسخ الإحتياطية المحددة بنجاح', 'type' => 'success']);
   }
 }

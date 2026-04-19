@@ -15,9 +15,10 @@ class AdminLoginController extends Controller
     // dd($request);
     $request->authenticate();
     $request->session()->regenerate();
-    return redirect()->intended(route('admin.dashboard'))
-    ->with(['message' => 'تم تسجيل الدخول بنجاح', 'type' => 'success']);
+    // return redirect()->intended(route('admin.dashboard'))
+    //   ->with(['message' => 'تم تسجيل الدخول بنجاح', 'type' => 'success']);
+
+    return redirect()->intended(auth()->user()->homeRoute())
+      ->with(['message' => 'تم تسجيل الدخول بنجاح', 'type' => 'success']);
   }
-
 }
-

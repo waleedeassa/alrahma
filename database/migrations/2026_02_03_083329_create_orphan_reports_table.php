@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('orphan_reports', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('orphan_id')->constrained('orphans')->onDelete('cascade')->onUpdate('cascade');
+      $table->foreignId('orphan_id')->constrained('orphans')->cascadeOnUpdate()->restrictOnDelete();
       $table->string('name');
       $table->string('family_name');
       $table->unsignedTinyInteger('health_status');

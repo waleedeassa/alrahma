@@ -1,10 +1,14 @@
 <td>
+  @can('تعديل صلاحية')
   <button data-id="{{ $permission->id }}" data-name="{{ $permission->name }}" data-group_name="{{ $permission->group_name }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_permission">
     <i class="fa fa-edit"></i>
   </button>
+  @endcan
+  @can('حذف صلاحية')
   <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_permission_{{ $permission->id }}">
     <i class="fa fa-trash"></i>
   </button>
+  @endcan
 </td>
 
 <div class="modal fade" id="delete_permission_{{ $permission->id }}" tabindex="-1" aria-hidden="true">

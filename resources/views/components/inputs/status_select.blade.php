@@ -5,7 +5,7 @@
 </label>
 
 <select name="{{ $name }}" class="form-select mr-sm-2">
-    <option value="">{{__('dashboard.Select from the list')}}</option>
+    <option value="">اختر من القائمة...</option>
     <option @if (old($name, $value) == '1') selected="selected" @endif value="1">مفعل</option>
     <option @if (old($name, $value) == '0') selected="selected" @endif value="0">غير مفعل</option>
 </select>

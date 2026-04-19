@@ -10,10 +10,19 @@ use App\Models\SpecialNeedsPeopleSubProgram;
 use App\Models\SpecialNeedsPersonSubProgram;
 use App\Services\SpecialNeedsPersonSupportProgramService;
 use App\Http\Requests\Admin\SpecialNeedsPersonSupportProgramRequest;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class SpecialNeedsPersonSupportProgramController extends Controller
+class SpecialNeedsPersonSupportProgramController extends Controller implements HasMiddleware
 {
   use ResponseTrait;
+
+    public static function middleware()
+  {
+    return [
+      new Middleware('can:إضافة دعم المرضى وذوي الاحتياجات الخاصة', only: ['create', 'getEligibleFamilies']),
+    ];
+  }
   protected $service;
   public function __construct(SpecialNeedsPersonSupportProgramService $service)
   {
@@ -53,7 +62,6 @@ class SpecialNeedsPersonSupportProgramController extends Controller
   }
   public function destroy($id)
   {
-    // dd($id);
     try {
       $record = SpecialNeedsPersonSubProgram::findOrFail($id);
       $record->delete();

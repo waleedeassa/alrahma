@@ -57,9 +57,9 @@ class Governorate extends Model
   public function canBeDeleted()
   {
     if ($this->cities()->exists()) return 'لايمكن حذف الاقليم لوجود مدن تابع له';
-    if ($this->families()->exists()) return 'لايمكن حذف الاقليم لوجود عائلات تابع له';
+    if ($this->families()->exists()) return 'لايمكن حذف الاقليم لوجود أسر تابع له';
     if ($this->orphans()->exists()) return 'لايمكن حذف الاقليم لوجود ايتام تابع له';
-    if ($this->difficultCaseFamilies()->exists()) return 'لايمكن حذف الاقليم لوجود عائلات حالات صعبة تابع له';
+    if ($this->difficultCaseFamilies()->exists()) return 'لايمكن حذف الاقليم لوجود أسر حالات صعبة تابع له';
     if ($this->specialNeedsPeople()->exists()) return 'لايمكن حذف الاقليم لوجود اشخاص ذوي احتياجات خاصة تابع له';
     return true;
   }

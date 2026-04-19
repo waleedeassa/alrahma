@@ -11,9 +11,11 @@
   <div class="col-xl-12 mb-30">
     <div class="card card-statistics h-100">
       <div class="card-body">
+        @can('اضافة برنامج دعم')
         <button type="button" class="button black" data-bs-target="#createNewSupportProgram" data-bs-toggle="modal">
           <i class="fa fa-plus"></i>&nbsp; إضافة برنامج دعم
         </button>
+        @endcan
         <br><br>
         <div class="table-responsive">
           <table id="programs_table" class="table table-striped table-bordered p-0" style="text-align: center">

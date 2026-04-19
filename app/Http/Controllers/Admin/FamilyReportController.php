@@ -11,18 +11,6 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class FamilyReportController extends Controller
 {
-  //   public function __construct()
-  //   {
-  //     $this->middleware('permission:إضافة تقرير اليتيم', ['only' => ['create', 'store']]);
-  //     $this->middleware('permission:تعديل تقرير اليتيم', ['only' => ['edit', 'update']]);
-  //     $this->middleware('permission:حذف تقرير اليتيم', ['only' => ['destroy']]);
-  //     $this->middleware('permission:معاينة تقرير اليتيم', ['only' => ['show']]);
-  //     $this->middleware('permission:الإطلاع على مرفقات تقرير اليتيم', ['only' => ['showOrphanReportAttachments']]);
-  //     $this->middleware('permission:معاينة مرفقات تقرير اليتيم', ['only' => ['viewOrphanReportAttachment']]);
-  //     $this->middleware('permission:تحميل مرفقات تقرير اليتيم', ['only' => ['downloadwOrphanReportAttachment']]);
-  //     $this->middleware('permission:حذف مرفقات تقرير اليتيم', ['only' => ['deleteOrphanReportAttachment']]);
-  //   }
-
   public function create(Family $family)
   {
     return view('admins.annual_family_reports.create', compact('family'));
