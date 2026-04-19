@@ -15,7 +15,7 @@ trait HasHomeRoute
     {
         $roleId = (int) $this->roles->first()?->id;
         $routeName = self::HOME_ROUTES[$roleId] ?? null;
-        return route($routeName ?? 'login');
+        return route($routeName ?? 'admin.login');
     }
 
     public static function isCoreRole(int $roleId): bool
