@@ -148,8 +148,8 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:AB1');
-    $sheet->getStyle('A1:AB1')->applyFromArray([
+    $sheet->setAutoFilter('A1:AD1');
+    $sheet->getStyle('A1:AD1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],
