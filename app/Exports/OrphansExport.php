@@ -31,6 +31,7 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
         'city:id,name',
         'sponsor:id,name',
         'supervisor:id,name',
+        'family:id,mother_name,mother_family_name,phone1',
       ])
       // sponsorship status filter
       ->when(isset($this->filters['sponsorship_status']) && $this->filters['sponsorship_status'] !== '', function ($q) {
@@ -81,6 +82,8 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       'الاسم الشخصي (فرنسي)',
       'اسم العائلة (عربي)',
       'اسم العائلة (فرنسي)',
+      'اسم الأم',
+      'رقم الهاتف',
       'تاريخ الازدياد',
       'العمر',
       'الجنس',
@@ -116,6 +119,8 @@ class OrphansExport implements FromQuery, WithChunkReading, WithHeadings, WithMa
       $orphan->name_fr,
       $orphan->family_name_ar,
       $orphan->family_name_fr,
+      $orphan->family->mother_name . ' ' . $orphan->family->mother_family_name,
+      $orphan->phone,
       $orphan->birth_date,
       $orphan->age_label,
       $orphan->gender_label,
