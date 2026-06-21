@@ -148,7 +148,7 @@
 <body>
     <div class="page-wrapper">
         <div class="logo-wrap">
-            <img src="{{ asset('dashboard/assets/images/logo/logo-removebg-preview.png') }}" alt="شعار مؤسسة الرحمة">
+            <img src="{{ asset('dashboard/assets/images/logo/logo2.png') }}" alt="شعار مؤسسة الرحمة">
         </div>
         <div class="card-panel">
             <h2>اختر نوع الدخول</h2>
