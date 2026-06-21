@@ -87,7 +87,6 @@
       font-weight: 700;
     }
 
-    /* تأثيرات */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -104,16 +103,16 @@
 <body>
   <div class="container">
     @php
-    $prev     = url()->previous('');
-    $current  = url()->current();
-    $isSameOrEmpty = empty($prev) || $prev === $current || ! str_starts_with($prev, url('/'));
-    $fallback = auth()->check() ? auth()->user()->homeRoute() : route('admin.login');
-    $backUrl  = $isSameOrEmpty ? $fallback : $prev;
+      $isSponsor = request()->is('sponsor*');
+      $fallback  = $isSponsor ? route('sponsor.login') : route('admin.login');
+      $previous  = url()->previous('');
+      $backUrl   = ($previous && $previous !== url()->current()) ? $previous : $fallback;
     @endphp
+
     <h1>403</h1>
     <h2>عذراً، ليس لديك الصلاحية للوصول إلى هذه الصفحة.</h2>
     <p>يرجى الاتصال بالمسؤول إذا كنت تعتقد أن هذا خطأ.</p>
-    <a href="{{ $backUrl }}" class="home-link">العودة إلى الصفحة السابقة</a>
+    <a href="{{ $backUrl }}" class="home-link">العودة</a>
   </div>
 </body>
 

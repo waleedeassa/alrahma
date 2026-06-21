@@ -29,6 +29,7 @@ return new class extends Migration
       $table->foreignId('city_id')->constrained('cities')->cascadeOnUpdate()->restrictOnDelete();
       $table->text('address');
       $table->string('phone');
+      $table->unsignedTinyInteger('service_type');
       $table->foreignId('added_by')->constrained('users')->restrictOnDelete();
       $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
       $table->timestamps();

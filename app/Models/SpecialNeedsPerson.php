@@ -30,6 +30,7 @@ class SpecialNeedsPerson extends Model
     'city_id',
     'address',
     'phone',
+    'service_type',
     'added_by',
     'updated_by',
   ];
@@ -57,15 +58,7 @@ class SpecialNeedsPerson extends Model
   {
     return $this->belongsTo(User::class, 'updated_by');
   }
-  public function supportPrograms()
-  {
-    return $this->belongsToMany(
-      SupportProgram::class,
-      'special_needs_sub_programs',
-      'special_needs_person_id',
-      'support_program_id'
-    )->withPivot(['id', 'date'])->withTimestamps();
-  }
+
   // --------------------------------------------------------------------
   //   ACCESSORS 
   // --------------------------------------------------------------------
@@ -92,6 +85,11 @@ class SpecialNeedsPerson extends Model
   public function getEducationLevelLabelAttribute(): string
   {
     return $this->getOptionLabel('education_level', 'education_level');
+  }
+
+  public function getServiceTypeLabelAttribute(): string
+  {
+    return $this->getOptionLabel('service_type', 'service_type');
   }
   public function getFamilyMembersCountForDisplayAttribute()
   {
@@ -125,6 +123,9 @@ class SpecialNeedsPerson extends Model
       })
       ->when(isset($filters['family_members_count']), function ($query) use ($filters) {
         return $query->where('family_members_count', $filters['family_members_count']);
+      })
+      ->when(isset($filters['service_type']), function ($query) use ($filters) {
+        return $query->where('service_type', $filters['service_type']);
       });
 
     return $query;
@@ -132,11 +133,5 @@ class SpecialNeedsPerson extends Model
   // --------------------------------------------------------------------
   // CHECKS
   // --------------------------------------------------------------------
-  public function canBeDeleted()
-  {
-    if ($this->supportPrograms()->exists()) {
-      return 'لا يمكن حذف الحالة لوجود برامج دعم مرتبطة بها';
-    }
-    return true;
-  }
+  public function canBeDeleted() {}
 }

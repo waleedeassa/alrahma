@@ -1,10 +1,3 @@
-<button type="button" 
-        class="btn btn-lg rounded-pill waves-effect waves-light show-history-btn" 
-        data-id="{{ $difficultCaseFamily->id }}" 
-        data-name="{{ $difficultCaseFamily->first_name_ar . ' ' . $difficultCaseFamily->last_name_ar }}"
-        title="سجل المساعدات">
-    <i class="fa fa-shopping-cart"></i>
-</button>
 <a href="{{route('admin.difficult-case-families.show',$difficultCaseFamily)}}" class="btn btn-lg  rounded-pill waves-effect waves-light " title=" معاينة "><i class="fa fa-eye"></i> </a>
 @can('تعديل أسرة فى وضعية صعبة')
 <a href="{{route('admin.difficult-case-families.edit',$difficultCaseFamily)}}" class="btn btn-lg rounded-pill waves-effect waves-light" title=" تعديل "><i class="fa fa-pencil-square-o"></i> </a>

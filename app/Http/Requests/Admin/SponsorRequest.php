@@ -16,7 +16,6 @@ class SponsorRequest extends FormRequest
     $sponsorId = $this->route('sponsor') ? $this->route('sponsor')->id : null;
     $rules = [
       'name' => 'required|string|max:255',
-      'type' => ['required', Rule::in(array_keys(config('options.sponsor_type')))],
       'email' => ['required', 'email:filter', 'max:255', Rule::unique('sponsors', 'email')->ignore( $sponsorId)],
       'phone' => ['required', 'string', 'max:20', Rule::unique('sponsors', 'phone')->ignore($sponsorId)],
       'status' => 'sometimes|boolean',
@@ -44,8 +43,6 @@ class SponsorRequest extends FormRequest
       'phone.string' => 'الهاتف يجب ان يكون نص',
       'phone.unique' => 'الهاتف موجود مسبقا',
       'phone.max' => 'الهاتف يجب ان يكون اقل من 20 رقم',
-      'type.required' => 'نوع الكفيل مطلوب',
-      'type.in' => 'نوع الكفيل غير صحيح',
       'address.max' => 'العنوان يجب ان يكون اقل من 255 حرف',
     ];
   }

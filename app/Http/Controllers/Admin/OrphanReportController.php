@@ -2,26 +2,45 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\OrphanReportRequest;
+use App\Models\Attachment;
 use App\Models\Orphan;
 use App\Models\OrphanReport;
-use Illuminate\Http\Request;
+use App\Traits\UploadManagerTrait;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Admin\OrphanReportRequest;
+use Illuminate\Support\Facades\Storage;
 
 class OrphanReportController extends Controller
 {
+  use UploadManagerTrait;
   public function create(Orphan $orphan)
   {
     return view('admins.orphan_reports.create', compact('orphan'));
   }
   public function store(OrphanReportRequest $request)
   {
-    $data = $request->validated();
-    $data['added_by'] = auth()->id();
-    OrphanReport::create($data);
-    return redirect()->back()->with(['message' => 'تم اضافة تقرير اليتيم بنجاح', 'type' => 'success']);
+    DB::beginTransaction();
+    try {
+      $data             = $request->safe()->except(['attachments']);
+      $data['added_by'] = auth()->id();
+
+      $orphanReport = OrphanReport::create($data);
+
+      if ($request->hasFile('attachments')) {
+        $directory = 'orphan_reports/attachments/' . $orphanReport->id;
+        $this->uploadAttachments($orphanReport, $request->file('attachments'), $directory);
+      }
+
+      DB::commit();
+      return redirect()->back()
+        ->with(['message' => 'تم إضافة تقرير اليتيم بنجاح', 'type' => 'success']);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()
+        ->withErrors(['error' => $e->getMessage()])
+        ->withInput();
+    }
   }
   public function show(OrphanReport $orphanReport)
   {
@@ -29,19 +48,70 @@ class OrphanReportController extends Controller
   }
   public function edit(OrphanReport $orphanReport)
   {
+    $orphanReport->load('attachments');
     return view('admins.orphan_reports.edit', compact('orphanReport'));
   }
   public function update(OrphanReportRequest $request, OrphanReport $orphanReport)
   {
-    $data = $request->validated();
-    $data['edited_by'] = auth()->id();
-    $orphanReport->update($data);
-    return redirect()->back()->with(['message' => 'تم تعديل تقرير اليتيم بنجاح', 'type' => 'success']);
+    DB::beginTransaction();
+    try {
+      $data              = $request->safe()->except(['attachments']);
+      $data['edited_by'] = auth()->id();
+
+      $orphanReport->update($data);
+
+      if ($request->hasFile('attachments')) {
+        $directory = 'orphan_reports/attachments/' . $orphanReport->id;
+        $this->uploadAttachments($orphanReport, $request->file('attachments'), $directory);
+      }
+
+      DB::commit();
+
+      return redirect()->back()
+        ->with(['message' => 'تم تعديل تقرير اليتيم بنجاح', 'type' => 'success']);
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()
+        ->withErrors(['error' => $e->getMessage()])
+        ->withInput();
+    }
   }
   public function destroy(OrphanReport $orphanReport)
   {
+    $this->deleteAllAttachments($orphanReport);
     $orphanReport->delete();
     return redirect()->back()
-      ->with(['message' => 'تم  حذف تقرير اليتيم بنجاح', 'type' => 'success']);
+      ->with(['message' => 'تم حذف تقرير اليتيم بنجاح', 'type' => 'success']);
+  }
+
+  // ────────────────────────────────────────────
+  //  Attachment methods
+  // ────────────────────────────────────────────
+
+  public function viewOrphanReportAttachment(Attachment $attachment)
+  {
+    $disk = Storage::disk('uploads');
+    abort_unless($disk->exists($attachment->full_path), 404);
+
+    return response()->file(
+      $disk->path($attachment->full_path),
+      ['Content-Type' => $disk->mimeType($attachment->full_path)]
+    );
+  }
+
+  public function downloadOrphanReportAttachment(Attachment $attachment)
+  {
+    $disk = Storage::disk('uploads');
+    abort_unless($disk->exists($attachment->full_path), 404);
+
+    return $disk->download($attachment->full_path, $attachment->original_name);
+  }
+
+  public function deleteOrphanReportAttachment(Attachment $attachment)
+  {
+    $this->deleteAttachment($attachment);
+
+    return redirect()->back()
+      ->with(['message' => 'تم حذف المرفق بنجاح', 'type' => 'success']);
   }
 }

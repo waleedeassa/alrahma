@@ -23,7 +23,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>الاسم</th>
-                                <th>النوع</th>
                                 <th>البريد الإلكتروني</th>
                                 <th>الهاتف</th>
                                 <th>الحالة</th>
@@ -55,7 +54,6 @@ $('#sponsors_datatable').DataTable({
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
         {data: 'name', name: 'name'},
-        {data: 'type', name: 'type'},
         {data: 'email', name: 'email'},
         {data: 'phone', name: 'phone'},
         {data: 'status', name: 'status'},
@@ -64,7 +62,7 @@ $('#sponsors_datatable').DataTable({
         {data: 'created_at', name: 'created_at', render: function(data) { return new Date(data).toISOString().split('T')[0]; }},
         {data: 'action', name: 'action', orderable: false, searchable: false},
     ],
-    order: [[7, 'desc']]
+    order: [[6, 'desc']]
 });
 
 // Create Sponsor Modal
@@ -118,7 +116,6 @@ $(document).on("click", ".edit_sponsor", function(e) {
     var id = $(this).data('id');
     $("#edit_id").val(id);
     $("#edit_name").val($(this).data('name'));
-    $("#edit_type").val($(this).data('type'));
     $("#edit_email").val($(this).data('email'));
     $("#edit_phone").val($(this).data('phone'));
     $("#edit_status").val($(this).data('status'));

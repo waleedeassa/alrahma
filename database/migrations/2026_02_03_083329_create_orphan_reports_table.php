@@ -37,6 +37,7 @@ return new class extends Migration
       $table->string('second_term_average', 10)->nullable();
       $table->unsignedTinyInteger('end_year_decision')->nullable();
       $table->unsignedTinyInteger('educational_level_changes')->nullable();
+      $table->string('orphan_message')->nullable();
       $table->string('supervisor_notes')->nullable();
       $table->foreignId('added_by')->nullable()->constrained('users')->nullOnDelete();
       $table->foreignId('edited_by')->nullable()->constrained('users')->nullOnDelete();

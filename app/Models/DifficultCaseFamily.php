@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\City;
 use App\Models\User;
 use App\Models\Governorate;
-use App\Models\SupportProgram;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,12 +31,27 @@ class DifficultCaseFamily extends Model
     'city_id',
     'address',
     'phone',
+    'previously_benefited',
+    'required_service',
+    'housing_area',
+    'beneficiary_activity',
+    'aggressor_gender',
+    'aggressor_relationship',
+    'aggressor_education_level',
+    'aggressor_family_status',
+    'aggressor_kinship',
+    'violence_type',
+    'violence_place',
+    'violence_time',
+    'violence_frequency',
+    'external_interventions',
     'added_by',
     'updated_by',
   ];
 
   protected $casts = [
     'national_id_no' => 'encrypted',
+    'previously_benefited' => 'boolean',
   ];
 
   // --------------------------------------------------------------------
@@ -60,15 +74,6 @@ class DifficultCaseFamily extends Model
     return $this->belongsTo(User::class, 'updated_by');
   }
 
-  public function supportPrograms()
-  {
-    return $this->belongsToMany(
-      SupportProgram::class,
-      'difficult_cases_sub_programs',
-      'difficult_case_family_id',
-      'support_program_id'
-    )->withPivot(['id', 'date'])->withTimestamps();
-  }
   // --------------------------------------------------------------------
   //  ACCESSORS
   // --------------------------------------------------------------------
@@ -77,7 +82,7 @@ class DifficultCaseFamily extends Model
     $key = $this->attributes[$attributeName] ?? null;
 
     if (is_null($key)) {
-      return 'غير متوفر';
+      return ' ';
     }
 
     return config("options.{$optionType}.{$key}", 'قيمة غير معروفة');
@@ -103,6 +108,74 @@ class DifficultCaseFamily extends Model
     return $this->family_members_count > 10
       ? config('options.number_of_family_members.11')
       : $this->family_members_count;
+  }
+  public function getPreviouslyBenefitedLabelAttribute(): string
+  {
+    return $this->getOptionLabel('previously_benefited', 'previously_benefited');
+  }
+
+  public function getRequiredServiceLabelAttribute(): string
+  {
+    return $this->getOptionLabel('required_service', 'required_service');
+  }
+
+  public function getHousingAreaLabelAttribute(): string
+  {
+    return $this->getOptionLabel('housing_area', 'housing_area');
+  }
+
+  public function getBeneficiaryActivityLabelAttribute(): string
+  {
+    return $this->getOptionLabel('beneficiary_activity', 'beneficiary_activity');
+  }
+  public function getAggressorGenderLabelAttribute(): string
+  {
+    return $this->getOptionLabel('gender', 'aggressor_gender');
+  }
+
+  public function getAggressorRelationshipLabelAttribute(): string
+  {
+    return $this->getOptionLabel('aggressor_relationship', 'aggressor_relationship');
+  }
+
+  public function getAggressorEducationLevelLabelAttribute(): string
+  {
+    return $this->getOptionLabel('education_level', 'aggressor_education_level');
+  }
+
+  public function getAggressorFamilyStatusLabelAttribute(): string
+  {
+    return $this->getOptionLabel('social_status', 'aggressor_family_status');
+  }
+
+  public function getAggressorKinshipLabelAttribute(): string
+  {
+    return $this->getOptionLabel('aggressor_kinship', 'aggressor_kinship');
+  }
+
+  public function getViolenceTypeLabelAttribute(): string
+  {
+    return $this->getOptionLabel('violence_type', 'violence_type');
+  }
+
+  public function getViolencePlaceLabelAttribute(): string
+  {
+    return $this->getOptionLabel('violence_place', 'violence_place');
+  }
+
+  public function getViolenceTimeLabelAttribute(): string
+  {
+    return $this->getOptionLabel('violence_time', 'violence_time');
+  }
+
+  public function getViolenceFrequencyLabelAttribute(): string
+  {
+    return $this->getOptionLabel('violence_frequency', 'violence_frequency');
+  }
+
+  public function getExternalInterventionsLabelAttribute(): string
+  {
+    return $this->getOptionLabel('external_interventions', 'external_interventions');
   }
   // --------------------------------------------------------------------
   // SCOPES
@@ -138,9 +211,5 @@ class DifficultCaseFamily extends Model
   // --------------------------------------------------------------------
   public function canBeDeleted()
   {
-    if ($this->supportPrograms()->exists()) {
-      return 'لا يمكن حذف الحالة لوجود برامج دعم مرتبطة بها';
-    }
-    return true;
   }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\SpecialNeedsPerson;
-use App\Models\DifficultCaseFamily;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\SupportProgramEntry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class SupportProgram extends Model
 {
@@ -14,23 +13,8 @@ class SupportProgram extends Model
   protected $table = 'support_programs';
   protected $fillable = ['name'];
 
-  public function difficultCaseFamilies()
+  public function entries()
   {
-    return $this->belongsToMany(
-      DifficultCaseFamily::class,
-      'difficult_cases_sub_programs',
-      'support_program_id',
-      'difficult_case_family_id'
-    )->withPivot(['date'])->withTimestamps();
-  }
-
-  public function specialNeedsPeople()
-  {
-    return $this->belongsToMany(
-      SpecialNeedsPerson::class,
-      'special_needs_sub_programs',
-      'support_program_id',
-      'special_needs_person_id'
-    )->withPivot(['date'])->withTimestamps();
+    return $this->hasMany(SupportProgramEntry::class, 'support_program_id');
   }
 }

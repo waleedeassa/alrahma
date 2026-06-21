@@ -10,6 +10,6 @@ class ExportSpecialNeedsPeopleToExcelController extends Controller
 {
     public function exportSpecialNeedsPeople()
     {
-        return Excel::download(new SpecialNeedsPeopleExport, 'ذوي الاحتياجات الخاصة.xlsx');
+        return Excel::download(new SpecialNeedsPeopleExport, 'المرضى وذوي الاحتياجات الخاصة.xlsx');
     }
 }

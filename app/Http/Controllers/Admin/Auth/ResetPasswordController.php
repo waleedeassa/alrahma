@@ -18,7 +18,7 @@ class ResetPasswordController extends Controller
   public function showResetPasswordForm(Request $request, $token = null)
   {
     $email = $request->email;
-    $token =  $request->token;
+    $token =  $request->query('token');
 
     if ($this->checkToken($email, $token)) {
       return view('admins.auth.reset-password')->with(['email' => $email, 'token' => $token]);
@@ -27,7 +27,7 @@ class ResetPasswordController extends Controller
         ->with(['message' =>  'رابط إعادة تعيين كلمة المرور غير صحيح', 'type' => 'error']);
     }
   }
-  public function checkToken($email, $token)
+  public function checkToken($email, $token) : bool
   {
     $check = DB::table('password_reset_tokens')
       ->where('email', $email)
@@ -41,7 +41,7 @@ class ResetPasswordController extends Controller
     if (Carbon::parse($check->created_at)->addMinutes(config('auth.passwords.users.expire'))->isPast()) {
       return false;
     }
-    return $check;
+    return true;
   }
   public function resetPassword(ResetPasswordRequest $request)
   {

@@ -15,19 +15,18 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 class DifficultCaseFamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithMapping, WithEvents, WithStyles
 {
   private $rowNumber = 0;
+
   public function query()
   {
     return DifficultCaseFamily::query()
-      ->with([
-        'governorate:id,name',
-        'city:id,name',
-      ])
-      ->latest('id');
+      ->with(['governorate:id,name', 'city:id,name',])->latest('id');
   }
+
   public function chunkSize(): int
   {
     return 1000;
   }
+
   public function headings(): array
   {
     return [
@@ -49,8 +48,23 @@ class DifficultCaseFamiliesExport implements FromQuery, WithChunkReading, WithHe
       'المدينة / الجماعة',
       'العنوان الكامل',
       'رقم الهاتف',
+      'هل استفادت سابقاً؟',
+      'نوع الخدمة المطلوبة',
+      'منطقة السكن',
+      'النشاط المهني',
+      'جنس المتعدي',
+      'علاقة المتعدي بالضحية',
+      'المستوى الدراسي للمتعدي',
+      'الحالة العائلية للمتعدي',
+      'صلة القرابة',
+      'نوع العنف',
+      'مكان العنف',
+      'توقيت العنف',
+      'وتيرة العنف',
+      'التدخلات المنجزة خارج المؤسسة',
     ];
   }
+
   public function map($case): array
   {
     $this->rowNumber++;
@@ -73,14 +87,29 @@ class DifficultCaseFamiliesExport implements FromQuery, WithChunkReading, WithHe
       $case->city->name ?? '',
       $case->address,
       $case->phone,
+      $case->previously_benefited_label ?? '',
+      $case->required_service_label ?? '',
+      $case->housing_area_label ?? '',
+      $case->beneficiary_activity_label ?? '',
+      $case->aggressor_gender_label ?? '',
+      $case->aggressor_relationship_label ?? '',
+      $case->aggressor_education_level_label ?? '',
+      $case->aggressor_family_status_label ?? '',
+      $case->aggressor_kinship_label ?? '',
+      $case->violence_type_label ?? '',
+      $case->violence_place_label ?? '',
+      $case->violence_time_label ?? '',
+      $case->violence_frequency_label ?? '',
+      $case->external_interventions_label ?? '',
     ];
   }
+
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:R1');
+    $sheet->setAutoFilter('A1:AF1');
     $sheet->setRightToLeft(true);
-    $sheet->getStyle('A1:R1')->applyFromArray([
+    $sheet->getStyle('A1:AF1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],
@@ -95,6 +124,7 @@ class DifficultCaseFamiliesExport implements FromQuery, WithChunkReading, WithHe
       ],
     ]);
   }
+
   public function registerEvents(): array
   {
     return [

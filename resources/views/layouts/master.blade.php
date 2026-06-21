@@ -76,7 +76,6 @@
   <!--=================================
   jquery -->
   @include('layouts.footer-scripts')
-
   @stack('js')
 
 </body>

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
       GovernoratesAndCitiesSeeder::class,
     ]);
 
-    $this->call(SponsorsTableSeeder::class);
+    // $this->call(SponsorsTableSeeder::class);
 
     // DifficultCaseFamily::factory()->count(3500)->create();
   }

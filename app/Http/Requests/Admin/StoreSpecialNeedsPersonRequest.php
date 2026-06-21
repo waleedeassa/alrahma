@@ -33,6 +33,7 @@ class StoreSpecialNeedsPersonRequest extends FormRequest
       'city_id' => ['required', 'exists:cities,id'],
       'address' => ['required', 'string', 'max:500'],
       'phone' => ['required', 'string', 'max:20'],
+      'service_type' => ['required', Rule::in(array_keys(config('options.service_type')))],
     ];
   }
 
@@ -72,6 +73,7 @@ class StoreSpecialNeedsPersonRequest extends FormRequest
       'city_id' => 'المدينة / الجماعة',
       'address' => 'العنوان الكامل',
       'phone' => 'رقم الهاتف',
+      'service_type' => 'نوع الخدمة',
     ];
   }
 }

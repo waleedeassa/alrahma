@@ -97,6 +97,7 @@ class DifficultCaseFamilyController extends Controller  implements HasMiddleware
   }
   public function edit(DifficultCaseFamily $difficultCaseFamily)
   {
+    // dd(session()->all());
     $governorates = Governorate::oldest('id')->pluck('name', 'id')->toArray();
     $cities = City::oldest('id')->select('name', 'id')->get();
     return view('admins.difficult_case_families.edit', compact('difficultCaseFamily', 'governorates', 'cities'));

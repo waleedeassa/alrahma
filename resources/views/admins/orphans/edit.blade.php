@@ -83,7 +83,7 @@
             </div>
             <div class="form-group mb-3 col-md-3">
               <label class="form-label" for="exampleFormControlSelect1">التخصص</label>
-              <select name="specialization">
+              <select name="specialization" class="form-control select2">
                 <option selected disabled>{{ 'اختر من القائمة' }}...</option>
                 @foreach(config('options.specialization') as $key => $label)
                 <option value="{{ $key }}" @if (old('specialization', $orphan->specialization) == $key ? 'selected' : '' ) selected @endif>{{ $label }}</option>
@@ -131,7 +131,7 @@
             </div>
             <div class="form-group mb-3 col-md-3">
               <label class="form-label">المستوى الدراسي</label>
-              <select name="academic_level" class="form-control">
+              <select name="academic_level" class="form-control select2">
                 <option disabled>اختر من القائمة...</option>
                 @foreach(config('options.academic_level') as $key => $label)
                 <option value="{{ $key }}" {{ old('academic_level', $orphan->academic_level) == $key ? 'selected' : '' }}>{{ $label }}</option>
@@ -264,6 +264,12 @@
 @endsection
 
 @push('js')
+<script>
+  //Initialize Select2 Elements
+  $('.select2').select2({
+    theme: 'bootstrap4'
+  });
+</script>
 {{-- preview uploaded image --}}
 <script type="text/javascript">
   $(document).ready(function(){

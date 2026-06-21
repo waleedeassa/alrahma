@@ -1,70 +1,22 @@
 @extends('layouts.auth.login')
-@section('title', "تسجيل دخول الادمن")
-@section('form_title',"تسجيل دخول الادمن")
-@section('form')
+@section('title', 'تسجيل دخول الإدارة')
+@section('form_title', 'تسجيل دخول الإدارة')
 
-<form method="POST" action="{{ route('admin.check') }}" id="myForm" class="modal_style"  autocomplete="off">
-  @csrf
-  <div class="section-field mb-20  form-group">
-    <label class="mb-10" for="name"> البريد الالكترونى</label>
-    <input  type="email" name="email" class="web form-control" type="text" >
-    @error('email')
-    <span class="text-danger">{{ $message }}</span>
-    @enderror
-  </div>
-  <div class="section-field mb-20 form-group">
-    <label class="mb-10" for="Password"> كلمة المرور </label>
-    <input  class="Password form-control" type="password"  name="password">
-    @error('password')
-    <span class="text-danger">{{ $message }}</span>
-    @enderror
-  </div>
-
-  <button class="button btn-orange" style="background: #ED982A;border-color:#ED982A;color:#000;margin:auto;font-weight:bold;display:block;width:200px;margin-top:40px;font-size:18px"><span> <i class="fa fa-check"></i> تسجيل الدخول</span></button>
-  {{-- <a href="{{ route('home') }}" class="button btn-orange" style="background: #ED982A;border-color:#ED982A;color:#000;margin:auto;font-weight:bold;display:block;width:200px;margin-top:40px;font-size:18px"><span><i class="fa fa-arrow-left"></i> رجوع </span></a> --}}
-  <p style="color: #000; text-align: center; margin-bottom: 10px; margin-top: 15px; font-size: 15px">
-    <a href="{{ route('admin.forget.password.form') }}">هل نسيت كلمة المرور ؟</a>
-  </p>
-  
-  <br>
-</form>
+@section('header_icon')
+    <div class="icon-wrap">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="24" cy="13" r="6.5" stroke="#296060" stroke-width="2.4" />
+            <path d="M10 38c0-7.18 6.268-13 14-13s14 5.82 14 13" stroke="#296060" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M24 22l-6 2.5v5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5v-5L24 22z" fill="#eef5f5" stroke="#c4ac7c" stroke-width="1.8" stroke-linejoin="round" />
+            <path d="M21 30l2.5 2.5 4-4" stroke="#296060" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
 @endsection
 
-@push('js')
-<script type="text/javascript">
-  $(document).ready(function (){
-      $('#myForm').validate({
-          rules: {
-              email: {
-                  required : true,
-                  email : true,
-              }, 
-              password: {
-                  required : true,
-              }, 
-          },
-          messages :{
-              email: {
-                  required : "البريد الالكترونى مطلوب",
-                  email : "البريد الالكترونى غير صحيح",
-              },
-              password: {
-                  required : "كلمة المرور مطلوبة",
-              },
-          },
-          errorElement : 'span', 
-          errorPlacement: function (error,element) {
-              error.addClass('invalid-feedback');
-              element.closest('.form-group').append(error);
-          },
-          highlight : function(element, errorClass, validClass){
-              $(element).addClass('is-invalid');
-          },
-          unhighlight : function(element, errorClass, validClass){
-              $(element).removeClass('is-invalid');
-          },
-      });
-  });
-  </script>
-
-@endpush
+@section('form')
+    @include('layouts.auth.auth-form', [
+        'formAction' => 'admin.check',
+        'backRoute' => 'home',
+        'forgotRoute' => 'admin.forget.password.form',
+    ])
+@endsection

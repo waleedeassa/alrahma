@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Attachment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +38,7 @@ class OrphanReport extends Model
     'educational_level_changes',
     'added_by',
     'edited_by',
+    'orphan_message',
     'supervisor_notes',
   ];
 
@@ -63,6 +65,10 @@ class OrphanReport extends Model
   // --------------------------------------------------------------------
   // relations
   // --------------------------------------------------------------------
+    public function attachments()
+  {
+    return $this->morphMany(Attachment::class, 'attachmentable');
+  }
   public function orphan()
   {
     return $this->belongsTo(Orphan::class, 'orphan_id', 'id');

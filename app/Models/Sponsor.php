@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\Orphan;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sponsor extends Authenticatable
 {
@@ -15,7 +16,6 @@ class Sponsor extends Authenticatable
   protected $table = 'sponsors';
   protected $fillable = [
     'name',
-    'type',
     'email',
     'status',
     'address',
@@ -25,7 +25,6 @@ class Sponsor extends Authenticatable
   ];
 
   protected $casts = [
-    'type' => 'integer',
     'status' => 'boolean',
     'email_verified_at' => 'datetime',
     'password' => 'hashed',
@@ -44,6 +43,18 @@ class Sponsor extends Authenticatable
   // --------------------------------------------------------------------
   //  ACCESSORS 
   // --------------------------------------------------------------------
+
+    protected function photoUrl(): Attribute
+  {
+    return Attribute::make(
+      get: function () {
+        if ($this->photo) {
+          return \Storage::disk('uploads')->url($this->photo);
+        }
+        return url('dashboard/assets/images/profile-avatar.jpg');
+      }
+    );
+  }
   private function getOptionLabel(string $optionType, string $attributeName): string
   {
     $key = $this->attributes[$attributeName] ?? null;
@@ -53,10 +64,6 @@ class Sponsor extends Authenticatable
     }
 
     return config("options.{$optionType}.{$key}", 'قيمة غير معروفة');
-  }
-  public function getTypeLabelAttribute(): string
-  {
-    return $this->getOptionLabel('sponsor_type', 'type');
   }
   // --------------------------------------------------------------------
   //  CHECKS  

@@ -15,6 +15,7 @@ class StoreDifficultCaseFamilyRequest extends FormRequest
   }
   public function rules(): array
   {
+    $isAbuse = $this->input('difficult_case_type') === '2';
     $caseId = $this->route('difficultCaseFamily') ? $this->route('difficultCaseFamily')->id : null;
     return [
       'registration_date' => ['required', 'date', 'before_or_equal:today'],
@@ -33,6 +34,22 @@ class StoreDifficultCaseFamilyRequest extends FormRequest
       'city_id' => ['required', 'exists:cities,id'],
       'address' => ['required', 'string', 'max:500'],
       'phone' => ['required', 'string', 'max:20'],
+      'previously_benefited'  => ['required', 'boolean'],
+      'required_service'      => ['required', Rule::in(array_keys(config('options.required_service')))],
+      'housing_area'          => ['required', Rule::in(array_keys(config('options.housing_area')))],
+      'beneficiary_activity'  => ['required', Rule::in(array_keys(config('options.beneficiary_activity')))],
+      // ─────────────────────────────────
+      'aggressor_gender'          => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.gender')))],
+      'aggressor_relationship'    => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.aggressor_relationship')))],
+      'aggressor_education_level' => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.aggressor_education_level')))],
+      'aggressor_family_status'   => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.aggressor_family_status')))],
+      'aggressor_kinship'         => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.aggressor_kinship')))],
+      'violence_type'             => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.violence_type')))],
+      'violence_place'            => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.violence_place')))],
+      'violence_time'             => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.violence_time')))],
+      'violence_frequency'        => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.violence_frequency')))],
+      'external_interventions'    => [$isAbuse ? 'required' : 'nullable', Rule::in(array_keys(config('options.external_interventions')))],
+
     ];
   }
   public function messages(): array
@@ -49,6 +66,7 @@ class StoreDifficultCaseFamilyRequest extends FormRequest
       'before_or_equal' => 'حقل ":attribute" يجب أن يكون تاريخاً في الماضي أو اليوم.',
       'min' => 'حقل ":attribute" يجب ان يكون على الاقل :min.',
       'max' => 'حقل ":attribute" يجب ان يكون على الاقل :max.',
+      'boolean'        => 'حقل ":attribute" يجب أن يكون نعم أو لا.',
     ];
   }
   public function attributes(): array
@@ -70,6 +88,38 @@ class StoreDifficultCaseFamilyRequest extends FormRequest
       'city_id' => 'المدينة / الجماعة',
       'address' => 'العنوان الكامل',
       'phone' => 'رقم الهاتف',
+      'previously_benefited'      => 'الاستفادة السابقة',
+      'required_service'          => 'نوع الخدمة المطلوبة',
+      'housing_area'              => 'منطقة السكن',
+      'beneficiary_activity'      => 'النشاط المهني',
+      'aggressor_gender'          => 'جنس المتعدي',
+      'aggressor_relationship'    => 'علاقة المتعدي بالضحية',
+      'aggressor_education_level' => 'المستوى الدراسي للمتعدي',
+      'aggressor_family_status'   => 'الحالة العائلية للمتعدي',
+      'aggressor_kinship'         => 'صلة القرابة',
+      'violence_type'             => 'نوع العنف',
+      'violence_place'            => 'مكان العنف',
+      'violence_time'             => 'توقيت العنف',
+      'violence_frequency'        => 'وتيرة العنف',
+      'external_interventions'    => 'التدخلات الخارجية',
     ];
+  }
+
+  protected function prepareForValidation(): void
+  {
+    if ($this->input('difficult_case_type') !== '2') {
+      $this->merge([
+        'aggressor_gender'           => null,
+        'aggressor_relationship'     => null,
+        'aggressor_education_level'  => null,
+        'aggressor_family_status'    => null,
+        'aggressor_kinship'          => null,
+        'violence_type'              => null,
+        'violence_place'             => null,
+        'violence_time'              => null,
+        'violence_frequency'         => null,
+        'external_interventions'     => null,
+      ]);
+    }
   }
 }

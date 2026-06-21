@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\City;
 use App\Models\Governorate;
-use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CityRequest;

@@ -26,15 +26,6 @@
                       <span class="text-danger" id="edit_error_phone"></span>
                   </div>
                   <div class="">
-                      <label class="form-label">النوع</label>
-                      <select name="type" id="edit_type" class="form-select">
-                        @foreach(config('options.sponsor_type') as $key => $label)
-                        <option value="{{ $key }}">{{ $label }}</option>
-                        @endforeach
-                      </select>
-                      <span class="text-danger" id="edit_error_type"></span>
-                  </div>
-                  <div class="">
                       <label class="form-label">الحالة</label>
                       <select name="status" id="edit_status" class="form-select">
                           <option value="1">مفعل</option>

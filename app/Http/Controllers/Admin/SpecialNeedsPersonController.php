@@ -14,7 +14,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 
 class SpecialNeedsPersonController extends Controller implements HasMiddleware
 {
-    public static function middleware()
+  public static function middleware()
   {
     return [
       new Middleware('can:استعراض المرضى وذوي الإحتياجات الخاصة', only: ['index', 'getSpecialNeedsPeople', 'show']),

@@ -38,6 +38,9 @@ class OrphanReportRequest extends FormRequest
       'end_year_decision' => ['nullable', Rule::in(array_keys(config('options.end_year_decision')))],
       'educational_level_changes' => ['nullable', Rule::in(array_keys(config('options.educational_level_changes')))],
       'supervisor_notes' =>  'nullable|string',
+      'orphan_message'                            => 'nullable|string|max:255',
+      'attachments'                               => 'nullable|array',
+      'attachments.*'                             => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
     ];
     if ($this->isMethod('post')) {
       $rules['orphan_id'] = ['required', 'numeric', 'exists:orphans,id'];
@@ -91,6 +94,12 @@ class OrphanReportRequest extends FormRequest
       'first_term_average.string' => 'صيغة المعدل غير صحيحة',
       'second_term_average.string' => 'صيغة المعدل غير صحيحة',
       'supervisor_notes.string' => 'قيمة الحقل غير صحيحه',
+      'orphan_message.string' => 'قيمة الحقل غير صحيحه',
+      'orphan_message.max' => 'قيمة الحقل يجب أن لا تتجاوز 255 حرف',
+      'attachments.array' => 'قيمة الحقل غير صحيحه',
+      'attachments.*.file' => 'كل ملف يجب أن يكون ملفا',
+      'attachments.*.mimes' => 'كل ملف يجب أن يكون من نوع: jpg, jpeg, png, pdf',
+      'attachments.*.max' => 'كل ملف يجب أن لا يتجاوز حجمه  2 ميغابايت',
     ];
   }
 }

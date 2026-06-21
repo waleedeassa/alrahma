@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 - لم يتم العثور على الصفحة</title>
   <style>
-    /* تنسيق عام */
     body {
       font-family: 'Cairo', Arial, sans-serif;
       background-color: #f8f9fa;
@@ -88,7 +87,6 @@
       font-weight: 700;
     }
 
-    /* تأثيرات */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -105,12 +103,13 @@
 <body>
   <div class="container">
     @php
-    $backUrl = auth()->user()?->homeRoute() ?? route('admin.login');
+      $backUrl = request()->is('sponsor*') ? route('sponsor.login') : route('admin.login');
     @endphp
+
     <h1>404</h1>
     <h2>عفواً! لم يتم العثور على الصفحة</h2>
     <p>ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متوفرة مؤقتًا.</p>
-      <a href="{{ $backUrl }}" class="home-link">العودة إلى الصفحة الرئيسية</a>
+    <a href="{{ $backUrl }}" class="home-link">العودة إلى الصفحة الرئيسية</a>
   </div>
 </body>
 

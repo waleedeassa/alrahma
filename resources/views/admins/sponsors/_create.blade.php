@@ -24,16 +24,6 @@
                       <span class="text-danger" id="error_phone"></span>
                   </div>
                   <div class="">
-                      <label class="form-label">النوع</label>
-                      <select name="type" class="form-select">
-                          <option value="" selected disabled>اختر من القائمة...</option>
-                          @foreach(config('options.sponsor_type') as $key => $label)
-                          <option value="{{ $key }}">{{ $label }}</option>
-                          @endforeach
-                      </select>
-                      <span class="text-danger" id="error_type"></span>
-                  </div>
-                  <div class="">
                     <label for="address" class="form-label">عنوان الاقامة</label>
                     <input name="address" type="text" class="form-control">
                     <span class="text-danger" id="error_address"></span>

@@ -114,6 +114,10 @@
                   <label>الوضعية الاجتماعية</label>
                   <input type="text" class="grow" value="{{ $specialNeedsPerson->social_status_label }}" readonly>
                 </div>
+                <div class="line">
+                  <label>نوع الخدمة</label>
+                  <input type="text" class="grow" value="{{ $specialNeedsPerson->service_type_label }}" readonly>
+                </div>
                 <br>
                 <h5>المعلومات الجغرافية والاتصال</h5>
                 <div class="line">

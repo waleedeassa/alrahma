@@ -23,7 +23,7 @@ class SpecialNeedsPersonSearchExcelExportController extends Controller
     $filters = $request->all();
     return Excel::download(
       new SpecialNeedsPeopleSearchExport($filters, $this->searchService),
-      __('بحث ذوي الاحتياجات الخاصة') . ".xlsx"
+      __('بحث  المرضى و ذوي الاحتياجات الخاصة') . ".xlsx"
     );
   }
 }

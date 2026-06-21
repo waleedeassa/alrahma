@@ -16,7 +16,7 @@ class SponsorsExport implements FromCollection, WithHeadings, WithMapping, WithE
   private $rowNumber = 1;
   public function collection()
   {
-    return Sponsor::select('id', 'name', 'type', 'email', 'phone', 'created_at')->get();
+    return Sponsor::select('id', 'name', 'email', 'phone', 'created_at')->get();
   }
 
   public function headings(): array
@@ -24,11 +24,9 @@ class SponsorsExport implements FromCollection, WithHeadings, WithMapping, WithE
     return [
       '#',
       'الاسم',
-      'النوع',
       'البريد الالكترونى',
       'رقم الهاتف',
       'تاريخ الإضافة',
-      // 'عدد الأيتام المكفولين',
     ];
   }
 
@@ -37,18 +35,16 @@ class SponsorsExport implements FromCollection, WithHeadings, WithMapping, WithE
     return [
       $this->rowNumber++,
       $sponsor->name,
-      $sponsor->type_label,
       $sponsor->email,
       $sponsor->phone,
       $sponsor->created_at ? $sponsor->created_at->format('Y-m-d') : '',
-      // $report->orphans->count(), // Count of related orphans
     ];
   }
 
   public function styles(Worksheet $sheet)
   {
     $sheet->setRightToLeft(true);
-    $sheet->getStyle('A1:F1')->applyFromArray([
+    $sheet->getStyle('A1:E1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

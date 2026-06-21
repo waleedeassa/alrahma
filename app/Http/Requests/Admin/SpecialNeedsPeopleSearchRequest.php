@@ -38,6 +38,10 @@ class SpecialNeedsPeopleSearchRequest extends FormRequest
         'nullable',
         Rule::in(array_keys(config('options.number_of_family_members')))
       ],
+      'service_type' => [
+        'nullable',
+        Rule::in(array_keys(config('options.service_type')))
+      ],
     ];
   }
 
@@ -53,6 +57,7 @@ class SpecialNeedsPeopleSearchRequest extends FormRequest
       'gender.in'                 => 'النوع المختار غير صحيح.',
       'education_level.in'        => 'المستوى الدراسي المختار غير صحيح.',
       'family_members_count.in'   => 'عدد أفراد الأسرة المختار غير صحيح.',
+      'service_type.in'           => 'نوع الخدمة المختار غير صحيح.',
     ];
   }
 }

@@ -8,17 +8,12 @@ use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\ChangeSponsoredOrphanStatusController;
 use App\Http\Controllers\Admin\CityController;
-use App\Http\Controllers\Admin\DifficultCaseAssignmentController;
 use App\Http\Controllers\Admin\DifficultCaseFamilyController;
 use App\Http\Controllers\Admin\DifficultCaseFamilySearchController;
 use App\Http\Controllers\Admin\DifficultCaseFamilySearchExcelExportController;
-use App\Http\Controllers\Admin\DifficultCaseSupportProgramController;
-use App\Http\Controllers\Admin\DifficultCaseSupportProgramSearchController;
-use App\Http\Controllers\Admin\DifficultCaseSupportProgramSearchExcelExportController;
 use App\Http\Controllers\Admin\ExportDifficultCaseFamiliesToExcelController;
 use App\Http\Controllers\Admin\ExportSpecialNeedsPeopleToExcelController;
 use App\Http\Controllers\Admin\ExportSponsorsToExcelController;
-use App\Http\Controllers\Admin\FamilyAttachmentController;
 use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\FamilyExcelExportController;
 use App\Http\Controllers\Admin\FamilyReportController;
@@ -31,28 +26,23 @@ use App\Http\Controllers\Admin\OrphanExcelExportController;
 use App\Http\Controllers\Admin\OrphanReportController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionsController;
 use App\Http\Controllers\Admin\SpecialNeedsPersonController;
 use App\Http\Controllers\Admin\SpecialNeedsPersonSearchController;
 use App\Http\Controllers\Admin\SpecialNeedsPersonSearchExcelExportController;
-use App\Http\Controllers\Admin\SpecialNeedsPersonSupportProgramController;
-use App\Http\Controllers\Admin\SpecialNeedsPersonSupportProgramSearchController;
-use App\Http\Controllers\Admin\SpecialNeedsPersonSupportProgramSearchExcelExportController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\SupportProgramController;
 use App\Http\Controllers\Admin\UpdatePasswordController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Dashboard\Auth\UserLoginController;
-use App\Models\Family;
+use App\Http\Controllers\Admin\SupportProgramEntryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 
-// Route::get('/', function () {
-//   return view('home');
-// })->name('home');
+Route::get('/', function () {
+  return view('home');
+})->name('home');
 
 // routes/web.php
 // Route::get('/test-404', function () {
@@ -113,7 +103,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('delete-orphan-attachment/{attachment}', [OrphanController::class, 'deleteOrphanAttachment'])->name('delete_orphan_attachment');
     // change orphan sponsored status
     Route::patch('/change-sponsored-orphan-to-unsponsored/{orphan}', [OrphanController::class, 'changeSponsoredOrphanToUnsponsored'])->name('change.orphan-status-to-unsponsored');
-    Route::patch('/change-orphan-status-to-ended/{orphan}',[OrphanController::class, 'changeOrphanStatusToEnded'])->name('change.orphan-status-to-ended');
+    Route::patch('/change-orphan-status-to-ended/{orphan}', [OrphanController::class, 'changeOrphanStatusToEnded'])->name('change.orphan-status-to-ended');
     Route::get('orphans-export', [OrphanExcelExportController::class, 'exportOrphans'])->name('orphans.export');
     // Assign Orphans to Sponsors
     Route::get('assign-orphans-to-sponsor', [AssignOrphansToSponsorController::class, 'index'])->name('assign-orphans-to-sponsor.index');
@@ -121,6 +111,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //Orphans Reports
     Route::get('orphan-reports/{orphan}', [OrphanReportController::class, 'create'])->name('orphan-report.create');
     Route::resource('orphan-report', OrphanReportController::class)->except('index', 'create');
+    Route::get('view-orphan-report-attachment/{attachment}',   [OrphanReportController::class, 'viewOrphanReportAttachment'])->name('view_orphan_report_attachment');
+    Route::get('download-orphan-report-attachment/{attachment}', [OrphanReportController::class, 'downloadOrphanReportAttachment'])->name('download_orphan_report_attachment');
+    Route::post('delete-orphan-report-attachment/{attachment}', [OrphanReportController::class, 'deleteOrphanReportAttachment'])->name('delete_orphan_report_attachment');
     // Families Difficult Cases
     Route::resource('difficult-case-families', DifficultCaseFamilyController::class);
     Route::get('get-difficult-case-families', [DifficultCaseFamilyController::class, 'getDifficultCaseFamilies'])->name('get-difficult-case-families');
@@ -132,29 +125,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // support programs
     Route::resource('support-programs', SupportProgramController::class)->except('show');
     Route::get('get-support-programs', [SupportProgramController::class, 'data'])->name('get-support-programs');
-    // add support programs to difficult case families
-    Route::controller(DifficultCaseSupportProgramController::class)
-      ->prefix('difficult-case-support-programs')
-      ->name('difficult_case_support_programs.')
-      ->group(function () {
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/get-eligible-families', 'getEligibleFamilies')->name('get_eligible_families');
-        Route::get('/history/{family_id}', 'getFamilyHistory')->name('history');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-      });
-    // add support programs to special needs people
-    Route::controller(SpecialNeedsPersonSupportProgramController::class)
-      ->prefix('special-needs-people-support-programs')
-      ->name('special_needs_people_support_programs.')
-      ->group(function () {
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/get-eligible-families', 'getEligibleFamilies')->name('get_eligible_families');
-        Route::get('/history/{family_id}', 'getFamilyHistory')->name('history');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-      });
-
+    // support program entries
+    Route::resource('support-program-entries', SupportProgramEntryController::class);
+    Route::get('get-support-program-entries', [SupportProgramEntryController::class, 'getSupportProgramEntries'])->name('get-support-program-entries');
+    Route::post('delete-support-program-entry-attachment/{attachment}', [SupportProgramEntryController::class, 'deleteSupportProgramEntryAttachment'])->name('delete_support_program_entry_attachment');
     // Reports
     //Families Search Reports
     Route::get('families-search', [FamilySearchController::class, 'index'])->name('families.search.index');
@@ -168,14 +142,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('special-needs-people-search', [SpecialNeedsPersonSearchController::class, 'index'])->name('special-needs-people.search.index');
     Route::post('special-needs-people-search', [SpecialNeedsPersonSearchController::class, 'search'])->name('special-needs-people.search');
     Route::get('export-special-needs-people-search', [SpecialNeedsPersonSearchExcelExportController::class, 'exportSpecialNeedsPeopleSearch'])->name('special-needs-people.search.export');
-    // routes for support programs for difficult case families
-    Route::get('difficult-case-support-programs-search', [DifficultCaseSupportProgramSearchController::class, 'index'])->name('difficult-case-support-programs.search.index');
-    Route::post('difficult-case-support-programs-search', [DifficultCaseSupportProgramSearchController::class, 'search'])->name('difficult-case-support-programs.search');
-    Route::get('export-difficult-case-support-programs-search', [DifficultCaseSupportProgramSearchExcelExportController::class, 'exportDifficultCaseSupportProgramsSearch'])->name('difficult-case-support-programs.search.export');
-    // routes for support programs for special needs people
-    Route::get('special-needs-people-support-programs-search', [SpecialNeedsPersonSupportProgramSearchController::class, 'index'])->name('special_needs_people_support_programs.search.index');
-    Route::post('special-needs-people-support-programs-search', [SpecialNeedsPersonSupportProgramSearchController::class, 'search'])->name('special_needs_people_support_programs.search');
-    Route::get('export-special-needs-people-support-programs-search', [SpecialNeedsPersonSupportProgramSearchExcelExportController::class, 'exportSpecialNeedsPersonSupportProgramsSearch'])->name('special_needs_people_support_programs.search.export');
     //backups
     Route::get('/backups', [BackupController::class, 'index'])->name('backups.index');
     Route::get('/backup/create', [BackupController::class, 'createBackup'])->name('backups.create');

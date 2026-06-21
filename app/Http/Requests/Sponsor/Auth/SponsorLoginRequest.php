@@ -39,10 +39,10 @@ class SponsorLoginRequest extends FormRequest
     $this->ensureIsNotRateLimited();
 
     if (!Auth::guard('sponsor')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-      RateLimiter::hit($this->throttleKey(),120);
+      RateLimiter::hit($this->throttleKey(), 120);
 
       throw ValidationException::withMessages([
-        'email' => 'حدث خطأ ما الرجاء التأكد من البريد الالكترنى وكلمة المرور ',
+        'email' => 'حدث خطأ ما الرجاء التأكد من البريد الإلكترونى وكلمة المرور ',
       ]);
     }
 

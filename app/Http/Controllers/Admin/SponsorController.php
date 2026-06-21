@@ -30,13 +30,10 @@ class SponsorController extends Controller implements HasMiddleware
   }
   public function getSponsors()
   {
-    $sponsors = Sponsor::select('id', 'name', 'type', 'email', 'phone', 'status', 'created_at', 'address')
+    $sponsors = Sponsor::select('id', 'name', 'email', 'phone', 'status', 'created_at', 'address')
       ->withCount('orphans');
     return DataTables::of($sponsors)
       ->addIndexColumn()
-      ->editColumn('type', function ($sponsor) {
-        return $sponsor->type_label;
-      })
       ->editColumn('status', function ($sponsor) {
         return view('admins.sponsors.datatables.status', compact('sponsor'))->render();
       })
