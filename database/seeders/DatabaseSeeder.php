@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\DifficultCaseFamily;
-use App\Models\User;
 use Database\Seeders\GovernoratesAndCitiesSeeder;
+use Database\Seeders\PermissionsAndRolesSeeder;
 use Database\Seeders\SponsorsTableSeeder;
+use Database\Seeders\UsersSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,19 +15,11 @@ class DatabaseSeeder extends Seeder
    */
   public function run(): void
   {
-    // User::factory(10)->create();
-
-    // User::factory()->create([
-    //     'name' => 'Test User',
-    //     'email' => 'test@example.com',
-    // ]);
-
     $this->call([
+      PermissionsAndRolesSeeder::class,
       GovernoratesAndCitiesSeeder::class,
+      UsersSeeder::class,
+      SponsorsTableSeeder::class,
     ]);
-
-    // $this->call(SponsorsTableSeeder::class);
-
-    // DifficultCaseFamily::factory()->count(3500)->create();
   }
 }
