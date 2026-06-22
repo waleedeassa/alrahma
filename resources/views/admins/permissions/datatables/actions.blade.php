@@ -4,14 +4,14 @@
     <i class="fa fa-edit"></i>
   </button>
   @endcan
-  @can('حذف صلاحية')
+  {{-- @can('حذف صلاحية')
   <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#delete_permission_{{ $permission->id }}">
     <i class="fa fa-trash"></i>
   </button>
-  @endcan
+  @endcan --}}
 </td>
 
-<div class="modal fade" id="delete_permission_{{ $permission->id }}" tabindex="-1" aria-hidden="true">
+{{-- <div class="modal fade" id="delete_permission_{{ $permission->id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form class="deletePermissionForm" method="post" action="{{ route('admin.permissions.destroy', $permission->id) }}">
       @csrf
@@ -31,4 +31,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> --}}

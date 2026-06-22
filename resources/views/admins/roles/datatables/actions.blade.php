@@ -4,13 +4,13 @@
   <button data-id="{{ $role->id }}" data-name="{{ $role->name }}" class="btn btn-lg rounded-pill waves-effect waves-light edit_role " {{ $isSystemRole ? 'disabled' : '' }}><i class="fa fa-pencil-square-o"></i>
   </button>
   @endcan
-  @can('حذف مسؤول')
+  {{-- @can('حذف مسؤول')
   <button type="button" class="btn  btn-lg rounded-pill waves-effect waves-light" {{ $isSystemRole ? 'disabled' : '' }} data-bs-toggle="modal" data-bs-target="#delete_role{{ $role->id }}"><i class="fa fa-trash"></i></button>
-  @endcan
+  @endcan --}}
 
 </td>
 </tr>
-<div class="modal fade" id="delete_role{{$role->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="delete_role{{$role->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form form class="deleteRoleForm" method="post">
       @csrf
@@ -33,5 +33,5 @@
       </div>
     </form>
   </div>
-</div>
+</div> --}}
 

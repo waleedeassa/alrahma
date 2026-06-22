@@ -11,6 +11,9 @@ use App\Observers\FamilyReportObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
 
   public function boot(): void
   {
+    // Rate Limiting for Login Requests for admin and sponsor
+    RateLimiter::for('login', function (Request $request) {
+      return Limit::perMinute(3)->by($request->ip());
+    });
+
     Paginator::useBootstrap();
     Schema::defaultStringLength(191);
 

@@ -15,7 +15,6 @@ class SponsorsTableSeeder extends Seeder
     $sponsors = [
       [
         'name'     => 'الإغاثة الإسلامية هولندا',
-        // 'type'     => 1, // مؤسسة
         'email'    => 'sponsor@gmail.com',
         'phone'    => '0123456789',
         'address'  => 'هولندا - أمستردام',
@@ -24,7 +23,6 @@ class SponsorsTableSeeder extends Seeder
       ],
       [
         'name'     => 'كرامة التضامن',
-        // 'type'     => 1, // مؤسسة
         'email'    => 'karama@gmail.com',
         'phone'    => '0611223344',
         'address'  => 'المغرب - الرباط',
@@ -33,7 +31,6 @@ class SponsorsTableSeeder extends Seeder
       ],
       [
         'name'     => 'شخص ذاتي',
-        // 'type'     => 2, // فرد
         'email'    => 'self@gmail.com',
         'phone'    => '0655667788',
         'address'  => 'المغرب - الدار البيضاء',

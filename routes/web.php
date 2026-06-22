@@ -53,7 +53,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
   Route::middleware(['guest:web'])->group(function () {
     Route::view('/login', 'admins.auth.login')->name('login');
-    Route::post('/login', [AdminLoginController::class, 'check'])->name('check');
+    Route::post('/login', [AdminLoginController::class, 'check'])->middleware('throttle:login')->name('check');
     // forget - Reset Password
     Route::get('/forget-password', [ForgetPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.form');
     Route::post('/forget-password', [ForgetPasswordController::class, 'sendResetPasswordLink'])->name('forget.password.create');

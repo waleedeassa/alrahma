@@ -13,7 +13,7 @@ class PermissionsAndRolesSeeder extends Seeder
   public function run(): void
   {
     // ═══════════════════════════════════════════════════════════════
-    // 1) مصدر الحقيقة الوحيد لكل الصلاحيات — مرتبة بالـ groups
+    // 1) all permissions grouped by their group name (for display in the UI)
     // ═══════════════════════════════════════════════════════════════
     $permissionGroups = [
       'لوحة التحكم' => [
@@ -80,7 +80,7 @@ class PermissionsAndRolesSeeder extends Seeder
         'حذف حالة مرضى وذوي الإحتياجات الخاصة',
       ],
 
-      // ── جروب برامج الدعم بعد التعديل ─────────────────────────
+      // ── Support programs ──────────────────────────────────────────────────────────
       'برامج الدعم' => [
         'إدارة برامج الدعم',
         'استعراض برامج الدعم',
@@ -105,7 +105,7 @@ class PermissionsAndRolesSeeder extends Seeder
         'إدارة كفالة الأيتام',
       ],
 
-      // ── جروب التقارير بعد التعديل ────────────────────────────
+      // ── Reports  ────────────────────────────────────────────────────────────
       'التقارير' => [
         'إدارة التقارير',
         'تقرير أسر الأيتام',
@@ -122,7 +122,7 @@ class PermissionsAndRolesSeeder extends Seeder
     ];
 
     // ═══════════════════════════════════════════════════════════════
-    // 2) تعريف الأدوار وصلاحيات كل دور (تحديد صريح بالكامل)
+    // 2) Roles with permissions
     // ═══════════════════════════════════════════════════════════════
     $rolesWithPermissions = [
 
@@ -258,11 +258,11 @@ class PermissionsAndRolesSeeder extends Seeder
     ];
 
     // ═══════════════════════════════════════════════════════════════
-    // التنفيذ — كل شيء داخل transaction واحدة لضمان عدم تعليق البيانات
+    // 3) Execute the seeding logic inside a transaction to ensure atomicity
     // ═══════════════════════════════════════════════════════════════
     DB::transaction(function () use ($permissionGroups, $rolesWithPermissions) {
 
-      // ── أ) بناء قائمة كل الصلاحيات المطلوبة بشكل مسطّح ──────────
+      // ──add permissions to database and get all permission names ───────────────────────────────────────────────
       $allPermissionNames = [];
       foreach ($permissionGroups as $groupName => $permissionNames) {
         foreach ($permissionNames as $permissionName) {
@@ -274,8 +274,7 @@ class PermissionsAndRolesSeeder extends Seeder
         }
       }
 
-      // ── ب) حذف الصلاحيات التي لم تعد موجودة في المصفوفة أعلاه ──
-      //      (cascade تلقائي على role_has_permissions و model_has_permissions)
+      // ── Remove any permissions that are not in the defined list ─────────────────────────────────────────────── 
       Permission::whereNotIn('name', $allPermissionNames)->delete();
 
       // ── ج) إنشاء/تأكيد وجود الأدوار الأربعة ────────────────────
@@ -283,16 +282,34 @@ class PermissionsAndRolesSeeder extends Seeder
         Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
       }
 
-      // ── د) ربط كل دور بصلاحياته بشكل صريح (sync بدل attach) ────
-      //      sync() يحذف أي ربط قديم غير مذكور هنا، ويضيف الجديد —
-      //      هذا يضمن تطابق role_has_permissions مع التعريف أعلاه تماماً
+      // ── Assign permissions to roles ───────────────────────────────────────────────
       foreach ($rolesWithPermissions as $roleName => $permissionNames) {
         $role = Role::where('name', $roleName)->where('guard_name', 'web')->first();
         $role->syncPermissions($permissionNames);
       }
+
+      // ── Assign roles to specific users based on their IDs ───────────────────────────────────────────────
+      $userRoleAssignments = [
+        1 => 'مدير النظام',
+        2 => 'مستخدم قسم الأيتام',
+        3 => 'مستخدم قسم الأسر فى وضعية صعبة',
+        4 => 'مستخدم قسم المرضى وذوى الاحتياجات',
+      ];
+
+      foreach ($userRoleAssignments as $userId => $roleName) {
+        $user = \App\Models\User::find($userId);
+
+        if (! $user) {
+          // if the user doesn't exist, skip to the next iteration
+          continue;
+        }
+
+        // sync the user's roles to ensure they have only the specified role
+        $user->syncRoles([$roleName]);
+      }
     });
 
-    // ── مسح الكاش الخاص بالصلاحيات (خارج الـ transaction، إلزامي) ───
+    // ── Clear the permission cache to ensure that the application recognizes the updated permissions and roles immediately after seeding.
     app()[PermissionRegistrar::class]->forgetCachedPermissions();
   }
 }

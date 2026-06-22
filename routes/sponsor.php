@@ -17,7 +17,7 @@ Route::prefix('sponsor')->name('sponsor.')->group(function () {
 
   Route::middleware(['guest:sponsor'])->group(function () {
     Route::view('/login', 'sponsors.auth.login')->name('login');
-    Route::post('/login', [SponsorLoginController::class, 'check'])->name('check');
+    Route::post('/login', [SponsorLoginController::class, 'check'])->middleware('throttle:login')->name('check');
     // forget - Reset Password
     Route::get('/forget-password', [ForgetPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.form');
     Route::post('/forget-password', [ForgetPasswordController::class, 'sendResetPasswordLink'])->name('forget.password.create');

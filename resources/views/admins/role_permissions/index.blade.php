@@ -45,12 +45,12 @@
                                                     <button disabled class="btn  btn-lg rounded-pill waves-effect waves-light" title=" تعديل "><i class="fa fa-edit"></i></button>
                                                 @endif
                                             @endcan
-                                            @can('حذف مسؤول مع صلاحياته')
+                                            {{-- @can('حذف مسؤول مع صلاحياته')
                                                 <button type="button" class="btn btn-lg rounded-pill waves-effect waves-light" {{ $isSystemRole ? 'disabled' : '' }} data-bs-toggle="modal" data-bs-target="#delete_category{{ $role->id }}"><i class="fa fa-trash"></i></button>
-                                            @endcan
+                                            @endcan --}}
                                         </td>
                                     </tr>
-                                    <div class="modal fade" id="delete_category{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    {{-- <div class="modal fade" id="delete_category{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <form action="{{ route('admin.role-permissions.destroy', $role) }}" method="post">
                                                 @csrf
@@ -72,7 +72,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endforeach
                             </tbody>
                         </table>

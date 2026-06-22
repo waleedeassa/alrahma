@@ -51,7 +51,7 @@ class AdminLoginRequest extends FormRequest
 
   public function ensureIsNotRateLimited()
   {
-    if (!RateLimiter::tooManyAttempts($this->throttleKey(), 2)) {
+    if (!RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
       return;
     }
 

@@ -88,9 +88,12 @@ class RolePermissionsController extends Controller implements HasMiddleware
       return redirect()->route('admin.role-permissions.index')
         ->with(['message' => 'لا يمكن حذف الدور الأساسي', 'type' => 'error']);
     }
-    if (!is_null($role)) {
-      $role->delete();
+    if ($role->users()->exists()) {
+      return redirect()->route('admin.role-permissions.index')
+        ->with(['message' => 'لا يمكن حذف المسؤول لانه يحتوي على مستخدمين', 'type' => 'error']);
     }
+
+    $role->delete();
     return redirect()->route('admin.role-permissions.index')
       ->with(['message' => 'تم حذف المسؤول وصلاحياته بنجاح', 'type' => 'success']);
   }
