@@ -27234,7 +27234,7 @@ div.style-customizer .content-chooser input[type=radio]:checked ~ label {
 }
 
 form.modal_style input[type="text"],
-form.modal_style input[type="textarea"],
+/* form.modal_style input[type="textarea"], */
 form.modal_style input[type="file"],
 form.modal_style input[type="number"],
 form.modal_style input[type="date"],
@@ -27265,6 +27265,24 @@ form.modal_style  div textarea{
     font-weight: 700;
     
   }
+
+  form.modal_style .modal-textarea,
+form.modal_style textarea.form-control {
+  border-radius: 1rem;
+  font-size: .85rem;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #222;
+  border: 1px solid #ced4da;
+  box-shadow: none;
+  box-sizing: border-box;
+  
+  height: auto !important;
+  /* min-height: 200px; */
+  resize: vertical;
+}
   /*start  for modal with douple inputs */
   @media (min-width: 576px) {
     .double-modal.modal-dialog {

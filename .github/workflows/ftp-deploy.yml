@@ -34,9 +34,10 @@ jobs:
             .env
             .env.*
             **/*.log
-            public/dashboard/assets/css/**/*
+            public/dashboard/assets/css/plugins/**/*
             public/dashboard/assets/fonts/**/*
             public/dashboard/assets/scss/**/*
+            public/uploads/**/*
           log-level: verbose
 
       - name: Deployment success check

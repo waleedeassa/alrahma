@@ -86,14 +86,6 @@
         <div class="col-xl-12 mb-30">
             <div class="card card-statistics h-100">
                 <div class="card-body">
-                    <div class="mb-3 text-left no-print">
-                        <button class="button black x-small editButton" onclick="printReport()">
-                            <i class="fa fa-print"></i> طباعة
-                        </button>
-                        <a href="{{ route('admin.orphan-report.edit', $orphanReport->id) }}" class="button black x-small editButton">
-                            <i class="fa fa-edit"></i> تعديل
-                        </a>
-                    </div>
                     <div id="print">
                         <header>
                             <div class="container">
@@ -233,7 +225,7 @@
                     </div>
                     {{-- Attachments --}}
                     <div class="no-print">
-                        @include('admins.orphan_reports.partials.attachments-table', [
+                        @include('sponsors.orphan_reports.partials.attachments-table', [
                             'orphanReport' => $orphanReport,
                             'readonly' => true,
                         ])

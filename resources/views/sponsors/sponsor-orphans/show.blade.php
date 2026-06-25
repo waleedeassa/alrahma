@@ -85,12 +85,12 @@
                         <li class="nav-item">
                             <a class="nav-link active show" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">معلومات اليتيم</a>
                         </li>
-                        {{-- <li class="nav-item">
+                    {{-- <li class="nav-item">
                             <a class="nav-link" id="attachments-tab" data-bs-toggle="tab" href="#attachments" role="tab" aria-controls="attachments" aria-selected="false">المرفقات</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link" id="reports-tab" data-bs-toggle="tab" href="#reports" role="tab" aria-controls="reports" aria-selected="false">التقارير الدوريه</a>
-                        </li> --}}
+                        </li> 
                     </ul>
 
                     <div class="tab-content">
@@ -262,8 +262,7 @@
                         </div> --}}
                         {{-- reports tab --}}
 
-                        {{-- <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="report-tab">
-                            <a class="button black x-small" href="{{ route('sponsor.orphan-report.create', $orphan) }}" target="_blank"> <i class="fa fa-plus"></i>{{ ' اضافة تقرير دورى' }}</a>
+                        <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="report-tab">
                             <div class="form-group mb-3 col-md-12">
                                 <div class="card-body">
                                     <div class="table-responsive" id="print5">
@@ -272,7 +271,7 @@
                                                 <tr class="table-head">
                                                     <th>#</th>
                                                     <th>تاريخ التقرير</th>
-                                                    <th>الإضافة بواسطة</th>
+                                                    {{-- <th>الإضافة بواسطة</th> --}}
                                                     <th class="element-to-hide">العمليات</th>
                                                 </tr>
                                             </thead>
@@ -281,45 +280,18 @@
                                                     <tr style='text-align:center;vertical-align:middle'>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $row->created_at->format('Y-m-d') }}</td>
-                                                        <td>{{ $row->added_by ? $row->addedBy->name . ' ' . $row->addedBy->family_name : 'لايوجد' }}</td>
+                                                        {{-- <td>{{ $row->added_by ? $row->addedBy->name . ' ' . $row->addedBy->family_name : 'لايوجد' }}</td> --}}
                                                         <td class="element-to-hide">
                                                             <a href="{{ route('sponsor.orphan-report.show', $row) }}" target="_blank" class="btn-lg rounded-pill waves-effect waves-light" title=" معاينة "><i class="fa fa-eye"></i> </a>
-                                                            <a href="{{ route('sponsor.orphan-report.edit', $row) }}" target="_blank" class="btn-lg rounded-pill waves-effect waves-light" title=" تعديل "><i class="fa fa-edit"></i> </a>
-                                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#reportInformation{{ $row->id }}" class="btn-lg rounded-pill waves-effect waves-light" title=" حذف "><i class="fa fa-trash"></i> </a>
                                                         </td>
                                                     </tr>
-                                                    <div class="modal fade" class="element-to-hide" id="reportInformation{{ $row->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                                                                        {{ 'حذف تقرير اليتيم ' }}</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true"></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="{{ route('sponsor.orphan-report.destroy', $row) }}" method="post">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        {{ 'هل أنت متأكد من حذف تقرير اليتيم ؟' }}
-                                                                        <input type="hidden" name="id" value="{{ $row->id }}">
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">{{ 'اغلاق' }}</button>
-                                                                    <button class="btn btn-success">{{ 'موافق' }}</button>
-                                                                </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>

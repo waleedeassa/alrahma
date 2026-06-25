@@ -90,7 +90,7 @@
             <div class="card card-statistics h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div class="icon-box">
-                        <i class="fa fa-child" style="font-size: 25px;"></i>
+                        <i class="fa fa-user-plus" style="font-size: 25px;"></i>
                     </div>
                     <div class="text-end counter">
                         <h6 class="card-text text-dark" style="font-weight: bold; font-size: 17px;">الأيتام غير المكفولين</h6>

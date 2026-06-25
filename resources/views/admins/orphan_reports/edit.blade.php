@@ -272,14 +272,15 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <x-inputs.text name="supervisor_notes" label="{{ 'ملاحظات المشرف' }}" :value="$orphanReport->supervisor_notes" />
+                            <div class="form-group mb-3">
+                                <label class="form-label">ملاحظات المشرف</label>
+                                <textarea name="supervisor_notes" class="form-control" rows="3">{{ old('supervisor_notes', $orphanReport->supervisor_notes) }}</textarea>
                             </div>
-                            <div class="form-group mb-3 col-md-12">
-                                <x-inputs.text name="orphan_message" label="{{ 'رسالة اليتيم' }}" :value="$orphanReport->orphan_message" />
+                            <div class="form-group mb-3">
+                                <label class="form-label">رسالة اليتيم</label>
+                                <textarea name="orphan_message" class="form-control" rows="3">{{ old('orphan_message', $orphanReport->orphan_message) }}</textarea>
                             </div>
                         </div>
-
                         <h6 style="color: #84BA3F; margin-top: 10px; margin-bottom: 20px;">المرفقات</h6>
                         <div class="row">
                             <div class="form-group mb-3 col-md-12">
