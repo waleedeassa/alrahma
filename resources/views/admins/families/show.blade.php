@@ -280,7 +280,8 @@
                           {{-- @endcan --}}
 
                           {{-- @can('تحميل مرفقات الأسرة') --}}
-                          <a class="btn btn-success btn-sm" href="{{ route('admin.download_family_attachment', [$family->id, $attachment->file_name]) }}" role="button"><i class="fa fa-cloud-download"></i>&nbsp;{{ 'تحميل' }}</a>
+                          {{-- <a class="btn btn-success btn-sm" href="{{ route('admin.download_family_attachment', [$family->id, $attachment->file_name]) }}" role="button"><i class="fa fa-cloud-download"></i>&nbsp;{{ 'تحميل' }}</a> --}}
+                          <a class="btn btn-success btn-sm" href="{{ route('admin.download_family_attachment', $attachment) }}" role="button"><i class="fa fa-cloud-download"></i>&nbsp;{{ 'تحميل' }}</a>
                           {{-- @endcan --}}
 
                           {{-- @can('حذف مرفقات الأسرة') --}}
@@ -301,7 +302,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <form action="{{ route('admin.delete_family_attachment', [$family->id, $attachment->file_name] ) }}" method="post">
+                              <form action="{{ route('admin.delete_family_attachment', $attachment  ) }}" method="post">
                                 @csrf
                                 {{'هل أنت متأكد من حذف المرفق ؟' }}
                                 <input type="hidden" name="id" value="{{ $attachment->id  }}">

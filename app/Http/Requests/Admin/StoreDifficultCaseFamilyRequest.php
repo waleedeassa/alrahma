@@ -31,7 +31,11 @@ class StoreDifficultCaseFamilyRequest extends FormRequest
       'difficult_case_type' => ['required', Rule::in(array_keys(config('options.difficult_case_type')))],
       'social_status' => ['required', Rule::in(array_keys(config('options.social_status')))],
       'governorate_id' => ['required', 'exists:governorates,id'],
-      'city_id' => ['required', 'exists:cities,id'],
+      'city_id' => [
+        'required',
+        'integer',
+        Rule::exists('cities', 'id')->where(fn ($query) => $query->where('governorate_id', $this->input('governorate_id'))),
+      ],
       'address' => ['required', 'string', 'max:500'],
       'phone' => ['required', 'string', 'max:20'],
       'previously_benefited'  => ['required', 'boolean'],

@@ -26,7 +26,11 @@ class StoreOrphanRequest extends FormRequest
       'birth_date'        => ['required', 'date', 'before:today'],
       'gender'            => ['required', Rule::in(array_keys(config('options.gender')))],
       'governorate_id'    => ['required', 'integer', 'exists:governorates,id'],
-      'city_id'           => ['required', 'integer', 'exists:cities,id'],
+      'city_id'           => [
+        'required',
+        'integer',
+        Rule::exists('cities', 'id')->where(fn ($query) => $query->where('governorate_id', $this->input('governorate_id'))),
+      ],
       'city_in_french'    => ['required', 'string', 'max:255'],
       'address'           => ['required', 'string', 'max:500'],
       'address_in_french' => ['required', 'string', 'max:500'],

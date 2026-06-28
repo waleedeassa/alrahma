@@ -37,7 +37,7 @@ jobs:
             public/dashboard/assets/css/plugins/**/*
             public/dashboard/assets/fonts/**/*
             public/dashboard/assets/scss/**/*
-            public/uploads/**/*
+            public/uploads/**
           log-level: verbose
 
       - name: Deployment success check

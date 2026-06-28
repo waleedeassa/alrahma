@@ -125,10 +125,6 @@ class SpecialNeedsPersonController extends Controller implements HasMiddleware
 
   public function destroy(SpecialNeedsPerson $specialNeedsPerson)
   {
-    $check = $specialNeedsPerson->canBeDeleted();
-    if ($check !== true) {
-      return redirect()->back()->with(['message' => __($check), 'type' => 'error']);
-    }
     $specialNeedsPerson->delete();
     return redirect()->route('admin.special-needs-people.index')
       ->with(['message' => 'تم حذف البيانات بنجاح', 'type' => 'success']);

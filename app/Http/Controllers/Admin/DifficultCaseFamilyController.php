@@ -120,10 +120,6 @@ class DifficultCaseFamilyController extends Controller  implements HasMiddleware
   }
   public function destroy(DifficultCaseFamily $difficultCaseFamily)
   {
-    $check = $difficultCaseFamily->canBeDeleted();
-    if ($check !== true) {
-      return redirect()->back()->with(['message' => __($check), 'type' => 'error']);
-    }
     $difficultCaseFamily->delete();
     return redirect()->route('admin.difficult-case-families.index')
       ->with(['message' => 'تم حذف البيانات بنجاح', 'type' => 'success']);

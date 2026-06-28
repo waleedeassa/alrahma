@@ -23,7 +23,11 @@ class StoreFamilyRequest extends FormRequest
       'phone2'                       => ['nullable', 'string', 'max:20'],
       'address'                      => ['required', 'string', 'max:500'],
       'governorate_id'               => ['required', 'exists:governorates,id'],
-      'city_id'                      => ['required', 'exists:cities,id'],
+      'city_id'                      => [
+        'required',
+        'integer',
+        Rule::exists('cities', 'id')->where(fn ($query) => $query->where('governorate_id', $this->input('governorate_id'))),
+      ],
       // Father
       'father_job'                   => ['required', 'string', 'max:255'],
       'father_death_reason'          => ['required', Rule::in(array_keys(config('options.father_death_reason')))],
