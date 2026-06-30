@@ -29,6 +29,7 @@ class StoreSpecialNeedsPersonRequest extends FormRequest
       'family_members_count' => ['required', Rule::in(array_keys(config('options.number_of_family_members')))],
       'special_needs_type' => ['required', Rule::in(array_keys(config('options.special_needs_type')))],
       'social_status' => ['required', Rule::in(array_keys(config('options.social_status')))],
+      'social_category' => ['required', Rule::in(array_keys(config('options.social_category')))],
       'governorate_id' => ['required', 'exists:governorates,id'],
       'city_id' => [
         'required',
@@ -73,6 +74,7 @@ class StoreSpecialNeedsPersonRequest extends FormRequest
       'family_members_count' => 'عدد أفراد الأسرة',
       'special_needs_type' => 'نوع الاحتياج الخاص',
       'social_status' => 'الوضعية الاجتماعية',
+      'social_category' => 'الحالة الاجتماعية',
       'governorate_id' => 'الإقليم',
       'city_id' => 'المدينة / الجماعة',
       'address' => 'العنوان الكامل',

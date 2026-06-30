@@ -26,6 +26,7 @@ class SpecialNeedsPerson extends Model
     'family_members_count',
     'special_needs_type',
     'social_status',
+    'social_category',
     'governorate_id',
     'city_id',
     'address',
@@ -82,6 +83,10 @@ class SpecialNeedsPerson extends Model
   {
     return $this->getOptionLabel('social_status', 'social_status');
   }
+  public function getSocialCategoryLabelAttribute(): string
+  {
+    return $this->getOptionLabel('social_category', 'social_category');
+  }
   public function getEducationLevelLabelAttribute(): string
   {
     return $this->getOptionLabel('education_level', 'education_level');
@@ -126,6 +131,9 @@ class SpecialNeedsPerson extends Model
       })
       ->when(isset($filters['service_type']), function ($query) use ($filters) {
         return $query->where('service_type', $filters['service_type']);
+      })
+      ->when(isset($filters['social_category']), function ($query) use ($filters) {
+        return $query->where('social_category', $filters['social_category']);
       });
 
     return $query;

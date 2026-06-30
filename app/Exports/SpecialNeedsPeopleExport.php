@@ -47,6 +47,7 @@ class SpecialNeedsPeopleExport implements FromQuery, WithChunkReading, WithHeadi
       'نوع الاحتياج الخاص',
       'الوضعية الاجتماعية',
       'نوع الخدمة',
+      'الحالة الاجتماعية',
       'الإقليم',
       'المدينة / الجماعة',
       'العنوان الكامل',
@@ -73,6 +74,7 @@ class SpecialNeedsPeopleExport implements FromQuery, WithChunkReading, WithHeadi
       $person->special_needs_type_label ?? '',
       $person->social_status_label ?? '',
       $person->service_type_label ?? '',
+      $person->social_category_label ?? '',
       $person->governorate->name ?? '',
       $person->city->name ?? '',
       $person->address,
@@ -83,8 +85,8 @@ class SpecialNeedsPeopleExport implements FromQuery, WithChunkReading, WithHeadi
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:S1');
-    $sheet->getStyle('A1:S1')->applyFromArray([
+    $sheet->setAutoFilter('A1:T1');
+    $sheet->getStyle('A1:T1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

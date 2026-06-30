@@ -102,12 +102,21 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- // add field service type --}}
                             <div class="form-group mb-3 col-md-3">
                                 <label class="form-label" for="exampleFormControlSelect1">نوع الخدمة</label>
                                 <select name="service_type">
                                     <option selected disabled>{{ 'اختر من القائمة' }}...</option>
                                     @foreach (config('options.service_type') as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            {{-- // add field social  category --}}
+                            <div class="form-group mb-3 col-md-3">
+                                <label class="form-label" for="exampleFormControlSelect1">الحالة الاجتماعية</label>
+                                <select name="social_category">
+                                    <option selected disabled>{{ 'اختر من القائمة' }}...</option>
+                                    @foreach (config('options.social_category') as $key => $label)
                                         <option value="{{ $key }}">{{ $label }}</option>
                                     @endforeach
                                 </select>

@@ -50,6 +50,7 @@ class SpecialNeedsPeopleSearchExport implements FromCollection, WithHeadings, Wi
       'نوع الاحتياج الخاص',
       'الوضعية الاجتماعية',
       'نوع الخدمة',
+      'الحالة الاجتماعية',
       'الإقليم',
       'المدينة / الجماعة',
       'العنوان الكامل',
@@ -75,6 +76,7 @@ class SpecialNeedsPeopleSearchExport implements FromCollection, WithHeadings, Wi
       $case->special_needs_type_label ?? '',
       $case->social_status_label ?? '',
       $case->service_type_label ?? '',
+      $case->social_category_label ?? '',
       $case->governorate->name ?? '',
       $case->city->name ?? '',
       $case->address,
@@ -85,7 +87,7 @@ class SpecialNeedsPeopleSearchExport implements FromCollection, WithHeadings, Wi
   public function styles(Worksheet $sheet)
   {
     $sheet->setRightToLeft(true);
-    $sheet->getStyle('A1:S1')->applyFromArray([
+    $sheet->getStyle('A1:T1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

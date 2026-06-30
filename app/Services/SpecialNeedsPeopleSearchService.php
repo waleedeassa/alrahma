@@ -10,7 +10,6 @@ class SpecialNeedsPeopleSearchService
   {
     $query = SpecialNeedsPerson::query()->search($filters);
     $cases = $query->with('governorate:id,name', 'city:id,name')->latest()->get();
-
     return ['cases' => $cases];
   }
 }

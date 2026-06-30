@@ -137,6 +137,21 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            {{-- // add social  category field --}}
+                            <div class="form-group mb-3 col-md-3">
+                               <label class="form-label">الحالة الاجتماعية</label>
+                                <select name="social_category" class="form-control">
+                                    <option disabled>اختر من القائمة...</option>
+                                    @foreach (config('options.social_category') as $key => $label)
+                                        <option value="{{ $key }}" @if (old('social_category', $specialNeedsPerson->social_category) == $key) selected @endif>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('social_category')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
                         <h6 style="color: #84BA3F">المعلومات الجغرافية - الإتصال</h6><br>
                         <div class="row">
@@ -215,6 +230,9 @@
                     service_type: {
                         required: true
                     },
+                    social_category: {
+                        required: true
+                    },
                     governorate_id: {
                         required: true
                     },
@@ -268,6 +286,9 @@
                         required: 'الحقل مطلوب'
                     },
                     service_type: {
+                        required: 'الحقل مطلوب'
+                    },
+                    social_category: {
                         required: 'الحقل مطلوب'
                     },
                     governorate_id: {

@@ -18,6 +18,7 @@
                 <th>نوع الاحتياج الخاص</th>
                 <th>الوضعية الاجتماعية</th>
                 <th>نوع الخدمة</th>
+                <th>الحالة الاجتماعية</th>
                 <th>المستوى الدراسى</th>
                 <th>الإقليم</th>
                 <th>المدينة / الجماعة</th>
@@ -40,6 +41,7 @@
                     <td>{{ $case->special_needs_type_label }}</td>
                     <td>{{ $case->social_status_label }}</td>
                     <td>{{ $case->service_type_label }}</td>
+                    <td>{{ $case->social_category_label }}</td>
                     <td>{{ $case->education_level_label }}</td>
                     <td>{{ $case->governorate->name }}</td>
                     <td>{{ $case->city->name }}</td>
