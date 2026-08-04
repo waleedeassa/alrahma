@@ -26,7 +26,7 @@ class StoreFamilyRequest extends FormRequest
       'city_id'                      => [
         'required',
         'integer',
-        Rule::exists('cities', 'id')->where(fn ($query) => $query->where('governorate_id', $this->input('governorate_id'))),
+        Rule::exists('cities', 'id')->where(fn($query) => $query->where('governorate_id', $this->input('governorate_id'))),
       ],
       // Father
       'father_job'                   => ['required', 'string', 'max:255'],
@@ -62,9 +62,13 @@ class StoreFamilyRequest extends FormRequest
       'social_status' => ['required', Rule::in(array_keys(config('options.social_status')))],
       // Housing Information
       'housing_ownership'            => ['required', Rule::in(array_keys(config('options.housing_ownership')))],
+      'rent_amount'     => ['nullable', 'required_if:housing_ownership,1', 'numeric', 'min:0'],
       'housing_type'                 => ['required', Rule::in(array_keys(config('options.housing_type')))],
       'housing_status'               => ['required', Rule::in(array_keys(config('options.housing_status')))],
       'housing_area'                 => ['required', Rule::in(array_keys(config('options.housing_area')))],
+      'has_water'       => ['required', 'boolean'],
+      'has_electricity' => ['required', 'boolean'],
+      'has_sewage'      => ['required', 'boolean'],
       // Breadwinner Information
       'has_breadwinner'              => ['required', 'boolean'],
       'breadwinner_name'             => ['nullable', 'required_if:has_breadwinner,1', 'string', 'max:255'],
@@ -143,9 +147,13 @@ class StoreFamilyRequest extends FormRequest
       'is_mother_other_income_fixed' => 'هل الدخل الآخر قار',
       'social_status' => 'الوضعية الاجتماعية',
       'housing_ownership'            => 'صفة حيازة المسكن',
+      'rent_amount'     => 'القيمة الإيجارية',
       'housing_type'                 => 'نوع المسكن',
       'housing_status'               => 'حالة المسكن',
       'housing_area'                 => 'مجال المسكن',
+      'has_water'                    => 'توفر الماء',
+      'has_electricity'              => 'توفر الكهرباء',
+      'has_sewage'                   => 'توفر الصرف الصحي',
       'has_breadwinner'              => 'هل يوجد معيل',
       'breadwinner_name'             => 'اسم المعيل',
       'breadwinner_french_name'      => 'اسم المعيل بالفرنسية',

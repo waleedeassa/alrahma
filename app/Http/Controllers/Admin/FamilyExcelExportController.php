@@ -9,11 +9,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class FamilyExcelExportController extends Controller
 {
-  // public function __construct()
-  // {
-  //   $this->middleware('permission:تصدير بيانات الأسر الى اكسيل', ['only' => ['exportFamilies']]);
-  // }
-
   public function exportFamilies()
   {
     ini_set('memory_limit', '-1');

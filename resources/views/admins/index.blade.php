@@ -2,99 +2,99 @@
 @section('title', 'لوحة التحكم ')
 @section('breadcrump', '')
 @push('css')
-    <style>
-        .home-statistics a {
-            text-decoration: none;
-        }
+  <style>
+      .home-statistics a {
+          text-decoration: none;
+      }
 
-        .card-statistics {
-            border: none;
-            border-radius: 15px;
-            transition: all 0.35s ease;
-            background: #ffffff;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
+      .card-statistics {
+          border: none;
+          border-radius: 15px;
+          transition: all 0.35s ease;
+          background: #ffffff;
+          overflow: hidden;
+          position: relative;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
 
-        .card-statistics:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(41, 96, 96, 0.15);
-        }
+      .card-statistics:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(41, 96, 96, 0.15);
+      }
 
-        .stop-hover:hover {
-            transform: none !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
-        }
+      .stop-hover:hover {
+          transform: none !important;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+      }
 
-        .icon-box {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #296060;
-            border-radius: 12px;
-            color: white;
-            font-size: 20px;
-        }
+      .icon-box {
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #296060;
+          border-radius: 12px;
+          color: white;
+          font-size: 20px;
+      }
 
-        .counter h6 {
-            font-size: 14px;
-            color: #666;
-            font-weight: 600;
-            margin: 0;
-        }
+      .counter h6 {
+          font-size: 14px;
+          color: #666;
+          font-weight: 600;
+          margin: 0;
+      }
 
-        .timer {
-            font-weight: 700;
-            font-size: 22px;
-            color: #296060;
-            margin: 0;
-            line-height: 1.2;
-        }
+      .timer {
+          font-weight: 700;
+          font-size: 22px;
+          color: #296060;
+          margin: 0;
+          line-height: 1.2;
+      }
 
-        .kpi-card {
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 100%;
-            transition: transform 0.2s;
-        }
+      .kpi-card {
+          border-radius: 12px;
+          padding: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 100%;
+          transition: transform 0.2s;
+      }
 
-        .kpi-card:hover {
-            transform: scale(1.02);
-        }
+      .kpi-card:hover {
+          transform: scale(1.02);
+      }
 
-        .kpi-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
+      .kpi-icon {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+      }
 
-        .kpi-info {
-            text-align: right;
-        }
+      .kpi-info {
+          text-align: right;
+      }
 
-        .kpi-title {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
+      .kpi-title {
+          font-size: 13px;
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #555;
+      }
 
-        .kpi-value {
-            font-size: 20px;
-            font-weight: 800;
-            margin: 0;
-        }
-    </style>
+      .kpi-value {
+          font-size: 20px;
+          font-weight: 800;
+          margin: 0;
+      }
+  </style>
 @endpush
 
 @section('content')

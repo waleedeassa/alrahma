@@ -83,6 +83,7 @@ class HomeController extends Controller implements HasMiddleware
           }
         }
       });
+      $data['ageGroups'] = $ageGroups;
     // Get counts of orphans and families by governorate 
     $governorates = Governorate::withCount(['orphans', 'families'])
       ->orderBy('name') // ترتيب ثابت
@@ -92,7 +93,6 @@ class HomeController extends Controller implements HasMiddleware
     $data['orphansGovCounts'] = $governorates->pluck('orphans_count');
     $data['familiesGovCounts'] = $governorates->pluck('families_count');
 
-    $data['ageGroups'] = $ageGroups;
     return view('admins.index', $data);
   }
 }

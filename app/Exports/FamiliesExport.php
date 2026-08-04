@@ -73,9 +73,13 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
       'هل الدخل قار ؟',
       'الوضعية الاجتماعية',
       'صفة حيازة المسكن',
+      'قيمة الايجار',
       'نوع المسكن',
       'حالة المسكن',
       'مجال المسكن',
+      'هل يتوفر ماء؟',
+      'هل تتوفر كهرباء؟',
+      'هل يتوفر صرف صحى',
       'هل العائلة تتوفر على معيل؟',
       'اسم المعيل بالعربي',
       'اسم المعيل بالفرنسية',
@@ -131,9 +135,13 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
       $family->is_mother_other_income_fixed_label ?? '',
       $family->social_status_label ?? '',
       $family->housing_ownership_label ?? '',
+      $family->rent_amount,
       $family->housing_type_label ?? '',
       $family->housing_status_label ?? '',
       $family->housing_area_label ?? '',
+      $family->has_water_label ?? '',
+      $family->has_electricity_label ?? '',
+      $family->has_sewage_label ?? '',
       $family->has_breadwinner_label ?? '',
       $family->breadwinner_name,
       $family->breadwinner_french_name,
@@ -148,8 +156,8 @@ class FamiliesExport implements FromQuery, WithChunkReading, WithHeadings, WithM
   public function styles(Worksheet $sheet)
   {
     $sheet->freezePane('A2');
-    $sheet->setAutoFilter('A1:AY1');
-    $sheet->getStyle('A1:AY1')->applyFromArray([
+    $sheet->setAutoFilter('A1:BC1');
+    $sheet->getStyle('A1:BC1')->applyFromArray([
       'font' => [
         'bold' => true,
         'color' => ['rgb' => 'FFFFFF'],

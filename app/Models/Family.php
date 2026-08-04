@@ -55,9 +55,13 @@ class Family extends Model
     'is_mother_other_income_fixed',
     'social_status',
     'housing_ownership',
+    'rent_amount',
     'housing_type',
     'housing_status',
     'housing_area',
+    'has_water',
+    'has_electricity',
+    'has_sewage',
     'has_breadwinner',
     'breadwinner_name',
     'breadwinner_french_name',
@@ -126,6 +130,18 @@ class Family extends Model
   public function getHousingOwnershipLabelAttribute(): string
   {
     return $this->getOptionLabel('housing_ownership', 'housing_ownership');
+  }
+  public function getHasWaterLabelAttribute(): string
+  {
+    return $this->getOptionLabel('boolean', 'has_water');
+  }
+  public function getHasElectricityLabelAttribute(): string
+  {
+    return $this->getOptionLabel('boolean', 'has_electricity');
+  }
+  public function getHasSewageLabelAttribute(): string
+  {
+    return $this->getOptionLabel('boolean', 'has_sewage');
   }
   public function getHousingStatusLabelAttribute(): string
   {

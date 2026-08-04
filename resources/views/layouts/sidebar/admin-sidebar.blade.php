@@ -134,7 +134,7 @@
             @endcan
             @can('إدارة النسخ الإحتياطية')
                 <li class="{{ Route::is('admin.backups.index') ? 'active' : '' }}">
-                    <a href="{{ route('admin.backups.index') }}"><i class="fa fa-users"></i><span class="right-nav-text">النسخ الاحتياطي</span></a>
+                    <a href="{{ route('admin.backups.index') }}"><i class="fa fa-database" style="font-size: 17px;"></i><span class="right-nav-text">النسخ الاحتياطي</span></a>
                 </li>
             @endcan
             {{-- sign out --}}
