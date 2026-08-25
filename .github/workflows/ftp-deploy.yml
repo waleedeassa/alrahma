@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /public_html/alrahma/ 
+          server-dir: /public_html/platform/ 
           dangerous-clean-slate: false
           exclude: |
             **/.git*
