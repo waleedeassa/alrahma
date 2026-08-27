@@ -247,7 +247,7 @@
                                                 <label> هل تستفيد الأسرة من تعويض تقاعد الزوج؟</label>
                                                 <input type="text" value="{{ $family->has_retirement_compensation_label }}" readonly>
                                                 <label>المبلغ الشهري من تعويض تقاعد الزوج</label>
-                                                <input type="text" value="{{ $family->mother_widows_support_amount }}" readonly>
+                                                <input type="text" value="{{ $family->husband_retirement_compensation_amount }}" readonly>
                                             </div>
                                             <div class="line">
                                                 <label>هل للأرملة مصدر آخر للدخل ؟</label>

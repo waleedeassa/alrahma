@@ -9,4 +9,4 @@ use Illuminate\Support\Facades\Schedule;
 // })->purpose('Display an inspiring quote')->hourly();
 
 // db backup
-Schedule::command('backup:run')->dailyAt('13:52')->timezone('Africa/Casablanca')->withoutOverlapping();
+Schedule::command('backup:run')->dailyAt('20:00')->timezone('Africa/Casablanca')->withoutOverlapping();

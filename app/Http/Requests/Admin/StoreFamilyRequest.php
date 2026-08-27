@@ -11,6 +11,41 @@ class StoreFamilyRequest extends FormRequest
   {
     return true;
   }
+
+  protected function prepareForValidation(): void
+  {
+    $this->merge([
+      'mother_widows_support_amount' =>
+      $this->boolean('mother_widows_support')
+        ? $this->input('mother_widows_support_amount')
+        : null,
+
+      'husband_retirement_compensation_amount' =>
+      $this->boolean('has_retirement_compensation')
+        ? $this->input('husband_retirement_compensation_amount')
+        : null,
+
+      'mother_other_income_type' =>
+      $this->boolean('is_there_another_source_of_income')
+        ? $this->input('mother_other_income_type')
+        : null,
+
+      'mother_other_income_amount' =>
+      $this->boolean('is_there_another_source_of_income')
+        ? $this->input('mother_other_income_amount')
+        : null,
+
+      'is_mother_other_income_fixed' =>
+      $this->boolean('is_there_another_source_of_income')
+        ? $this->input('is_mother_other_income_fixed')
+        : null,
+
+      'rent_amount' =>
+      $this->input('housing_ownership') == 1
+        ? $this->input('rent_amount')
+        : null,
+    ]);
+  }
   public function rules(): array
   {
     $familyId = $this->route('family') ? $this->route('family')->id : null;
